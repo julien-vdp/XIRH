@@ -1,0 +1,118 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Employee {
+  id          String            @id
+  firstName   String
+  lastName    String
+  email       String
+  department  String
+  position    String
+  status      String            @default("Actif") // Actif, Inactif
+  hireDate    String
+  salary      Float
+  managerId   String?
+  role        String            @default("EMPLOYEE") // ADMIN, HR, MANAGER, EMPLOYEE
+  avatar      String?
+  history     EmployeeHistory[]
+}
+
+model EmployeeHistory {
+  id          String   @id @default(uuid())
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  date        String
+  type        String
+  label       String
+  description String
+  newValue    String
+}
+
+model Campaign {
+  id             String  @id
+  name           String
+  startDate      String
+  endDate        String
+  progress       Float   @default(0)
+  formTemplateId String?
+}
+
+model Evaluation {
+  id             String  @id
+  campaignId     String
+  formTemplateId String?
+  employeeId     String
+  date           String
+  status         String  @default("Planifié") // Planifié, En cours, Terminé
+  type           String
+  score          String?
+  answers        Json?
+  evaluatorId    String?
+}
+
+model FormTemplate {
+  id     String @id
+  name   String
+  fields Json
+}
+
+model CompCampaign {
+  id                String  @id
+  name              String
+  startDate         String
+  endDate           String
+  raisePercent      Float   @default(3.0)
+  bonusBudget       Float   @default(10000)
+  snapshotDate      String?
+  managerSalaries   Json?
+  baseGlobalSalary  Float   @default(0)
+}
+
+model CompEnrollment {
+  id         String @id @default(uuid())
+  campaignId String
+  employeeId String
+
+  @@unique([campaignId, employeeId])
+}
+
+model CompSuggestion {
+  id          String @id @default(uuid())
+  campaignId  String
+  employeeId  String
+  raiseAmount Float  @default(0)
+  bonusAmount Float  @default(0)
+
+  @@unique([campaignId, employeeId])
+}
+
+model CompStatus {
+  id         String @id @default(uuid())
+  campaignId String
+  managerId  String
+  status     String @default("DRAFT") // DRAFT, SUBMITTED, VALIDATED
+
+  @@unique([campaignId, managerId])
+}
+
+model Expense {
+  id          String @id
+  employeeId  String
+  type        String
+  amount      Float
+  date        String
+  description String
+  status      String @default("PENDING_N1") // PENDING_N1, PENDING_N2, PENDING_ADMIN, APPROVED, REJECTED
+  history     Json
+}
+
+model ExpenseWorkflowConfig {
+  id      String @id @default("config")
+  circuit Int    @default(1)
+}

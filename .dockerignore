@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+dist
+*.log
+.git
+.env*
+moodle
+/ETL
+/Monocle Vaporeux
+Nouveau dossier compressé.zip
+make_favicon.py
+planning.html
+demo.html
+sirh.html
