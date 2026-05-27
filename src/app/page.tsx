@@ -161,7 +161,7 @@ export default function Home() {
     <header id="header" className={scrolled ? "scrolled" : ""}>
       <div className="header-inner">
         <a href="#" className="logo-wrap">
-          <img src="logo.png" alt="XIRH" />
+          <img src="/logo.png" alt="XIRH" />
         </a>
         <div className="nav-links">
           <a href="#services">Expertises</a>
@@ -365,7 +365,7 @@ export default function Home() {
     <section id="apropos" className="about">
       <div className="container about-layout">
         <div className="about-photo fade-up">
-          <img src="julien2.png" alt="Julien Favaux — Consultant XIRH" />
+          <img src="/julien2.png" alt="Julien Favaux — Consultant XIRH" />
         </div>
         <div className="about-text">
           <div className="section-label fade-up">À propos</div>
@@ -557,7 +557,7 @@ export default function Home() {
     {/* ═══ FOOTER ═══ */}
     <footer>
       <div className="container footer-inner">
-        <a href="#" className="footer-brand"><img src="logo.png" alt="XIRH" /></a>
+        <a href="#" className="footer-brand"><img src="/logo.png" alt="XIRH" /></a>
         <p>© 2026 XIRH — Conseil SIRH & Formation. Tous droits réservés.</p>
       </div>
     </footer>
