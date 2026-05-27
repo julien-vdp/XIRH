@@ -56,17 +56,25 @@ export default function Home() {
     if (!c) return;
     const ctx = c.getContext('2d');
     if (!ctx) return;
-    let W: number, H: number, dpr: number;
+    const activeCtx = ctx;
+
+    let W = window.innerWidth;
+    let H = window.innerHeight;
+    let dpr = 1;
 
     function resize() {
+      const currentCanvas = canvasRef.current;
+      if (!currentCanvas) return;
+      const currentCtx = currentCanvas.getContext('2d');
+      if (!currentCtx) return;
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       W = window.innerWidth;
       H = window.innerHeight;
-      c.width = W * dpr;
-      c.height = H * dpr;
-      c.style.width = W + 'px';
-      c.style.height = H + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      currentCanvas.width = W * dpr;
+      currentCanvas.height = H * dpr;
+      currentCanvas.style.width = W + 'px';
+      currentCanvas.style.height = H + 'px';
+      currentCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
     resize();
     window.addEventListener('resize', resize);
@@ -86,7 +94,7 @@ export default function Home() {
 
     let animId: number;
     function frame() {
-      ctx.clearRect(0, 0, W, H);
+      activeCtx.clearRect(0, 0, W, H);
 
       // move
       pts.forEach(p => {
@@ -104,22 +112,22 @@ export default function Home() {
           const d = dx * dx + dy * dy;
           if (d < maxDist * maxDist) {
             const alpha = 0.06 * (1 - Math.sqrt(d) / maxDist);
-            ctx.strokeStyle = 'rgba(34,211,238,' + alpha + ')';
-            ctx.lineWidth = 0.6;
-            ctx.beginPath();
-            ctx.moveTo(pts[i].x, pts[i].y);
-            ctx.lineTo(pts[j].x, pts[j].y);
-            ctx.stroke();
+            activeCtx.strokeStyle = 'rgba(34,211,238,' + alpha + ')';
+            activeCtx.lineWidth = 0.6;
+            activeCtx.beginPath();
+            activeCtx.moveTo(pts[i].x, pts[i].y);
+            activeCtx.lineTo(pts[j].x, pts[j].y);
+            activeCtx.stroke();
           }
         }
       }
 
       // dots
       pts.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(34,211,238,' + p.a + ')';
-        ctx.fill();
+        activeCtx.beginPath();
+        activeCtx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        activeCtx.fillStyle = 'rgba(34,211,238,' + p.a + ')';
+        activeCtx.fill();
       });
 
       animId = requestAnimationFrame(frame);
@@ -145,17 +153,6 @@ export default function Home() {
       <canvas ref={canvasRef} id="particles"></canvas>
 
       <div className="page-content">
-        {/* ═══ ANIMATED BACKGROUND ═══ */}
-  <div className="mesh-bg">
-    <div className="mesh-orb mesh-orb-1"></div>
-    <div className="mesh-orb mesh-orb-2"></div>
-    <div className="mesh-orb mesh-orb-3"></div>
-    <div className="mesh-orb mesh-orb-4"></div>
-    <div className="mesh-orb mesh-orb-5"></div>
-  </div>
-  <canvas id="particles"></canvas>
-
-  <div className="page-content">
 
     {/* ═══ HEADER ═══ */}
     <header id="header" className={scrolled ? "scrolled" : ""}>
@@ -521,24 +518,24 @@ export default function Home() {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label for="name">Nom complet</label>
+                  <label htmlFor="name">Nom complet</label>
                   <input type="text" id="name" name="name" placeholder="Jean Dupont" required />
                 </div>
                 <div className="form-group">
-                  <label for="company">Entreprise</label>
+                  <label htmlFor="company">Entreprise</label>
                   <input type="text" id="company" name="company" placeholder="Votre entreprise" />
                 </div>
               </div>
 
               <div className="form-group">
-                <label for="email">Adresse e-mail</label>
+                <label htmlFor="email">Adresse e-mail</label>
                 <input type="email" id="email" name="email" placeholder="jean@entreprise.com" required />
               </div>
 
               <div className="form-group">
-                <label for="subject">Type de besoin</label>
+                <label htmlFor="subject">Type de besoin</label>
                 <select id="subject" name="subject" required>
-                  <option value="" disabled selected>Sélectionnez un sujet</option>
+                  <option value="" disabled defaultValue="">Sélectionnez un sujet</option>
                   <option value="Conseil SIRH">Conseil SIRH</option>
                   <option value="Déploiement / AMOA">Déploiement / AMOA</option>
                   <option value="Data & Automatisation">Data & Automatisation</option>
@@ -548,7 +545,7 @@ export default function Home() {
               </div>
 
               <div className="form-group">
-                <label for="message">Votre message</label>
+                <label htmlFor="message">Votre message</label>
                 <textarea id="message" name="message" placeholder="Décrivez brièvement votre projet ou votre besoin..."
                   required></textarea>
               </div>
@@ -580,7 +577,6 @@ export default function Home() {
     </footer>
 
   </div>{/* .page-content */}
-      </div>
     </>
   );
 }
