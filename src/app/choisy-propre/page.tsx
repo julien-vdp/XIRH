@@ -880,9 +880,25 @@ export default function ChoisyPropre() {
             {/* Onglet : Règles de tri */}
             {citizenTab === 'rules' && (
               <div className="space-y-8 animate-fade-in">
-                <div className="text-center max-w-xl mx-auto space-y-2">
-                  <h3 className="text-2xl font-black text-slate-800">Réglementation municipale du tri</h3>
-                  <p className="text-xs text-slate-500">Pour la sécurité des agents de Choisy-le-Roi et la préservation de la nature, merci de suivre rigoureusement ces règles.</p>
+                <div className="text-center max-w-xl mx-auto space-y-4 flex flex-col items-center">
+                  <svg className="w-48 h-20" viewBox="0 0 200 80">
+                    <path d="M 10 70 Q 100 68 190 70" fill="none" stroke="#cbd5e1" strokeWidth="2" />
+                    {/* Sofa vert autorisé */}
+                    <path d="M 20 65 L 50 65 L 50 55 L 45 55 L 45 45 Q 35 45 35 55 L 25 55 L 25 65 Z" fill="#bbf7d0" stroke="#10b981" strokeWidth="1.5" />
+                    {/* Coche verte */}
+                    <circle cx="35" cy="30" r="8" fill="#10b981" />
+                    <path d="M 32 30 L 34 32 L 38 28" fill="none" stroke="#ffffff" strokeWidth="2" />
+                    
+                    {/* Gravats interdits avec croix rouge */}
+                    <polygon points="120,68 140,68 130,50" fill="#fca5a5" stroke="#ef4444" strokeWidth="1.5" />
+                    <circle cx="130" cy="30" r="8" fill="#ef4444" />
+                    <line x1="127" y1="27" x2="133" y2="33" stroke="#ffffff" strokeWidth="2" />
+                    <line x1="133" y1="27" x2="127" y2="33" stroke="#ffffff" strokeWidth="2" />
+                  </svg>
+                  <div>
+                    <h3 className="text-2xl font-black text-slate-800">Réglementation municipale du tri</h3>
+                    <p className="text-xs text-slate-500 mt-1">Pour la sécurité des agents de Choisy-le-Roi et la préservation de la nature, merci de suivre rigoureusement ces consignes.</p>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -1038,8 +1054,17 @@ export default function ChoisyPropre() {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-6 text-slate-400 font-bold">
-                    Recherchez votre numéro ci-dessus pour afficher sa fiche d'état.
+                  <div className="text-center py-8 text-slate-400 font-bold text-xs space-y-4 flex flex-col items-center">
+                    <svg className="w-28 h-20 text-slate-300" viewBox="0 0 120 80" fill="none" stroke="currentColor" strokeWidth="2">
+                      <rect x="10" y="10" width="70" height="60" rx="4" fill="#ffffff" stroke="#cbd5e1" />
+                      <line x1="20" y1="25" x2="60" y2="25" stroke="#e2e8f0" />
+                      <line x1="20" y1="35" x2="50" y2="35" stroke="#e2e8f0" />
+                      <line x1="20" y1="45" x2="65" y2="45" stroke="#e2e8f0" />
+                      {/* Loupe */}
+                      <circle cx="85" cy="45" r="15" fill="#eff6ff" stroke="#3b82f6" />
+                      <line x1="95" y1="55" x2="108" y2="68" stroke="#3b82f6" strokeWidth="3" strokeLinecap="round" />
+                    </svg>
+                    <span>Recherchez votre numéro ci-dessus pour afficher sa fiche d'état.</span>
                   </div>
                 )}
               </div>
@@ -1357,8 +1382,18 @@ export default function ChoisyPropre() {
                       )}
                     </div>
                   ) : (
-                    <div className="text-center py-12 text-slate-400 font-bold text-xs">
-                      Cliquez sur une demande à gauche pour l'instruire.
+                    <div className="text-center py-12 text-slate-400 font-bold text-xs space-y-4 flex flex-col items-center">
+                      <svg className="w-24 h-24 text-slate-350" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2">
+                        {/* Dossier classeur */}
+                        <path d="M10,20 L40,20 L50,30 L90,30 L90,85 L10,85 Z" fill="#eff6ff" stroke="#3b82f6" />
+                        <path d="M15,40 L85,40 L85,80 L15,80 Z" fill="#ffffff" stroke="#94a3b8" />
+                        <line x1="25" y1="50" x2="75" y2="50" stroke="#cbd5e1" strokeWidth="2" />
+                        <line x1="25" y1="60" x2="60" y2="60" stroke="#cbd5e1" strokeWidth="2" />
+                        {/* Loupe */}
+                        <circle cx="75" cy="70" r="10" fill="#ecfdf5" stroke="#10b981" strokeWidth="2" />
+                        <line x1="82" y1="77" x2="92" y2="87" stroke="#10b981" strokeWidth="3" strokeLinecap="round" />
+                      </svg>
+                      <span>Sélectionnez un dossier à gauche pour l'examiner et prendre une décision.</span>
                     </div>
                   )}
                 </div>
@@ -1629,10 +1664,22 @@ export default function ChoisyPropre() {
 
                   </div>
                 ) : (
-                  <div className="bg-white border border-slate-200 p-8 rounded-2xl shadow-sm text-center space-y-3 my-auto">
-                    <CheckCircle2 className="text-emerald-500 mx-auto" size={32} />
-                    <p className="font-extrabold text-slate-800 text-sm">Tournée terminée !</p>
-                    <p className="text-[10px] text-slate-400">Tous les dossiers de propreté ont été instruits avec succès.</p>
+                  <div className="bg-white border border-slate-200 p-8 rounded-2xl shadow-sm text-center space-y-4 my-auto flex flex-col items-center">
+                    <svg className="w-24 h-24" viewBox="0 0 100 100">
+                      {/* Carte avec trajet vert validé */}
+                      <rect x="15" y="15" width="70" height="70" rx="8" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="2" />
+                      <path d="M 25 70 L 45 40 L 75 30" fill="none" stroke="#10b981" strokeWidth="4" strokeLinecap="round" strokeDasharray="4 2" />
+                      <circle cx="25" cy="70" r="5" fill="#10b981" />
+                      <circle cx="45" cy="40" r="5" fill="#10b981" />
+                      <circle cx="75" cy="30" r="6" fill="#10b981" />
+                      {/* Check géant */}
+                      <circle cx="75" cy="75" r="16" fill="#10b981" />
+                      <path d="M 69 75 L 73 79 L 81 71" fill="none" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <div>
+                      <p className="font-extrabold text-slate-800 text-sm">Tournée terminée !</p>
+                      <p className="text-[10px] text-slate-400 mt-1 leading-relaxed">Tous les points de collecte de votre feuille de route ont été visités avec succès.</p>
+                    </div>
                   </div>
                 )}
 
