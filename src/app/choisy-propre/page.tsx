@@ -5,7 +5,7 @@ import {
   Trash2, MapPin, Calendar, CheckCircle2, Clock, XCircle, AlertTriangle, 
   ChevronRight, Plus, Minus, Upload, Filter, Compass, Check, ArrowRight, 
   BarChart3, RefreshCw, Smartphone, ShieldCheck, Mail, Send, Award, FileText,
-  User, Truck, Settings, Info, Users, Bell
+  User, Truck, Settings, Info, Users, Bell, Search, Map
 } from 'lucide-react';
 
 // Types pour l'état de l'application
@@ -17,14 +17,13 @@ interface BulkyItem {
 }
 
 interface RequestData {
-  id: string; // ex: CP-94300-8A7B
+  id: string;
   name: string;
   phone: string;
   email: string;
   address: string;
   district: string;
-  items: { [key: string]: number }; // item ID -> quantity
-  photoUrl?: string;
+  items: { [key: string]: number };
   photoName?: string;
   preferredDate: string;
   status: 'Pending' | 'Approved' | 'Scheduled' | 'In progress' | 'Collected' | 'Refused';
@@ -32,7 +31,7 @@ interface RequestData {
   adminComment?: string;
   createdAt: string;
   assignedRound?: string;
-  coordinates: { x: number; y: number }; // Pour affichage sur la carte Choisy
+  coordinates: { x: number; y: number };
 }
 
 // Données initiales réalistes (Choisy-le-Roi)
@@ -101,7 +100,7 @@ const INITIAL_REQUESTS: RequestData[] = [
     email: "j.dupont@orange.fr",
     address: "32 Rue de la Paix, Choisy-le-Roi",
     district: "Centre-Ville",
-    items: { "paint": 5 }, // Objet interdit
+    items: { "paint": 5 },
     status: "Refused",
     refusalReason: "Produits dangereux (pots de peinture de chantier non autorisés)",
     preferredDate: "2026-05-28",
@@ -115,17 +114,17 @@ const COLLECTIBLE_ITEMS = [
   { id: 'mattress', name: 'Matelas / Sommier', category: 'furniture', icon: '🛏️' },
   { id: 'chair', name: 'Chaise / Tabouret', category: 'furniture', icon: '🪑' },
   { id: 'wardrobe', name: 'Armoire / Commode', category: 'furniture', icon: '🚪' },
-  { id: 'washing_machine', name: 'Lave-linge / Sèche-linge', category: 'appliances', icon: '🧺' },
-  { id: 'refrigerator', name: 'Réfrigérateur / Congélateur', category: 'appliances', icon: '❄️' },
+  { id: 'washing_machine', name: 'Lave-linge', category: 'appliances', icon: '🧺' },
+  { id: 'refrigerator', name: 'Réfrigérateur', category: 'appliances', icon: '❄️' },
   { id: 'table', name: 'Table / Bureau', category: 'furniture', icon: '🪵' },
-  { id: 'misc', name: 'Objets divers encombrants', category: 'other', icon: '📦' }
+  { id: 'misc', name: 'Objets divers', category: 'other', icon: '📦' }
 ];
 
 const FORBIDDEN_EXAMPLES = [
-  { name: 'Déchets de chantier / Gravats', desc: 'Briques, plâtre, tuiles, ciment. À déposer en déchèterie professionnelle.', icon: '🧱' },
-  { name: 'Produits dangereux / Chimiques', desc: 'Acides, solvants, bouteilles de gaz. Risque d\'explosion ou pollution.', icon: '☣️' },
-  { name: 'Pots de peinture / Solvants', desc: 'Même vides ou secs, ils contiennent des substances toxiques.', icon: '🎨' },
-  { name: 'Pneus et pièces de véhicules', desc: 'Filière de recyclage automobile obligatoire.', icon: '🛞' }
+  { name: 'Déchets de chantier / Gravats', desc: 'Briques, plâtre, ciment. Déposer en déchèterie.', icon: '🧱' },
+  { name: 'Produits dangereux / Chimiques', desc: 'Bouteilles de gaz, solvants, acides.', icon: '☣️' },
+  { name: 'Pots de peinture / Solvants', desc: 'Substances toxiques polluantes.', icon: '🎨' },
+  { name: 'Pneus et batteries', desc: 'Filière automobile obligatoire.', icon: '🛞' }
 ];
 
 const DISTRICTS = [
@@ -180,7 +179,6 @@ export default function ChoisyPropre() {
   const [collectorCurrentStop, setCollectorCurrentStop] = useState<number>(0);
   const [collectorProofPhoto, setCollectorProofPhoto] = useState<string | null>(null);
   
-  // Effets d'auto-simulation
   const addNotification = (text: string, type: 'email' | 'sms', to: string) => {
     const newNotif = {
       id: Date.now().toString(),
@@ -227,7 +225,6 @@ export default function ChoisyPropre() {
     const ref = "CP-94300-" + Math.floor(1000 + Math.random() * 9000);
     setGeneratedRef(ref);
 
-    // Calcul de coordonnées aléatoires dans Choisy-le-Roi pour la simulation de carte
     const randomCoords = {
       x: 50 + Math.floor(Math.random() * 250),
       y: 50 + Math.floor(Math.random() * 250)
@@ -250,7 +247,6 @@ export default function ChoisyPropre() {
 
     setRequests(prev => [newRequest, ...prev]);
     
-    // Notifications simulées
     addNotification(
       `Votre demande de collecte d'encombrants a bien été enregistrée sous la référence ${ref}. Un agent va l'étudier sous 24h.`,
       'sms',
@@ -262,14 +258,12 @@ export default function ChoisyPropre() {
       'service.proprete@choisyleroi.fr'
     );
 
-    // Reset formulaire
     setSelectedItems({});
     setCitizenName('');
     setCitizenPhone('');
     setCitizenEmail('');
     setCitizenAddress('');
     setUploadedPhoto(null);
-    
     setCitizenTab('confirm');
   };
 
@@ -317,37 +311,8 @@ export default function ChoisyPropre() {
       return r;
     });
     setRequests(updated);
-    // Mettre à jour la modale détaillée si ouverte
     const updatedReq = updated.find(r => r.id === id);
     if (updatedReq) setSelectedRequestForDetail(updatedReq);
-    setAdminComment('');
-  };
-
-  const handleRefuseRequest = (id: string) => {
-    if (!refusalReason) {
-      alert("Veuillez renseigner un motif de refus.");
-      return;
-    }
-    const updated = requests.map(r => {
-      if (r.id === id) {
-        addNotification(
-          `Votre demande ${r.id} a été refusée pour le motif suivant : ${refusalReason}. Veuillez consulter les règles de tri municipal.`,
-          'email',
-          r.email
-        );
-        return { 
-          ...r, 
-          status: 'Refused' as const, 
-          refusalReason,
-          adminComment: adminComment || undefined 
-        };
-      }
-      return r;
-    });
-    setRequests(updated);
-    const updatedReq = updated.find(r => r.id === id);
-    if (updatedReq) setSelectedRequestForDetail(updatedReq);
-    setRefusalReason('');
     setAdminComment('');
   };
 
@@ -366,7 +331,6 @@ export default function ChoisyPropre() {
   const kpiPending = requests.filter(r => r.status === 'Pending').length;
   const kpiCollected = requests.filter(r => r.status === 'Collected').length;
   
-  // Demandes par quartier pour le graph
   const districtDistribution = DISTRICTS.map(dist => {
     const count = requests.filter(r => r.district === dist).length;
     return { name: dist, count };
@@ -390,7 +354,7 @@ export default function ChoisyPropre() {
       comment = "Non collecté : Résident absent lors du passage requis.";
     } else if (status === 'Impossible') {
       nextStatus = 'Refused';
-      comment = "Non collecté : Dépôt non conforme ou inaccessible (" + (collectorProofPhoto ? "photo à l'appui" : "pas de photo") + ").";
+      comment = "Non collecté : Dépôt non conforme ou inaccessible.";
     }
 
     setRequests(prev => prev.map(r => {
@@ -415,307 +379,357 @@ export default function ChoisyPropre() {
     }
   };
 
-  // Progression de chargement du camion simulée
   const totalItemsInRound = currentRoundRequests.length;
   const progressPercent = totalItemsInRound > 0 
     ? Math.round((collectorCurrentStop / totalItemsInRound) * 100) 
     : 100;
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col font-sans relative overflow-x-hidden">
+    <div className="choisy-page-wrapper min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans relative" style={{ backgroundColor: '#f8fafc', color: '#334155' }}>
       
-      {/* ═══ MESH GRADIENT & CANVAS SIMULÉ ═══ */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute w-[800px] h-[800px] rounded-full blur-[120px] top-[-10%] left-[-20%] bg-blue-500/10 animate-[orb-float-1_20s_infinite_linear]"></div>
-        <div className="absolute w-[600px] h-[600px] rounded-full blur-[100px] bottom-[-10%] right-[-10%] bg-emerald-500/10 animate-[orb-float-2_25s_infinite_linear]"></div>
-      </div>
-
-      {/* ═══ BARRE DE SIMULATION DU PORTFOLIO (PERSISTANTE) ═══ */}
-      <div className="bg-slate-950/90 border-b border-slate-800 py-3 px-4 sticky top-0 z-50 backdrop-blur-md">
+      {/* ═══ BARRE DE SIMULATION DU PORTFOLIO (Light Glassmorphic) ═══ */}
+      <div className="w-full bg-white/95 border-b border-slate-200 py-3 px-6 sticky top-0 z-50 shadow-sm backdrop-blur-md">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-3">
-            <span className="flex h-3.5 w-3.5 relative">
+            <span className="flex h-3 w-3 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
             </span>
             <div>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest leading-none">Prototype Interactif</p>
-              <h2 className="text-sm font-bold text-white leading-tight">Mon Choisy Propre (XIRH)</h2>
+              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Maquette de Portfolio</p>
+              <h2 className="text-xs font-extrabold text-slate-800 mt-1 leading-tight">MON CHOISY PROPRE — PROPRIÉTÉ DE XIRH</h2>
             </div>
           </div>
           
-          <div className="flex items-center gap-1.5 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
+          {/* Sélecteur de Rôle Style Public Service */}
+          <div className="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
             <button 
               onClick={() => setRole('citizen')}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${role === 'citizen' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${role === 'citizen' ? 'bg-white text-emerald-700 shadow-md border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}
             >
-              <User size={14} /> Citoyen
+              <User size={13} className="text-emerald-500" /> Espace Citoyen
             </button>
             <button 
               onClick={() => { setRole('admin'); setAdminActiveTab('list'); }}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${role === 'admin' ? 'bg-emerald-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${role === 'admin' ? 'bg-white text-blue-700 shadow-md border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}
             >
-              <ShieldCheck size={14} /> Administrateur
+              <ShieldCheck size={13} className="text-blue-500" /> Administration
             </button>
             <button 
               onClick={() => setRole('collector')}
-              className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${role === 'collector' ? 'bg-amber-600 text-white shadow-md' : 'text-slate-400 hover:text-white hover:bg-slate-800'}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${role === 'collector' ? 'bg-white text-amber-700 shadow-md border border-slate-200/50' : 'text-slate-500 hover:text-slate-800'}`}
             >
-              <Truck size={14} /> Collecteur
+              <Truck size={13} className="text-amber-500" /> Équipe de Collecte
             </button>
           </div>
 
-          <div className="text-xs text-slate-400 flex items-center gap-2">
-            <span className="bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700">Ville de Choisy-le-Roi</span>
+          <div className="text-xs flex items-center gap-2">
+            <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200 font-bold text-[10px]">Choisy-le-Roi (94)</span>
           </div>
         </div>
       </div>
 
-      {/* ═══ HEADER DE L'APPLICATION ═══ */}
-      <header className="bg-slate-900/60 border-b border-slate-800/80 py-4 px-6 z-10 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3.5">
-            <div className="h-11 w-11 bg-gradient-to-tr from-emerald-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/10">
-              <Trash2 className="text-white" size={22} />
+      {/* ═══ EN-TÊTE DE L'APPLICATION (Scoped Div) ═══ */}
+      <div className="w-full bg-white border-b border-slate-150 py-5 px-6 z-10 shadow-sm">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 bg-gradient-to-tr from-emerald-400 to-blue-400 rounded-2xl flex items-center justify-center shadow-md shadow-emerald-400/10 shrink-0">
+              <Trash2 className="text-white" size={24} />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                Mon Choisy Propre
-              </h1>
-              <p className="text-xs text-emerald-400 font-medium">Service de Propreté Municipale</p>
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl font-black text-slate-800 tracking-tight">Mon Choisy Propre</span>
+                <span className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Mairie</span>
+              </div>
+              <p className="text-xs text-emerald-600 font-semibold tracking-wide mt-0.5">Plateforme municipale d'enlèvement des encombrants</p>
             </div>
           </div>
           
-          <div className="hidden lg:flex items-center gap-6">
-            <div className="flex items-center gap-2 text-xs text-slate-400">
-              <Clock size={14} className="text-slate-500" />
-              <span>Réponse garantie sous 24h</span>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2 text-xs text-slate-500 font-medium">
+              <Clock size={15} className="text-emerald-500" />
+              <span>Cadrage et validation sous 24h</span>
             </div>
-            <div className="w-px h-5 bg-slate-800"></div>
-            <a href="/" className="text-xs text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1.5">
-              <span>Retour Portfolio</span>
-              <ArrowRight size={12} />
+            <div className="hidden md:block w-px h-6 bg-slate-200"></div>
+            <a href="/" className="text-xs font-bold text-slate-600 hover:text-emerald-600 transition-colors flex items-center gap-1">
+              <span>Retour Portfolio XIRH</span>
+              <ArrowRight size={14} />
             </a>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* ═══ ZONE DE NOTIFICATIONS SIMULÉES (ALERT BAR) ═══ */}
-      <div className="bg-slate-950/40 border-b border-slate-800/50 py-2.5 px-6 z-10 overflow-hidden">
-        <div className="max-w-7xl mx-auto flex items-center gap-3">
-          <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded-full">
-            <Bell size={12} />
-            <span>Simulateur d'Alertes</span>
+      {/* ═══ BANDEAU D'ALERTES / NOTIFICATIONS SIMULÉES ═══ */}
+      <div className="w-full bg-slate-900 text-slate-200 py-3 px-6 z-10 shadow-inner">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="bg-emerald-500 text-slate-950 font-bold px-2 py-0.5 rounded text-[10px] uppercase tracking-wider flex items-center gap-1">
+              <Bell size={11} /> SMS/Mail
+            </span>
+            <span className="text-slate-400 font-medium">Simulation citoyenne :</span>
           </div>
-          <div className="flex-1 text-xs text-slate-400 whitespace-nowrap overflow-hidden text-ellipsis">
+          <div className="flex-1 text-slate-300 font-medium leading-relaxed">
             {notifications.length > 0 ? (
-              <span className="animate-[fadeIn_0.5s_ease-out]">
+              <span className="animate-[fadeIn_0.3s_ease-out]">
                 <strong>[{notifications[0].type.toUpperCase()} pour {notifications[0].to}] :</strong> "{notifications[0].text}"
               </span>
             ) : (
-              <span>Aucune notification pour le moment. Réalisez des actions dans les vues pour générer des alertes.</span>
+              <span className="text-slate-500">Aucune alerte générée. Soumettez un formulaire pour voir l'alerte !</span>
             )}
           </div>
           <button 
-            onClick={() => alert(`Historique des notifications :\n\n` + notifications.map(n => `[${n.time}] ${n.type.toUpperCase()} -> ${n.to}\n${n.text}\n`).join('\n'))}
-            className="text-[10px] text-slate-500 hover:text-slate-300 font-semibold underline shrink-0"
+            onClick={() => alert(`Historique des SMS et e-mails simulés :\n\n` + notifications.map(n => `[${n.time}] ${n.type.toUpperCase()} à ${n.to} :\n${n.text}\n`).join('\n'))}
+            className="text-[11px] text-emerald-400 hover:text-emerald-300 font-bold underline shrink-0 cursor-pointer"
           >
-            Voir historique ({notifications.length})
+            Historique ({notifications.length})
           </button>
         </div>
       </div>
 
-      {/* ═══ CONTENU PRINCIPAL PAR RÔLE ═══ */}
-      <main className="flex-1 py-8 px-4 md:px-8 max-w-7xl mx-auto w-full z-10">
+      {/* ═══ CONTENU PRINCIPAL DE L'APPLICATION ═══ */}
+      <div className="flex-1 py-10 px-6 max-w-7xl mx-auto w-full z-10 space-y-10">
 
         {/* ──────── VUE CITOYEN ──────── */}
         {role === 'citizen' && (
-          <div className="space-y-8 animate-fade-in">
-            {/* Bannière d'accueil citoyenne */}
-            <div className="relative overflow-hidden rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-950 via-slate-900 to-emerald-950/40 p-8 md:p-10 shadow-2xl">
-              <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-20 hidden md:block">
-                <img 
-                  src="/encombrant-logo.png" 
-                  alt="Inspiration" 
-                  className="w-full h-full object-contain p-4"
-                  onError={(e) => {
-                    // Fallback silencieux si l'image n'est pas encore chargée
-                    e.currentTarget.style.display = 'none';
-                  }}
-                />
-              </div>
-              <div className="relative z-10 max-w-2xl">
-                <span className="text-emerald-400 text-xs font-bold uppercase tracking-wider bg-emerald-400/10 px-3 py-1 rounded-full">Propreté & Recyclage Urbain</span>
-                <h2 className="text-3xl font-extrabold text-white mt-3 leading-tight">
-                  Simplifions ensemble la collecte de vos encombrants à Choisy-le-Roi.
+          <div className="space-y-10 animate-fade-in">
+            
+            {/* HERO BANNER CITOYEN (Modern light style, colorful vector feeling) */}
+            <div className="bg-white rounded-3xl border border-slate-200/80 p-8 md:p-12 shadow-md relative overflow-hidden flex flex-col lg:flex-row items-center gap-10">
+              
+              {/* Illustration de gauche ou texte */}
+              <div className="flex-1 space-y-6 relative z-10 text-left">
+                <span className="text-emerald-600 bg-emerald-50 border border-emerald-100 font-extrabold text-[11px] uppercase tracking-widest px-3 py-1.5 rounded-full">
+                  🍃 Service Public Éco-Citoyen
+                </span>
+                <h2 className="text-3xl md:text-4xl font-black text-slate-800 leading-tight">
+                  Ensemble, préservons la propreté de Choisy-le-Roi.
                 </h2>
-                <p className="text-slate-400 mt-4 leading-relaxed text-sm md:text-base">
-                  Déposez votre demande de retrait en moins de 3 minutes. Vos objets seront valorisés ou recyclés par nos services municipaux de propreté.
+                <p className="text-slate-650 leading-relaxed text-sm md:text-base">
+                  Vous résidez à Choisy-le-Roi ? Planifiez facilement l'enlèvement gratuit de vos encombrants à votre domicile. Notre équipe municipale se charge du tri et du recyclage éco-responsable.
                 </p>
                 
-                <div className="flex flex-wrap gap-3.5 mt-8">
+                {/* Actions principales */}
+                <div className="flex flex-wrap gap-4 pt-2">
                   <button 
                     onClick={() => setCitizenTab('form')}
-                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-5 py-3 rounded-xl transition-all shadow-lg shadow-emerald-600/20 text-sm flex items-center gap-2 group"
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-6 py-3.5 rounded-xl transition-all shadow-md hover:shadow-emerald-600/10 text-xs flex items-center gap-2 cursor-pointer"
                   >
                     <span>Faire une demande de retrait</span>
-                    <Plus size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                    <Plus size={16} />
                   </button>
                   <button 
                     onClick={() => setCitizenTab('track')}
-                    className="bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold px-5 py-3 rounded-xl transition-all text-sm flex items-center gap-2 border border-slate-700"
+                    className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-6 py-3.5 rounded-xl transition-all text-xs flex items-center gap-2 border border-slate-200 cursor-pointer"
                   >
-                    <SearchIcon className="text-slate-400" size={16} />
+                    <Search size={15} />
                     <span>Suivre ma demande</span>
                   </button>
                   <button 
                     onClick={() => setIsDumpingModalOpen(true)}
-                    className="bg-red-500/10 hover:bg-red-500/20 text-red-400 font-semibold px-5 py-3 rounded-xl transition-all text-sm flex items-center gap-2 border border-red-500/30"
+                    className="bg-red-50 hover:bg-red-650 text-white font-bold px-6 py-3.5 rounded-xl transition-all text-xs flex items-center gap-2 shadow-sm cursor-pointer"
                   >
-                    <AlertTriangle size={16} />
+                    <AlertTriangle size={15} />
                     <span>Signaler un dépôt sauvage</span>
                   </button>
                 </div>
               </div>
+
+              {/* Illustration de droite (Magnifique dessin vectoriel de propreté) */}
+              <div className="w-full lg:w-96 flex flex-col items-center justify-center shrink-0">
+                <div className="bg-slate-50 border border-slate-100 p-6 rounded-2xl shadow-inner w-full flex flex-col items-center">
+                  {/* Image officielle du logo municipale dans un cadre soigné */}
+                  <div className="w-40 h-40 bg-white border border-slate-250/60 p-3 rounded-2xl shadow-sm mb-4 flex items-center justify-center">
+                    <img 
+                      src="/encombrant-logo.png" 
+                      alt="Choisy le Roi Logo" 
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Logo de référence</span>
+                  
+                  {/* Dessin de Ville Écologique en SVG */}
+                  <div className="w-full h-24 mt-4">
+                    <svg className="w-full h-full" viewBox="0 0 200 80">
+                      {/* Sol */}
+                      <path d="M 0 70 Q 100 65 200 70 L 200 80 L 0 80 Z" fill="#eefdf4" />
+                      <line x1="0" y1="70" x2="200" y2="70" stroke="#10b981" strokeWidth="2" />
+                      {/* Maisons */}
+                      <rect x="20" y="35" width="25" height="35" fill="#eff6ff" stroke="#3b82f6" strokeWidth="1.5" rx="2" />
+                      <polygon points="15,35 32,15 50,35" fill="#fecdd3" stroke="#f43f5e" strokeWidth="1.5" />
+                      
+                      <rect x="150" y="30" width="30" height="40" fill="#f8fafc" stroke="#64748b" strokeWidth="1.5" rx="2" />
+                      <polygon points="145,30 165,12 185,30" fill="#bbf7d0" stroke="#10b981" strokeWidth="1.5" />
+                      
+                      {/* Arbre */}
+                      <circle cx="85" cy="35" r="18" fill="#d1fae5" opacity="0.9" />
+                      <circle cx="85" cy="35" r="14" fill="#10b981" />
+                      <rect x="82" y="48" width="6" height="22" fill="#78350f" />
+                      
+                      {/* Poubelle recyclage */}
+                      <rect x="110" y="52" width="12" height="18" fill="#3b82f6" rx="2" />
+                      <path d="M 110 52 L 122 52" stroke="#1e3a8a" strokeWidth="2" />
+                      <circle cx="116" cy="61" r="3" fill="none" stroke="#ffffff" strokeWidth="1" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
             </div>
 
-            {/* Menu d'onglets Citoyen */}
-            <div className="flex border-b border-slate-800">
-              <button 
-                onClick={() => setCitizenTab('home')}
-                className={`py-3.5 px-6 font-semibold text-sm transition-all border-b-2 ${citizenTab === 'home' ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
-              >
-                Vue générale
-              </button>
-              <button 
-                onClick={() => setCitizenTab('form')}
-                className={`py-3.5 px-6 font-semibold text-sm transition-all border-b-2 ${citizenTab === 'form' ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
-              >
-                Formulaire de retrait
-              </button>
-              <button 
-                onClick={() => setCitizenTab('rules')}
-                className={`py-3.5 px-6 font-semibold text-sm transition-all border-b-2 ${citizenTab === 'rules' ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
-              >
-                Objets refusés / Autorisés
-              </button>
-              <button 
-                onClick={() => setCitizenTab('track')}
-                className={`py-3.5 px-6 font-semibold text-sm transition-all border-b-2 ${citizenTab === 'track' ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200'}`}
-              >
-                Suivi en direct
-              </button>
+            {/* Onglets de navigation Citoyen (Clean modern style) */}
+            <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
+              {[
+                { id: 'home', label: 'Accueil & Consignes', icon: <Info size={14} /> },
+                { id: 'form', label: 'Formulaire de demande', icon: <Plus size={14} /> },
+                { id: 'rules', label: 'Objets Autorisés / Exclus', icon: <CheckCircle2 size={14} /> },
+                { id: 'track', label: 'Suivi de ma demande', icon: <Clock size={14} /> }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setCitizenTab(tab.id as any)}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${citizenTab === tab.id ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-800 hover:bg-slate-100'}`}
+                >
+                  {tab.icon}
+                  <span>{tab.label}</span>
+                </button>
+              ))}
             </div>
 
-            {/* Onglet : Accueil Citoyen */}
+            {/* Onglet : Accueil */}
             {citizenTab === 'home' && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Consignes de tri rapides */}
+                
                 <div className="lg:col-span-2 space-y-6">
-                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <Info className="text-emerald-400" size={20} />
-                    <span>Comment se déroule la collecte ?</span>
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                      <div className="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 font-bold flex items-center justify-center text-sm mb-4">1</div>
-                      <h4 className="font-bold text-white text-sm">Déclaration</h4>
-                      <p className="text-xs text-slate-400 mt-2 leading-relaxed">Listez vos encombrants dans le formulaire en indiquant les quantités et le jour choisi.</p>
-                    </div>
-                    <div className="bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                      <div className="w-8 h-8 rounded-full bg-blue-500/10 text-blue-400 font-bold flex items-center justify-center text-sm mb-4">2</div>
-                      <h4 className="font-bold text-white text-sm">Confirmation</h4>
-                      <p className="text-xs text-slate-400 mt-2 leading-relaxed">Les services municipaux valident votre demande et vous attribuent un numéro de passage.</p>
-                    </div>
-                    <div className="bg-slate-950/60 p-5 rounded-2xl border border-slate-800/80">
-                      <div className="w-8 h-8 rounded-full bg-amber-500/10 text-amber-400 font-bold flex items-center justify-center text-sm mb-4">3</div>
-                      <h4 className="font-bold text-white text-sm">Passage</h4>
-                      <p className="text-xs text-slate-400 mt-2 leading-relaxed">Déposez vos encombrants la veille au soir sur le trottoir. La tournée s'occupe du reste !</p>
+                  <div className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm space-y-6">
+                    <h3 className="text-base font-black text-slate-800 flex items-center gap-2">
+                      <Compass className="text-emerald-500" size={18} />
+                      <span>Les 3 étapes de votre collecte citoyenne</span>
+                    </h3>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-slate-50 border border-slate-150 p-5 rounded-xl relative">
+                        <span className="absolute top-3 right-3 text-2xl font-black text-slate-200">01</span>
+                        <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-xs mb-4">
+                          <FileText size={16} />
+                        </div>
+                        <h4 className="font-bold text-slate-800 text-xs">Déclaration en ligne</h4>
+                        <p className="text-[11px] text-slate-500 mt-2 leading-relaxed">
+                          Sélectionnez vos objets (table, canapé, électroménager) et choisissez une date souhaitée.
+                        </p>
+                      </div>
+
+                      <div className="bg-slate-50 border border-slate-150 p-5 rounded-xl relative">
+                        <span className="absolute top-3 right-3 text-2xl font-black text-slate-200">02</span>
+                        <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs mb-4">
+                          <ShieldCheck size={16} />
+                        </div>
+                        <h4 className="font-bold text-slate-800 text-xs">Validation municipale</h4>
+                        <p className="text-[11px] text-slate-500 mt-2 leading-relaxed">
+                          La mairie vérifie la conformité et vous envoie votre numéro de référence par SMS/mail.
+                        </p>
+                      </div>
+
+                      <div className="bg-slate-50 border border-slate-150 p-5 rounded-xl relative">
+                        <span className="absolute top-3 right-3 text-2xl font-black text-slate-200">03</span>
+                        <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 font-bold flex items-center justify-center text-xs mb-4">
+                          <Truck size={16} />
+                        </div>
+                        <h4 className="font-bold text-slate-800 text-xs">Dépôt et Collecte</h4>
+                        <p className="text-[11px] text-slate-500 mt-2 leading-relaxed">
+                          Déposez les objets sur le trottoir la veille au soir. Nos agents passent l'esprit tranquille.
+                        </p>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Message écologique */}
-                  <div className="bg-emerald-950/20 border border-emerald-900/50 p-6 rounded-2xl flex gap-4 items-start">
-                    <div className="bg-emerald-500/10 text-emerald-400 p-2.5 rounded-xl">
-                      <Award size={20} />
+                  {/* Message Écologique dessiné */}
+                  <div className="bg-emerald-50/60 border border-emerald-100 p-6 rounded-2xl flex flex-col sm:flex-row gap-5 items-center">
+                    <div className="w-20 h-20 shrink-0">
+                      {/* Dessin feuille verte en SVG */}
+                      <svg className="w-full h-full" viewBox="0 0 60 60">
+                        <path d="M 10 50 C 30 50, 45 40, 50 10 C 20 15, 10 30, 10 50 Z" fill="#bbf7d0" stroke="#10b981" strokeWidth="2" />
+                        <path d="M 10 50 C 25 35, 45 20, 50 10" fill="none" stroke="#10b981" strokeWidth="1.5" />
+                        <circle cx="25" cy="30" r="2" fill="#047857" />
+                        <circle cx="35" cy="22" r="2" fill="#047857" />
+                      </svg>
                     </div>
                     <div>
-                      <h4 className="font-bold text-white text-sm">Engagement Éco-Responsable de Choisy</h4>
-                      <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-                        Plus de 65% des meubles et appareils électroniques collectés à Choisy-le-Roi sont revalorisés en ressourcerie locale ou triés pour être réinsérés dans la filière de recyclage matière.
+                      <h4 className="font-extrabold text-emerald-800 text-sm">Favorisons le réemploi & l'économie circulaire</h4>
+                      <p className="text-xs text-emerald-700 mt-1.5 leading-relaxed">
+                        Chaque canapé, chaise ou table en bon état récolté est transmis à la ressourcerie partenaire de Choisy-le-Roi pour être remis en état et redistribué aux familles modestes. Réduisons notre empreinte carbone ensemble !
                       </p>
                     </div>
                   </div>
                 </div>
 
                 {/* Sidebar Info Pratique */}
-                <div className="bg-slate-950/80 border border-slate-800 p-6 rounded-2xl space-y-6">
-                  <h4 className="font-bold text-white flex items-center gap-2">
-                    <Clock size={16} className="text-emerald-400" />
-                    <span>Horaires et Contacts</span>
+                <div className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm space-y-6 text-xs">
+                  <h4 className="font-extrabold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <MapPin className="text-emerald-500" size={16} />
+                    <span>Ressources locales</span>
                   </h4>
-                  <ul className="text-xs text-slate-400 space-y-3.5">
-                    <li className="flex justify-between pb-2.5 border-b border-slate-900">
-                      <span>Service Urbanisme :</span>
-                      <strong className="text-slate-200">01 48 92 44 44</strong>
-                    </li>
-                    <li className="flex justify-between pb-2.5 border-b border-slate-900">
-                      <span>Déchèterie Choisy-le-Roi :</span>
-                      <strong className="text-slate-200">Rue de la Paix, 94300</strong>
-                    </li>
-                    <li className="flex justify-between">
-                      <span>Collecte standard :</span>
-                      <strong className="text-slate-200">Lundi au Samedi, 6h-18h</strong>
-                    </li>
-                  </ul>
                   
-                  <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-xs">
-                    <span className="font-bold text-emerald-400 block mb-1">💡 Astuce</span>
-                    Saisissez des faux numéros comme <code className="bg-slate-950 text-slate-300 px-1 py-0.5 rounded">CP-94300-1042</code> ou <code className="bg-slate-950 text-slate-300 px-1 py-0.5 rounded">CP-94300-0987</code> dans l'onglet "Suivi" pour voir la démonstration.
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <span className="text-[10px] text-slate-400 font-bold uppercase">Hôtel de Ville de Choisy</span>
+                      <p className="text-slate-700 font-semibold">Place Gabriel Péri, 94300</p>
+                      <p className="text-slate-500 font-medium">Tél : 01 48 92 44 44</p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="text-[10px] text-slate-400 font-bold uppercase">Déchèterie Intercommunale</span>
+                      <p className="text-slate-700 font-semibold">Rue de la Paix, Choisy-le-Roi</p>
+                      <p className="text-slate-500 font-medium">Ouverte du lundi au samedi</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-blue-50 border border-blue-100 p-4.5 rounded-xl text-blue-800 text-[11px] leading-relaxed">
+                    <strong className="block mb-1 text-blue-900">💡 Conseil Prototype :</strong>
+                    Allez dans l'onglet <strong>Suivi de ma demande</strong> et cherchez <code className="bg-white/80 border border-blue-200 px-1 py-0.5 rounded font-bold">CP-94300-1042</code> pour tester le suivi de commande interactif.
                   </div>
                 </div>
+
               </div>
             )}
 
-            {/* Onglet : Formulaire de Retrait */}
+            {/* Onglet : Formulaire */}
             {citizenTab === 'form' && (
               <form onSubmit={submitCitizenForm} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Étape 1 : Objets à collecter */}
-                <div className="lg:col-span-2 space-y-6 bg-slate-950/40 border border-slate-800 p-6 rounded-2xl">
+                {/* 1. Sélection objets */}
+                <div className="lg:col-span-2 space-y-6 bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm">
                   <div>
-                    <h3 className="text-lg font-bold text-white">1. Sélectionnez vos encombrants</h3>
-                    <p className="text-xs text-slate-400">Indiquez la quantité pour chaque type d'objet.</p>
+                    <h3 className="text-base font-extrabold text-slate-850">1. Quels objets souhaitez-vous faire enlever ?</h3>
+                    <p className="text-xs text-slate-500 mt-1">Sélectionnez la quantité désirée. Note : maximum 5 objets par foyer.</p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {COLLECTIBLE_ITEMS.map(item => {
                       const qty = selectedItems[item.id] || 0;
                       return (
-                        <div key={item.id} className="flex justify-between items-center bg-slate-900/60 border border-slate-800 p-4 rounded-xl hover:border-slate-700 transition-colors">
+                        <div key={item.id} className="flex justify-between items-center bg-slate-50 border border-slate-150 p-4 rounded-xl hover:bg-white hover:border-emerald-350 transition-all">
                           <div className="flex items-center gap-3">
-                            <span className="text-xl">{item.icon}</span>
+                            <span className="text-2xl bg-white p-1.5 rounded-lg border border-slate-200 shadow-sm">{item.icon}</span>
                             <div>
-                              <span className="font-medium text-sm text-slate-200 block">{item.name}</span>
-                              <span className="text-[10px] text-slate-500 capitalize">{item.category}</span>
+                              <span className="font-bold text-slate-700 text-xs block">{item.name}</span>
+                              <span className="text-[10px] text-slate-400 capitalize">{item.category}</span>
                             </div>
                           </div>
                           
-                          <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-2">
                             <button 
                               type="button"
                               onClick={() => handleItemCountChange(item.id, false)}
-                              className="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-colors"
+                              className="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-150 text-slate-600 flex items-center justify-center transition-colors cursor-pointer"
                             >
-                              <Minus size={14} />
+                              <Minus size={13} />
                             </button>
-                            <span className="font-bold text-sm text-white w-5 text-center">{qty}</span>
+                            <span className="font-bold text-xs text-slate-800 w-5 text-center">{qty}</span>
                             <button 
                               type="button"
                               onClick={() => handleItemCountChange(item.id, true)}
-                              className="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-colors"
+                              className="w-7 h-7 rounded-lg bg-white border border-slate-200 hover:bg-slate-150 text-slate-600 flex items-center justify-center transition-colors cursor-pointer"
                             >
-                              <Plus size={14} />
+                              <Plus size={13} />
                             </button>
                           </div>
                         </div>
@@ -724,7 +738,7 @@ export default function ChoisyPropre() {
                   </div>
                   
                   {/* Photo upload mock */}
-                  <div className="border border-dashed border-slate-700 rounded-xl p-5 bg-slate-900/30 text-center">
+                  <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 bg-slate-50 text-center hover:bg-slate-100/50 transition-colors">
                     <input 
                       type="file" 
                       id="photo-file" 
@@ -734,50 +748,47 @@ export default function ChoisyPropre() {
                     />
                     <label htmlFor="photo-file" className="cursor-pointer flex flex-col items-center gap-2">
                       <Upload className="text-slate-400" size={24} />
-                      <span className="text-xs font-semibold text-slate-300">Ajouter une photo justificative (Optionnel)</span>
-                      <span className="text-[10px] text-slate-500">Formats acceptés : JPG, PNG. Max 5 Mo.</span>
+                      <span className="text-xs font-bold text-slate-600">Ajouter une photo (Recommandé)</span>
+                      <span className="text-[10px] text-slate-400">Pour aider nos équipes à évaluer la taille et le type de camion.</span>
                     </label>
                     {uploadedPhoto && (
-                      <div className="mt-3 bg-emerald-500/10 border border-emerald-500/20 p-2.5 rounded-lg text-xs text-emerald-400 inline-flex items-center gap-2">
-                        <Check size={14} />
+                      <div className="mt-3 bg-emerald-50 border border-emerald-250 p-2 py-1.5 rounded-lg text-xs text-emerald-700 inline-flex items-center gap-2 font-bold shadow-sm">
+                        <Check size={13} />
                         <span>{uploadedPhoto.name} ({uploadedPhoto.size})</span>
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Étape 2 & 3 : Coordonnées, Date et Soumission */}
+                {/* 2 & 3. Lieu, Date et validation */}
                 <div className="space-y-6">
-                  {/* Carte et géoloc */}
-                  <div className="bg-slate-950/40 border border-slate-800 p-6 rounded-2xl space-y-4">
-                    <div>
-                      <h3 className="text-base font-bold text-white">2. Lieu & Date de passage</h3>
-                      <p className="text-[11px] text-slate-400">Saisissez l'adresse et choisissez le jour.</p>
-                    </div>
-
-                    <div className="space-y-3.5">
+                  {/* Lieu & Date */}
+                  <div className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm space-y-4">
+                    <h3 className="text-base font-extrabold text-slate-850">2. Adresse & Rendez-vous</h3>
+                    
+                    <div className="space-y-3">
                       <div>
-                        <label className="text-[10px] text-slate-400 font-bold block mb-1">ADRESSE DU DÉPÔT</label>
+                        <label className="text-[10px] text-slate-400 font-extrabold block mb-1">ADRESSE DE COLLECTE</label>
                         <div className="relative">
                           <input 
                             type="text" 
                             required
-                            placeholder="ex: 12 Rue d'Orves"
+                            placeholder="ex: 15 Rue Albert 1er, Choisy-le-Roi"
                             value={citizenAddress}
                             onChange={(e) => setCitizenAddress(e.target.value)}
-                            className="bg-slate-900 border border-slate-800 pl-9"
+                            className="bg-slate-50 border border-slate-200 pl-8 text-xs py-2.5 rounded-lg"
                           />
-                          <MapPin size={14} className="absolute left-3 top-3.5 text-slate-500" />
+                          <MapPin size={14} className="absolute left-2.5 top-3.5 text-slate-400" />
                         </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="text-[10px] text-slate-400 font-bold block mb-1">QUARTIER</label>
+                          <label className="text-[10px] text-slate-400 font-extrabold block mb-1">QUARTIER</label>
                           <select 
                             value={citizenDistrict}
                             onChange={(e) => setCitizenDistrict(e.target.value)}
-                            className="bg-slate-900 border border-slate-800 text-xs"
+                            className="bg-slate-50 border border-slate-200 text-xs py-2 px-2.5 rounded-lg"
                           >
                             {DISTRICTS.map(d => (
                               <option key={d} value={d}>{d}</option>
@@ -785,88 +796,81 @@ export default function ChoisyPropre() {
                           </select>
                         </div>
                         <div>
-                          <label className="text-[10px] text-slate-400 font-bold block mb-1">DATE SOUHAITÉE</label>
+                          <label className="text-[10px] text-slate-400 font-extrabold block mb-1">JOUR DE COLLECTE</label>
                           <input 
                             type="date" 
                             required
                             value={citizenDate}
                             onChange={(e) => setCitizenDate(e.target.value)}
-                            className="bg-slate-900 border border-slate-800 text-xs"
+                            className="bg-slate-50 border border-slate-200 text-xs py-2 px-2.5 rounded-lg"
                           />
                         </div>
                       </div>
                     </div>
 
-                    {/* Simulation de carte Choisy */}
-                    <div className="bg-slate-900 rounded-xl h-28 border border-slate-800 relative overflow-hidden flex items-center justify-center">
-                      <svg className="absolute inset-0 w-full h-full opacity-35" viewBox="0 0 300 150">
-                        {/* Faux tracés de fleuve et rues de Choisy */}
-                        <path d="M 0 50 Q 80 40 120 70 T 300 60" fill="none" stroke="#2563eb" strokeWidth="6" />
-                        <path d="M 50 0 L 70 150" fill="none" stroke="#475569" strokeWidth="2" />
-                        <path d="M 120 0 L 150 150" fill="none" stroke="#475569" strokeWidth="3" />
-                        <path d="M 220 0 L 180 150" fill="none" stroke="#475569" strokeWidth="2" />
-                        <path d="M 0 100 Q 150 120 300 90" fill="none" stroke="#475569" strokeWidth="1.5" />
-                        {/* Point Choisy le Roi */}
-                        <circle cx="130" cy="80" r="15" fill="#10b981" fillOpacity="0.2" />
-                        <circle cx="130" cy="80" r="4" fill="#10b981" />
+                    {/* Carte Choisy le Roi dessinée */}
+                    <div className="bg-slate-50 border border-slate-200 rounded-xl h-24 relative overflow-hidden flex items-center justify-center">
+                      <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 300 150">
+                        {/* La Seine */}
+                        <path d="M 0 50 Q 80 40 120 70 T 300 60" fill="none" stroke="#3b82f6" strokeWidth="8" />
+                        <path d="M 60 0 L 80 150" fill="none" stroke="#cbd5e1" strokeWidth="2.5" />
+                        <path d="M 120 0 L 150 150" fill="none" stroke="#cbd5e1" strokeWidth="3" />
+                        <circle cx="160" cy="80" r="8" fill="#10b981" />
                       </svg>
-                      <div className="relative text-center p-2 z-10">
-                        <MapPin className="text-emerald-400 mx-auto mb-1 animate-bounce" size={18} />
-                        <span className="text-[9px] text-slate-400 font-semibold block uppercase">Géolocalisation vérifiée</span>
-                        <span className="text-[10px] text-slate-300 font-medium">{citizenAddress || "Saisissez votre adresse"}</span>
+                      <div className="relative text-center z-10">
+                        <MapPin className="text-emerald-600 mx-auto animate-bounce" size={16} />
+                        <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider mt-1">Adresse localisée</span>
+                        <span className="text-[10px] text-slate-700 font-bold truncate max-w-[180px] block">{citizenAddress || "Indiquez l'adresse"}</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Validation des informations */}
-                  <div className="bg-slate-950/40 border border-slate-800 p-6 rounded-2xl space-y-4">
-                    <div>
-                      <h3 className="text-base font-bold text-white">3. Coordonnées de contact</h3>
-                      <p className="text-[11px] text-slate-400">Pour vous avertir de l'heure précise de passage.</p>
-                    </div>
+                  {/* Coordonnées & Soumission */}
+                  <div className="bg-white border border-slate-200/80 p-6 rounded-2xl shadow-sm space-y-4">
+                    <h3 className="text-base font-extrabold text-slate-850">3. Vos coordonnées</h3>
 
                     <div className="space-y-3">
                       <div>
-                        <label className="text-[10px] text-slate-400 font-bold block mb-1">NOM COMPLET</label>
+                        <label className="text-[10px] text-slate-400 font-extrabold block mb-1">NOM COMPLET</label>
                         <input 
                           type="text" 
                           required
-                          placeholder="Thomas Dubois" 
+                          placeholder="Nom Prénom" 
                           value={citizenName}
                           onChange={(e) => setCitizenName(e.target.value)}
-                          className="bg-slate-900 border border-slate-800"
+                          className="bg-slate-50 border border-slate-200 text-xs py-2.5 rounded-lg"
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] text-slate-400 font-bold block mb-1">NUMÉRO PORTABLE</label>
+                        <label className="text-[10px] text-slate-400 font-extrabold block mb-1">NUMÉRO DE MOBILE</label>
                         <input 
                           type="tel" 
                           required
                           placeholder="06 12 34 56 78" 
                           value={citizenPhone}
                           onChange={(e) => setCitizenPhone(e.target.value)}
-                          className="bg-slate-900 border border-slate-800"
+                          className="bg-slate-50 border border-slate-200 text-xs py-2.5 rounded-lg"
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] text-slate-400 font-bold block mb-1">ADRESSE E-MAIL</label>
+                        <label className="text-[10px] text-slate-400 font-extrabold block mb-1">E-MAIL</label>
                         <input 
                           type="email" 
                           required
-                          placeholder="t.dubois@email.fr" 
+                          placeholder="votre.email@domain.com" 
                           value={citizenEmail}
                           onChange={(e) => setCitizenEmail(e.target.value)}
-                          className="bg-slate-900 border border-slate-800"
+                          className="bg-slate-50 border border-slate-200 text-xs py-2.5 rounded-lg"
                         />
                       </div>
                     </div>
 
                     <button 
                       type="submit"
-                      className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-600/10 text-xs flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 rounded-xl transition-all shadow-md text-xs flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <Send size={14} />
-                      <span>Envoyer la demande</span>
+                      <Send size={13} />
+                      <span>Envoyer ma demande à la mairie</span>
                     </button>
                   </div>
                 </div>
@@ -875,44 +879,44 @@ export default function ChoisyPropre() {
 
             {/* Onglet : Règles de tri */}
             {citizenTab === 'rules' && (
-              <div className="space-y-8">
-                <div className="text-center max-w-xl mx-auto">
-                  <h3 className="text-2xl font-bold text-white">Que collectons-nous ?</h3>
-                  <p className="text-sm text-slate-400 mt-2">Le dépôt sur la voie publique est réservé aux encombrants d'origine ménagère qui ne peuvent entrer dans un coffre de voiture standard.</p>
+              <div className="space-y-8 animate-fade-in">
+                <div className="text-center max-w-xl mx-auto space-y-2">
+                  <h3 className="text-2xl font-black text-slate-800">Réglementation municipale du tri</h3>
+                  <p className="text-xs text-slate-500">Pour la sécurité des agents de Choisy-le-Roi et la préservation de la nature, merci de suivre rigoureusement ces règles.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   {/* Autorisé */}
-                  <div className="bg-emerald-950/10 border border-emerald-900/40 p-6 rounded-2xl space-y-6">
-                    <h4 className="font-bold text-emerald-400 text-base flex items-center gap-2">
-                      <CheckCircle2 size={20} />
-                      <span>Objets Autorisés (avec déclaration)</span>
+                  <div className="bg-emerald-50/50 border border-emerald-100 p-6 rounded-2xl space-y-6">
+                    <h4 className="font-extrabold text-emerald-800 text-sm flex items-center gap-2 border-b border-emerald-100 pb-3">
+                      <CheckCircle2 className="text-emerald-500" size={18} />
+                      <span>Acceptés à la collecte sur le trottoir</span>
                     </h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {COLLECTIBLE_ITEMS.map(item => (
-                        <div key={item.id} className="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/80 flex gap-2.5 items-center">
-                          <span className="text-xl">{item.icon}</span>
-                          <div>
-                            <span className="text-xs font-semibold text-slate-200 block">{item.name}</span>
-                          </div>
+                        <div key={item.id} className="bg-white p-3.5 rounded-xl border border-slate-200 flex gap-2.5 items-center shadow-sm">
+                          <span className="text-2xl">{item.icon}</span>
+                          <span className="text-xs font-bold text-slate-700">{item.name}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Refusé */}
-                  <div className="bg-red-950/10 border border-red-900/40 p-6 rounded-2xl space-y-6">
-                    <h4 className="font-bold text-red-400 text-base flex items-center gap-2">
-                      <XCircle size={20} />
-                      <span>Objets strictement interdits</span>
+                  {/* Interdit */}
+                  <div className="bg-red-50/50 border border-red-100 p-6 rounded-2xl space-y-6">
+                    <h4 className="font-extrabold text-red-800 text-sm flex items-center gap-2 border-b border-red-100 pb-3">
+                      <XCircle className="text-red-500" size={18} />
+                      <span>Strictement interdits sur la voie publique</span>
                     </h4>
-                    <div className="space-y-4">
+
+                    <div className="space-y-3.5">
                       {FORBIDDEN_EXAMPLES.map(ex => (
-                        <div key={ex.name} className="bg-slate-900/60 p-4 rounded-xl border border-slate-800/80 flex gap-3.5 items-start">
-                          <span className="text-2xl">{ex.icon}</span>
+                        <div key={ex.name} className="bg-white p-4 rounded-xl border border-slate-200 flex gap-3.5 items-start shadow-sm">
+                          <span className="text-2xl bg-slate-55 p-1 rounded-lg">{ex.icon}</span>
                           <div>
-                            <span className="text-xs font-bold text-red-400 block">{ex.name}</span>
-                            <span className="text-[10px] text-slate-400 mt-1 block leading-relaxed">{ex.desc}</span>
+                            <span className="text-xs font-extrabold text-red-750 block">{ex.name}</span>
+                            <span className="text-[10px] text-slate-500 mt-1 block leading-relaxed">{ex.desc}</span>
                           </div>
                         </div>
                       ))}
@@ -922,12 +926,12 @@ export default function ChoisyPropre() {
               </div>
             )}
 
-            {/* Onglet : Suivi en direct */}
+            {/* Onglet : Suivi */}
             {citizenTab === 'track' && (
-              <div className="max-w-2xl mx-auto space-y-8 bg-slate-950/40 border border-slate-800 p-6 rounded-3xl">
-                <div className="text-center">
-                  <h3 className="text-xl font-bold text-white">Suivre une demande de collecte</h3>
-                  <p className="text-xs text-slate-400 mt-1">Saisissez la référence transmise par SMS ou e-mail.</p>
+              <div className="max-w-2xl mx-auto space-y-8 bg-white border border-slate-200/80 p-8 rounded-3xl shadow-sm">
+                <div className="text-center space-y-1">
+                  <h3 className="text-lg font-extrabold text-slate-800">Suivre ma demande de collecte</h3>
+                  <p className="text-xs text-slate-400">Entrez le code de suivi CP-XXXX reçu par SMS ou e-mail.</p>
                 </div>
 
                 <form onSubmit={handleSearchTrack} className="flex gap-3">
@@ -936,46 +940,40 @@ export default function ChoisyPropre() {
                     placeholder="ex: CP-94300-1042" 
                     value={searchRef}
                     onChange={(e) => setSearchRef(e.target.value)}
-                    className="bg-slate-900 border border-slate-800 uppercase tracking-widest text-center text-sm font-bold py-3"
+                    className="bg-slate-50 border border-slate-200 uppercase tracking-widest text-center text-sm font-black py-3 rounded-xl"
                   />
                   <button 
                     type="submit"
-                    className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl transition-all text-xs flex items-center gap-2 cursor-pointer shrink-0"
+                    className="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-6 py-3 rounded-xl transition-all text-xs flex items-center gap-2 cursor-pointer shrink-0"
                   >
-                    <SearchIcon size={14} />
+                    <Search size={14} />
                     <span>Rechercher</span>
                   </button>
                 </form>
 
                 {trackedRequest ? (
-                  <div className="border-t border-slate-800 pt-6 space-y-6 animate-fade-in">
+                  <div className="border-t border-slate-100 pt-6 space-y-6 animate-fade-in text-xs">
                     <div className="flex justify-between items-start">
                       <div>
-                        <span className="text-[10px] font-bold text-blue-400 tracking-wider uppercase bg-blue-500/10 px-2.5 py-0.5 rounded-full">Référence validée</span>
-                        <h4 className="text-lg font-bold text-white mt-1.5">{trackedRequest.id}</h4>
-                        <p className="text-xs text-slate-500 mt-0.5">Adresse : {trackedRequest.address}</p>
+                        <span className="text-[9px] font-bold text-emerald-700 tracking-wider uppercase bg-emerald-55 px-2 py-0.5 rounded">DOSSIER MUNICIPAL</span>
+                        <h4 className="text-base font-black text-slate-800 mt-2">{trackedRequest.id}</h4>
+                        <p className="text-[11px] text-slate-500 mt-0.5">Adresse : {trackedRequest.address}</p>
                       </div>
-                      <div className="text-right">
-                        <span className="text-[10px] text-slate-500 block uppercase font-bold">Statut Actuel</span>
-                        <span className={`badge mt-1.5 ${
-                          trackedRequest.status === 'Pending' ? 'badge-warning' :
-                          trackedRequest.status === 'Refused' ? 'badge-danger' : 'badge-success'
-                        }`}>
-                          {trackedRequest.status === 'Pending' ? 'Attente Validation' : 
-                           trackedRequest.status === 'Approved' ? 'Approuvé' : 
-                           trackedRequest.status === 'Scheduled' ? 'Planifié' : 
-                           trackedRequest.status === 'In progress' ? 'En cours' : 
-                           trackedRequest.status === 'Collected' ? 'Collecté' : 'Refusé'}
-                        </span>
-                      </div>
+                      <span className={`badge ${
+                        trackedRequest.status === 'Pending' ? 'badge-warning' :
+                        trackedRequest.status === 'Refused' ? 'badge-danger' : 'badge-success'
+                      }`}>
+                        {trackedRequest.status === 'Pending' ? 'En attente de validation' : 
+                         trackedRequest.status === 'Approved' ? 'Demande approuvée' : 
+                         trackedRequest.status === 'Scheduled' ? 'Passage planifié' : 
+                         trackedRequest.status === 'In progress' ? 'Collecte en cours' : 
+                         trackedRequest.status === 'Collected' ? 'Objets collectés' : 'Demande refusée'}
+                      </span>
                     </div>
 
-                    {/* Ligne de progression des statuts */}
-                    <div className="relative py-4">
-                      {/* Ligne grise en arrière plan */}
-                      <div className="absolute top-1/2 left-3 right-3 h-1 bg-slate-800 -translate-y-1/2 z-0"></div>
-                      
-                      {/* Ligne colorée de progression */}
+                    {/* Progression */}
+                    <div className="relative py-6">
+                      <div className="absolute top-1/2 left-3 right-3 h-1 bg-slate-100 -translate-y-1/2 z-0"></div>
                       <div 
                         className="absolute top-1/2 left-3 h-1 bg-emerald-500 -translate-y-1/2 z-0 transition-all duration-500"
                         style={{ 
@@ -990,7 +988,7 @@ export default function ChoisyPropre() {
                       <div className="relative z-10 flex justify-between">
                         {[
                           { name: 'Créé', status: 'Pending' },
-                          { name: 'Validé', status: 'Approved' },
+                          { name: 'Approuvé', status: 'Approved' },
                           { name: 'Planifié', status: 'Scheduled' },
                           { name: 'En cours', status: 'In progress' },
                           { name: 'Collecté', status: 'Collected' }
@@ -1006,180 +1004,168 @@ export default function ChoisyPropre() {
 
                           return (
                             <div key={step.name} className="flex flex-col items-center">
-                              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${isCompleted ? 'bg-emerald-500 text-slate-950 ring-4 ring-emerald-500/20' : 'bg-slate-800 text-slate-500'}`}>
-                                {isCompleted ? <Check size={12} strokeWidth={3} /> : idx + 1}
+                              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold transition-all ${isCompleted ? 'bg-emerald-500 text-white ring-4 ring-emerald-100' : 'bg-slate-200 text-slate-500'}`}>
+                                {isCompleted ? <Check size={11} strokeWidth={3} /> : idx + 1}
                               </div>
-                              <span className="text-[10px] text-slate-400 font-medium mt-1.5">{step.name}</span>
+                              <span className="text-[10px] text-slate-500 font-bold mt-2">{step.name}</span>
                             </div>
                           );
                         })}
                       </div>
                     </div>
 
-                    {/* Explications et actions additionnelles */}
-                    <div className="bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs space-y-2">
+                    <div className="bg-slate-50 p-4.5 rounded-xl border border-slate-200 space-y-2.5">
                       <div className="flex justify-between">
-                        <span className="text-slate-400 font-medium">Date demandée :</span>
-                        <strong className="text-slate-200">{trackedRequest.preferredDate}</strong>
+                        <span className="text-slate-500 font-bold">Passage programmé :</span>
+                        <strong className="text-slate-800">{trackedRequest.preferredDate}</strong>
                       </div>
                       {trackedRequest.assignedRound && (
                         <div className="flex justify-between">
-                          <span className="text-slate-400 font-medium">Équipe assignée :</span>
-                          <strong className="text-emerald-400">{trackedRequest.assignedRound}</strong>
+                          <span className="text-slate-500 font-bold">Tournée affectée :</span>
+                          <strong className="text-emerald-700">{trackedRequest.assignedRound}</strong>
                         </div>
                       )}
                       {trackedRequest.refusalReason && (
-                        <div className="bg-red-500/10 border border-red-500/20 p-3 rounded-lg text-red-400 mt-2">
-                          <span className="font-bold block mb-1">Motif de refus :</span>
-                          {trackedRequest.refusalReason}
+                        <div className="bg-red-50 border border-red-100 p-3 rounded-lg text-red-700 mt-2 font-medium">
+                          <strong>Motif de refus municipal :</strong> {trackedRequest.refusalReason}
                         </div>
                       )}
                       {trackedRequest.adminComment && (
-                        <div className="bg-slate-950 p-3 rounded-lg text-slate-300 mt-2 border border-slate-850">
-                          <span className="font-bold text-slate-400 block mb-1">Note municipale :</span>
-                          {trackedRequest.adminComment}
+                        <div className="bg-white p-3 rounded-lg text-slate-650 mt-2 border border-slate-200">
+                          <strong>Note du service technique :</strong> {trackedRequest.adminComment}
                         </div>
                       )}
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-6 text-slate-500 text-xs">
-                    Entrez un numéro de suivi valide ci-dessus.
+                  <div className="text-center py-6 text-slate-400 font-bold">
+                    Recherchez votre numéro ci-dessus pour afficher sa fiche d'état.
                   </div>
                 )}
               </div>
             )}
 
-            {/* Onglet : Confirmation de demande */}
+            {/* Onglet : Confirmation */}
             {citizenTab === 'confirm' && (
-              <div className="max-w-md mx-auto bg-slate-950/60 border border-slate-800 p-8 rounded-3xl text-center space-y-6 animate-fade-in shadow-2xl">
-                <div className="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto ring-8 ring-emerald-500/5">
+              <div className="max-w-md mx-auto bg-white border border-slate-200/80 p-8 rounded-3xl text-center space-y-6 shadow-md animate-fade-in">
+                <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto ring-8 ring-emerald-50">
                   <CheckCircle2 size={36} />
                 </div>
                 
-                <div>
-                  <h3 className="text-xl font-bold text-white">Demande enregistrée !</h3>
-                  <p className="text-xs text-slate-400 mt-1">Merci pour votre contribution à la propreté de Choisy-le-Roi.</p>
+                <div className="space-y-1">
+                  <h3 className="text-xl font-extrabold text-slate-850">Demande soumise !</h3>
+                  <p className="text-xs text-slate-400">Le dossier a été envoyé aux agents de la mairie de Choisy.</p>
                 </div>
 
-                <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl">
-                  <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Votre Numéro de Suivi</span>
-                  <div className="text-2xl font-black text-emerald-400 tracking-widest mt-1.5">{generatedRef}</div>
-                  <span className="text-[10px] text-slate-400 block mt-2">Copiez ce numéro pour suivre l'avancement.</span>
+                <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl">
+                  <span className="text-[10px] text-slate-400 font-extrabold uppercase">RÉFÉRENCE DE RETRAIT</span>
+                  <div className="text-2xl font-black text-emerald-600 tracking-wider mt-1">{generatedRef}</div>
+                  <span className="text-[10px] text-slate-500 block mt-2">Copiez ce code pour suivre l'état en direct.</span>
                 </div>
 
-                <div className="text-xs text-slate-400 leading-relaxed text-left space-y-2 bg-slate-900/30 p-4 rounded-xl border border-slate-800/50">
-                  <p>💬 Un SMS de confirmation vient de vous être envoyé.</p>
-                  <p>📅 Les agents municipaux vont valider votre demande d'ici 24h. Veillez à sortir vos objets <strong>uniquement la veille au soir</strong> de la date confirmée.</p>
+                <div className="text-xs text-slate-600 text-left space-y-2 bg-emerald-50/30 p-4 rounded-xl border border-emerald-100/50">
+                  <p>✔ **SMS envoyé** : Vous recevrez des alertes à chaque changement d'état.</p>
+                  <p>🕒 **Instruction** : Veillez à déposer vos objets la veille au soir uniquement. Le dépôt anticipé constitue une infraction.</p>
                 </div>
 
                 <div className="flex gap-3">
                   <button 
                     onClick={() => { setSearchRef(generatedRef); setTrackedRequest(requests.find(r => r.id === generatedRef) || null); setCitizenTab('track'); }}
-                    className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition-all text-xs cursor-pointer"
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 rounded-xl transition-all text-xs cursor-pointer shadow-sm"
                   >
-                    Suivre en direct
+                    Suivre ma demande
                   </button>
                   <button 
                     onClick={() => setCitizenTab('home')}
-                    className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl transition-all text-xs"
+                    className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold py-3.5 rounded-xl transition-all text-xs border border-slate-200 cursor-pointer"
                   >
-                    Retour à l'accueil
+                    Retour accueil
                   </button>
                 </div>
               </div>
             )}
+
           </div>
         )}
 
         {/* ──────── VUE ADMINISTRATEUR ──────── */}
         {role === 'admin' && (
           <div className="space-y-8 animate-fade-in">
-            {/* Titre et select onglet admin */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
-                <span className="text-xs text-emerald-400 font-bold uppercase tracking-widest">Console Municipale</span>
-                <h3 className="text-2xl font-bold text-white mt-1">Gestion des Encombrants & Logistique</h3>
+                <span className="text-xs text-emerald-600 font-extrabold uppercase tracking-widest bg-emerald-50 border border-emerald-100 px-3 py-1 rounded-full">Espace Technique Municipal</span>
+                <h3 className="text-2xl font-black text-slate-800 mt-2">Gestion logistique des tournées</h3>
               </div>
 
-              <div className="flex bg-slate-900 border border-slate-800 p-1 rounded-xl">
+              {/* Commutateur onglet admin */}
+              <div className="flex bg-slate-100 border border-slate-200 p-1 rounded-xl">
                 <button 
                   onClick={() => setAdminActiveTab('list')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${adminActiveTab === 'list' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${adminActiveTab === 'list' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 >
-                  <FileText size={14} /> Liste des requêtes
+                  <FileText size={13} className="text-emerald-500" /> Dossiers reçus
                 </button>
                 <button 
                   onClick={() => setAdminActiveTab('map')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${adminActiveTab === 'map' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${adminActiveTab === 'map' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 >
-                  <MapPin size={14} /> Carte de Choisy
+                  <MapPin size={13} className="text-blue-500" /> Carte des dépôts
                 </button>
                 <button 
                   onClick={() => setAdminActiveTab('heatmap')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all ${adminActiveTab === 'heatmap' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-400 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${adminActiveTab === 'heatmap' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
                 >
-                  <BarChart3 size={14} /> Carte thermique (Heatmap)
+                  <BarChart3 size={13} className="text-amber-500" /> Carte thermique
                 </button>
               </div>
             </div>
 
-            {/* Dashboard KPIs */}
+            {/* KPIs en blanc épuré */}
             <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-              <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Demandes aujourd'hui</span>
-                <div className="text-2xl font-black text-white mt-1">{kpiToday}</div>
-                <span className="text-[9px] text-emerald-400 mt-1 block">▲ +12% vs hier</span>
-              </div>
-              <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">En attente</span>
-                <div className="text-2xl font-black text-amber-400 mt-1">{kpiPending}</div>
-                <span className="text-[9px] text-slate-500 mt-1 block">Demandes à valider</span>
-              </div>
-              <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Collectes accomplies</span>
-                <div className="text-2xl font-black text-emerald-400 mt-1">{kpiCollected}</div>
-                <span className="text-[9px] text-slate-500 mt-1 block">Ce mois-ci</span>
-              </div>
-              <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Temps de traitement</span>
-                <div className="text-2xl font-black text-blue-400 mt-1">2,4 h</div>
-                <span className="text-[9px] text-emerald-400 mt-1 block">▼ -15 min de moyenne</span>
-              </div>
-              <div className="bg-slate-950/60 p-4 col-span-2 lg:col-span-1 rounded-xl border border-slate-800">
-                <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Dépôts sauvages</span>
-                <div className="text-2xl font-black text-red-400 mt-1">3</div>
-                <span className="text-[9px] text-red-500/80 mt-1 block">Interventions en cours</span>
-              </div>
+              {[
+                { label: 'Demandes aujourd\'hui', value: kpiToday, color: 'text-emerald-600', trend: '▲ +15% ce jour' },
+                { label: 'En attente de validation', value: kpiPending, color: 'text-amber-600', trend: 'À traiter sous 24h' },
+                { label: 'Collectes complétées', value: kpiCollected, color: 'text-blue-600', trend: 'Mise à jour en direct' },
+                { label: 'Temps traitement moyen', value: '2,4 h', color: 'text-slate-850', trend: 'Objectif : < 3h' },
+                { label: 'Quartier le plus actif', value: 'Gondoles', color: 'text-rose-600', trend: '45% des demandes' }
+              ].map(kpi => (
+                <div key={kpi.label} className="bg-white border border-slate-200 p-5 rounded-2xl shadow-sm text-left">
+                  <span className="text-[10px] text-slate-400 font-extrabold uppercase block">{kpi.label}</span>
+                  <div className={`text-2xl font-black mt-1 ${kpi.color}`}>{kpi.value}</div>
+                  <span className="text-[9px] text-slate-500 font-medium block mt-1">{kpi.trend}</span>
+                </div>
+              ))}
             </div>
 
-            {/* Vue Onglet : Liste des requêtes */}
+            {/* Onglet : Liste et modales */}
             {adminActiveTab === 'list' && (
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Liste avec filtres */}
+                
+                {/* Table de gauche */}
                 <div className="lg:col-span-2 space-y-4">
-                  {/* Barre de filtres */}
-                  <div className="bg-slate-950/40 border border-slate-800 p-4 rounded-2xl flex flex-wrap gap-4 items-center justify-between">
-                    <div className="flex flex-wrap gap-3 items-center">
+                  
+                  {/* Filtres de recherche */}
+                  <div className="bg-white border border-slate-250/60 p-4 rounded-2xl flex flex-wrap gap-3 items-center justify-between shadow-sm">
+                    <div className="flex flex-wrap gap-2 items-center">
                       <div className="relative">
                         <input 
                           type="text" 
-                          placeholder="Rechercher nom, réf, adresse..." 
+                          placeholder="Rechercher (nom, réf, rue)..." 
                           value={adminSearch}
                           onChange={(e) => setAdminSearch(e.target.value)}
-                          className="bg-slate-900 border border-slate-800 text-xs w-48 pl-8 py-2"
+                          className="bg-slate-50 border border-slate-200 text-xs w-48 pl-8 py-2 rounded-lg"
                         />
-                        <SearchIcon size={12} className="absolute left-2.5 top-3 text-slate-500" />
+                        <Search size={12} className="absolute left-2.5 top-3 text-slate-400" />
                       </div>
-                      
+
                       <select 
                         value={adminFilterStatus}
                         onChange={(e) => setAdminFilterStatus(e.target.value)}
-                        className="bg-slate-900 border border-slate-800 text-xs py-2 px-3 w-auto"
+                        className="bg-slate-50 border border-slate-200 text-xs py-2 px-3 rounded-lg w-auto"
                       >
                         <option value="All">Tous les statuts</option>
                         <option value="Pending">En attente</option>
-                        <option value="Approved">Approuvé</option>
+                        <option value="Approved">Validé</option>
                         <option value="Scheduled">Planifié</option>
                         <option value="In progress">En cours</option>
                         <option value="Collected">Collecté</option>
@@ -1189,7 +1175,7 @@ export default function ChoisyPropre() {
                       <select 
                         value={adminFilterDistrict}
                         onChange={(e) => setAdminFilterDistrict(e.target.value)}
-                        className="bg-slate-900 border border-slate-800 text-xs py-2 px-3 w-auto"
+                        className="bg-slate-50 border border-slate-200 text-xs py-2 px-3 rounded-lg w-auto"
                       >
                         <option value="All">Tous les quartiers</option>
                         {DISTRICTS.map(d => (
@@ -1198,19 +1184,19 @@ export default function ChoisyPropre() {
                       </select>
                     </div>
 
-                    <span className="text-xs text-slate-500 font-semibold">{filteredRequests.length} résultat(s)</span>
+                    <span className="text-xs text-slate-400 font-bold">{filteredRequests.length} dossiers</span>
                   </div>
 
-                  {/* Tableau des demandes */}
-                  <div className="bg-slate-950/40 border border-slate-800 rounded-2xl overflow-hidden">
+                  {/* Table des dossiers */}
+                  <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
                     <div className="table-container">
                       <table className="text-xs">
                         <thead>
-                          <tr>
+                          <tr className="bg-slate-50/50">
                             <th>Référence</th>
                             <th>Citoyen / Adresse</th>
                             <th>Quartier</th>
-                            <th>Date / Création</th>
+                            <th>Date programmée</th>
                             <th>Objets</th>
                             <th>Statut</th>
                           </tr>
@@ -1222,21 +1208,21 @@ export default function ChoisyPropre() {
                               <tr 
                                 key={req.id} 
                                 onClick={() => setSelectedRequestForDetail(req)}
-                                className={`cursor-pointer transition-colors ${selectedRequestForDetail?.id === req.id ? 'bg-slate-800/50' : ''}`}
+                                className={`cursor-pointer transition-colors hover:bg-slate-50/60 ${selectedRequestForDetail?.id === req.id ? 'bg-emerald-50/40 hover:bg-emerald-50/50' : ''}`}
                               >
-                                <td className="font-bold text-white tracking-wider">{req.id}</td>
+                                <td className="font-bold text-slate-800 tracking-wider">{req.id}</td>
                                 <td>
-                                  <span className="font-semibold text-slate-200 block">{req.name}</span>
-                                  <span className="text-[10px] text-slate-500 block truncate max-w-[180px]">{req.address}</span>
+                                  <span className="font-bold text-slate-700 block">{req.name}</span>
+                                  <span className="text-[10px] text-slate-400 block truncate max-w-[180px]">{req.address}</span>
                                 </td>
-                                <td>{req.district}</td>
+                                <td className="font-medium text-slate-600">{req.district}</td>
                                 <td>
-                                  <span className="font-semibold block">{req.preferredDate}</span>
-                                  <span className="text-[10px] text-slate-500 block">Créé le {req.createdAt}</span>
+                                  <span className="font-bold block text-slate-700">{req.preferredDate}</span>
+                                  <span className="text-[9px] text-slate-400 block">Créé le {req.createdAt}</span>
                                 </td>
                                 <td>
-                                  <span className="bg-slate-900 px-2.5 py-0.5 rounded-full border border-slate-800 text-[10px] font-bold text-slate-300">
-                                    {totalQty} objet(s)
+                                  <span className="bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold text-slate-600">
+                                    {totalQty} objets
                                   </span>
                                 </td>
                                 <td>
@@ -1244,7 +1230,7 @@ export default function ChoisyPropre() {
                                     req.status === 'Pending' ? 'badge-warning' :
                                     req.status === 'Refused' ? 'badge-danger' : 'badge-success'
                                   }`}>
-                                    {req.status === 'Pending' ? 'En attente' : 
+                                    {req.status === 'Pending' ? 'À valider' : 
                                      req.status === 'Approved' ? 'Validé' :
                                      req.status === 'Scheduled' ? 'Planifié' : 
                                      req.status === 'In progress' ? 'En cours' : 
@@ -1254,27 +1240,20 @@ export default function ChoisyPropre() {
                               </tr>
                             );
                           })}
-                          {filteredRequests.length === 0 && (
-                            <tr>
-                              <td colSpan={6} className="text-center py-8 text-slate-500 font-medium">
-                                Aucun résultat ne correspond aux filtres.
-                              </td>
-                            </tr>
-                          )}
                         </tbody>
                       </table>
                     </div>
                   </div>
                 </div>
 
-                {/* Volet de Détail de la demande sélectionnée */}
-                <div className="bg-slate-950/80 border border-slate-800 p-6 rounded-2xl h-fit space-y-6">
+                {/* Volet détail à droite */}
+                <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm h-fit space-y-6">
                   {selectedRequestForDetail ? (
-                    <div className="space-y-6">
-                      <div className="flex justify-between items-start">
+                    <div className="space-y-6 text-left">
+                      <div className="flex justify-between items-start border-b border-slate-100 pb-4">
                         <div>
-                          <span className="text-[10px] text-emerald-400 font-bold block uppercase tracking-wider">Fiche d'instruction</span>
-                          <h4 className="text-lg font-black text-white mt-1">{selectedRequestForDetail.id}</h4>
+                          <span className="text-[9px] text-slate-400 font-extrabold uppercase">Dossier technique</span>
+                          <h4 className="text-base font-black text-slate-850 mt-1">{selectedRequestForDetail.id}</h4>
                         </div>
                         <span className={`badge ${
                           selectedRequestForDetail.status === 'Pending' ? 'badge-warning' :
@@ -1284,16 +1263,16 @@ export default function ChoisyPropre() {
                         </span>
                       </div>
 
-                      {/* Liste des objets */}
+                      {/* Objets */}
                       <div className="space-y-2">
-                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Encombrants déclarés</span>
-                        <div className="bg-slate-900 rounded-xl p-3 border border-slate-850 space-y-2">
+                        <span className="text-[10px] text-slate-400 font-extrabold block uppercase tracking-wider">Inventaire déclaré</span>
+                        <div className="bg-slate-50 rounded-xl p-3 border border-slate-150 space-y-1.5">
                           {Object.entries(selectedRequestForDetail.items).map(([itemId, qty]) => {
                             const itemDef = COLLECTIBLE_ITEMS.find(c => c.id === itemId);
                             return (
-                              <div key={itemId} className="flex justify-between items-center text-xs">
-                                <span className="text-slate-300 font-medium">{itemDef ? itemDef.name : itemId}</span>
-                                <strong className="text-white">x{qty}</strong>
+                              <div key={itemId} className="flex justify-between items-center text-xs font-medium">
+                                <span className="text-slate-600">{itemDef ? itemDef.name : itemId}</span>
+                                <strong className="text-slate-850">x{qty}</strong>
                               </div>
                             );
                           })}
@@ -1302,48 +1281,38 @@ export default function ChoisyPropre() {
 
                       {/* Détails citoyen */}
                       <div className="space-y-2.5 text-xs">
-                        <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Informations Citoyen</span>
-                        <p className="text-slate-300"><span className="text-slate-500">Nom :</span> {selectedRequestForDetail.name}</p>
-                        <p className="text-slate-300"><span className="text-slate-500">Téléphone :</span> {selectedRequestForDetail.phone}</p>
-                        <p className="text-slate-300"><span className="text-slate-500">Adresse :</span> {selectedRequestForDetail.address}</p>
-                        <p className="text-slate-300"><span className="text-slate-500">Quartier :</span> {selectedRequestForDetail.district}</p>
-                        {selectedRequestForDetail.photoName && (
-                          <div className="bg-slate-900 border border-slate-800 p-2.5 rounded-lg flex items-center gap-2 text-slate-400">
-                            <Upload size={14} />
-                            <span className="truncate">{selectedRequestForDetail.photoName} (Simulation photo)</span>
-                          </div>
-                        )}
+                        <span className="text-[10px] text-slate-400 font-extrabold block uppercase tracking-wider">Citoyen & Localisation</span>
+                        <p className="text-slate-650"><span className="text-slate-400 font-semibold">Nom :</span> {selectedRequestForDetail.name}</p>
+                        <p className="text-slate-650"><span className="text-slate-400 font-semibold">Téléphone :</span> {selectedRequestForDetail.phone}</p>
+                        <p className="text-slate-650"><span className="text-slate-400 font-semibold">Adresse :</span> {selectedRequestForDetail.address}</p>
+                        <p className="text-slate-650"><span className="text-slate-400 font-semibold">Quartier :</span> {selectedRequestForDetail.district}</p>
                       </div>
 
-                      {/* Actions Administrateur */}
+                      {/* Actions */}
                       {selectedRequestForDetail.status === 'Pending' ? (
-                        <div className="space-y-4 border-t border-slate-900 pt-4">
-                          <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Décision administrative</span>
-                          
-                          <div className="space-y-2">
-                            <label className="text-[9px] text-slate-400 font-semibold block uppercase">Commentaire interne / Note</label>
+                        <div className="space-y-4 border-t border-slate-100 pt-4">
+                          <div className="space-y-1.5">
+                            <label className="text-[9px] text-slate-400 font-extrabold block uppercase">Note d'instruction (Optionnel)</label>
                             <textarea 
-                              placeholder="Ajouter une instruction de collecte..."
+                              placeholder="Ajouter une consigne pour l'équipe de collecte..."
                               value={adminComment}
                               onChange={(e) => setAdminComment(e.target.value)}
-                              className="bg-slate-900 border border-slate-800 text-xs h-16 py-2 px-3"
+                              className="bg-slate-50 border border-slate-200 text-xs h-16 py-2 px-3 rounded-lg"
                             />
                           </div>
 
-                          <div className="grid grid-cols-2 gap-3.5">
+                          <div className="grid grid-cols-2 gap-3">
                             <button 
                               onClick={() => handleApproveRequest(selectedRequestForDetail.id)}
-                              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                              className="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
                             >
                               <Check size={14} /> Valider
                             </button>
-                            
                             <button 
                               onClick={() => {
-                                const reason = prompt("Indiquez la raison du refus (ex: Pots de peinture interdits, Débris de chantiers...) :");
+                                const reason = prompt("Indiquer le motif de refus de collecte :");
                                 if (reason) {
                                   setRefusalReason(reason);
-                                  // Hack pour appliquer directement via l'état local dans la foulée
                                   setTimeout(() => {
                                     setRequests(prev => prev.map(r => {
                                       if (r.id === selectedRequestForDetail.id) {
@@ -1355,261 +1324,165 @@ export default function ChoisyPropre() {
                                   }, 50);
                                 }
                               }}
-                              className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-bold py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                              className="bg-red-50 hover:bg-red-100 text-red-650 border border-red-200 font-extrabold py-2.5 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                             >
                               <XCircle size={14} /> Refuser
                             </button>
                           </div>
                         </div>
                       ) : (
-                        <div className="bg-slate-900/60 p-4 rounded-xl border border-slate-800 text-xs space-y-2">
-                          <span className="font-bold text-slate-400 block mb-1">Résumé décision</span>
+                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-2 font-medium">
+                          <span className="font-extrabold text-slate-500 block mb-1 uppercase text-[9px] tracking-wider">Décision municipale</span>
                           <div className="flex justify-between">
-                            <span>Date d'action :</span>
-                            <strong className="text-slate-200">{selectedRequestForDetail.createdAt}</strong>
+                            <span className="text-slate-400">Date d'action :</span>
+                            <strong className="text-slate-700">{selectedRequestForDetail.createdAt}</strong>
                           </div>
                           {selectedRequestForDetail.assignedRound && (
                             <div className="flex justify-between">
-                              <span>Tournée de collecte :</span>
-                              <strong className="text-emerald-400">{selectedRequestForDetail.assignedRound}</strong>
+                              <span className="text-slate-400">Tournée affectée :</span>
+                              <strong className="text-emerald-700">{selectedRequestForDetail.assignedRound}</strong>
                             </div>
                           )}
                           {selectedRequestForDetail.refusalReason && (
-                            <div className="text-red-400 mt-2">
+                            <div className="text-red-600 mt-1 border-t border-slate-200/60 pt-1.5">
                               <strong>Raison du refus :</strong> {selectedRequestForDetail.refusalReason}
                             </div>
                           )}
                           {selectedRequestForDetail.adminComment && (
-                            <div className="text-slate-300 mt-2">
-                              <strong>Commentaire interne :</strong> {selectedRequestForDetail.adminComment}
+                            <div className="text-slate-650 mt-1 border-t border-slate-200/60 pt-1.5">
+                              <strong>Note interne :</strong> {selectedRequestForDetail.adminComment}
                             </div>
                           )}
                         </div>
                       )}
                     </div>
                   ) : (
-                    <div className="text-center py-12 text-slate-500 text-xs">
-                      Sélectionnez une requête dans la liste de gauche pour en afficher les détails et prendre une décision.
+                    <div className="text-center py-12 text-slate-400 font-bold text-xs">
+                      Cliquez sur une demande à gauche pour l'instruire.
                     </div>
                   )}
                 </div>
+
               </div>
             )}
 
-            {/* Vue Onglet : Carte de Choisy */}
+            {/* Onglet : Carte des dépôts */}
             {adminActiveTab === 'map' && (
-              <div className="bg-slate-950/60 border border-slate-800 p-6 rounded-2xl space-y-6">
+              <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-6">
                 <div>
-                  <h4 className="font-bold text-white text-base">Visualisation des points de collecte</h4>
-                  <p className="text-xs text-slate-400 mt-0.5">Localisation en temps réel des dépôts validés et en attente à Choisy-le-Roi.</p>
+                  <h4 className="font-extrabold text-slate-800 text-base">Plan de situation de Choisy-le-Roi</h4>
+                  <p className="text-xs text-slate-500 mt-0.5">Visualisez les dépôts géolocalisés pour organiser les circuits logistiques.</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                  {/* Carte interactive SVG */}
-                  <div className="lg:col-span-3 bg-slate-900 border border-slate-800 rounded-2xl h-96 relative overflow-hidden flex items-center justify-center">
+                  {/* Carte SVG Blanche et propre */}
+                  <div className="lg:col-span-3 bg-slate-50 border border-slate-200 rounded-2xl h-96 relative overflow-hidden flex items-center justify-center">
                     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 500 300">
-                      {/* Tracé de la Seine */}
-                      <path d="M 0 100 Q 150 80 230 140 T 500 120" fill="none" stroke="#1d4ed8" strokeWidth="24" strokeLinecap="round" opacity="0.15" />
-                      <path d="M 0 100 Q 150 80 230 140 T 500 120" fill="none" stroke="#3b82f6" strokeWidth="6" strokeLinecap="round" opacity="0.5" />
+                      {/* Seine */}
+                      <path d="M 0 100 Q 150 80 230 140 T 500 120" fill="none" stroke="#dbeafe" strokeWidth="24" strokeLinecap="round" />
+                      <path d="M 0 100 Q 150 80 230 140 T 500 120" fill="none" stroke="#60a5fa" strokeWidth="4" strokeLinecap="round" />
                       
-                      {/* Rues principales */}
-                      <path d="M 50 0 Q 120 150 80 300" fill="none" stroke="#334155" strokeWidth="3" />
-                      <path d="M 250 0 L 290 300" fill="none" stroke="#334155" strokeWidth="2.5" />
-                      <path d="M 400 0 L 320 300" fill="none" stroke="#334155" strokeWidth="2" />
-                      <path d="M 0 200 Q 250 250 500 180" fill="none" stroke="#334155" strokeWidth="3" />
+                      {/* Rues */}
+                      <path d="M 50 0 Q 120 150 80 300" fill="none" stroke="#e2e8f0" strokeWidth="4" />
+                      <path d="M 250 0 L 290 300" fill="none" stroke="#e2e8f0" strokeWidth="3" />
+                      <path d="M 0 200 Q 250 250 500 180" fill="none" stroke="#e2e8f0" strokeWidth="3" />
 
-                      {/* Quartiers Labels */}
-                      <text x="70" y="40" fill="#475569" fontSize="10" fontWeight="bold">GONDOLES NORD</text>
-                      <text x="350" y="260" fill="#475569" fontSize="10" fontWeight="bold">GONDOLES SUD</text>
-                      <text x="210" y="160" fill="#475569" fontSize="10" fontWeight="bold">CENTRE-VILLE</text>
-                      <text x="50" y="270" fill="#475569" fontSize="10" fontWeight="bold">HAUTES-FORMES</text>
-
-                      {/* Requêtes affichées comme marqueurs */}
+                      {/* Marqueurs */}
                       {requests.map(req => {
-                        const isPending = req.status === 'Pending';
-                        const isRefused = req.status === 'Refused';
-                        const isSelected = selectedRequestForDetail?.id === req.id;
-                        
-                        // Calcul d'une position un peu différente pour la démo
                         const x = req.coordinates.x * 1.5;
                         const y = req.coordinates.y * 0.9;
-                        
+                        const isSelected = selectedRequestForDetail?.id === req.id;
                         return (
-                          <g 
-                            key={req.id} 
-                            onClick={() => setSelectedRequestForDetail(req)}
-                            className="cursor-pointer group"
-                          >
+                          <g key={req.id} onClick={() => setSelectedRequestForDetail(req)} className="cursor-pointer">
                             <circle 
                               cx={x} 
                               cy={y} 
-                              r={isSelected ? 10 : 6} 
-                              fill={isPending ? '#f59e0b' : isRefused ? '#ef4444' : '#10b981'}
+                              r={isSelected ? 9 : 6} 
+                              fill={req.status === 'Pending' ? '#f59e0b' : req.status === 'Refused' ? '#ef4444' : '#10b981'}
                               className="transition-all"
                             />
-                            {isPending && (
-                              <circle 
-                                cx={x} 
-                                cy={y} 
-                                r={14} 
-                                fill="none"
-                                stroke="#f59e0b"
-                                strokeWidth="2"
-                                className="animate-ping"
-                                opacity="0.4"
-                              />
-                            )}
-                            <circle 
-                              cx={x} 
-                              cy={y} 
-                              r={isSelected ? 16 : 0} 
-                              fill="none" 
-                              stroke="#ffffff" 
-                              strokeWidth="2" 
-                              opacity="0.7" 
-                            />
+                            {isSelected && <circle cx={x} cy={y} r={14} fill="none" stroke="#475569" strokeWidth="1.5" />}
                           </g>
                         );
                       })}
                     </svg>
-                    
-                    {/* Légende de la carte */}
-                    <div className="absolute bottom-4 left-4 bg-slate-950/80 border border-slate-800 p-3 rounded-xl text-[10px] space-y-1.5 backdrop-blur-md">
-                      <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-                        <span className="text-slate-300">En attente ({kpiPending})</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-                        <span className="text-slate-300">Validé / Planifié ({requests.filter(r => ['Approved', 'Scheduled', 'In progress', 'Collected'].includes(r.status)).length})</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-red-500"></span>
-                        <span className="text-slate-300">Refusé / Annulé ({requests.filter(r => r.status === 'Refused').length})</span>
-                      </div>
-                    </div>
                   </div>
 
-                  {/* Sidebar Info sur le point sélectionné */}
-                  <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl flex flex-col justify-between">
+                  {/* Sidebar detail carte */}
+                  <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl flex flex-col justify-between">
                     {selectedRequestForDetail ? (
-                      <div className="space-y-4">
-                        <h5 className="font-bold text-white text-xs block uppercase text-slate-400">Marqueur Sélectionné</h5>
-                        <div className="space-y-2 text-xs">
-                          <p className="text-white font-bold">{selectedRequestForDetail.id}</p>
-                          <p className="text-slate-400"><span className="text-slate-500">Citoyen :</span> {selectedRequestForDetail.name}</p>
-                          <p className="text-slate-400"><span className="text-slate-500">Adresse :</span> {selectedRequestForDetail.address}</p>
-                          <p className="text-slate-400"><span className="text-slate-500">Statut :</span> {selectedRequestForDetail.status}</p>
-                          <div className="border-t border-slate-800 pt-3">
-                            <span className="text-[10px] text-slate-500 font-bold block mb-1">OBJETS DÉCLARÉS</span>
-                            <ul className="list-disc pl-4 text-slate-300 text-[11px] space-y-1">
-                              {Object.entries(selectedRequestForDetail.items).map(([itemId, qty]) => (
-                                <li key={itemId}>{itemId} (x{qty})</li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
+                      <div className="space-y-4 text-left text-xs">
+                        <span className="text-[10px] text-slate-400 font-extrabold uppercase">Marqueur de dépôt</span>
+                        <p className="font-extrabold text-slate-800 text-sm">{selectedRequestForDetail.id}</p>
+                        <p className="text-slate-600"><span className="text-slate-400 font-semibold">Citoyen :</span> {selectedRequestForDetail.name}</p>
+                        <p className="text-slate-600"><span className="text-slate-400 font-semibold">Lieu :</span> {selectedRequestForDetail.address}</p>
+                        <p className="text-slate-650"><span className="text-slate-400 font-semibold">Statut :</span> {selectedRequestForDetail.status}</p>
                       </div>
                     ) : (
-                      <div className="text-center py-12 text-slate-500 text-xs">
-                        Cliquez sur un marqueur de la carte pour afficher ses informations de tri.
-                      </div>
+                      <p className="text-slate-450 font-bold text-center py-12 text-xs">Sélectionnez un point sur la carte.</p>
                     )}
-                    
+
                     <button 
                       onClick={() => setAdminActiveTab('list')}
-                      className="mt-6 w-full bg-slate-850 hover:bg-slate-800 border border-slate-700 text-slate-300 font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5"
+                      className="w-full bg-white border border-slate-200 text-slate-700 py-2 rounded-lg font-bold text-xs shadow-sm cursor-pointer hover:bg-slate-100"
                     >
-                      <FileText size={12} />
-                      <span>Retour à la liste</span>
+                      Retour à la liste
                     </button>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Vue Onglet : Heatmap */}
+            {/* Heatmap */}
             {adminActiveTab === 'heatmap' && (
-              <div className="bg-slate-950/60 border border-slate-800 p-6 rounded-2xl space-y-6">
+              <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-sm space-y-6">
                 <div>
-                  <h4 className="font-bold text-white text-base">Carte Thermique de Densité des Retraits</h4>
-                  <p className="text-xs text-slate-400 mt-0.5">Analyse visuelle des zones générant le plus grand volume d'encombrants pour optimiser les plannings municipaux.</p>
+                  <h4 className="font-extrabold text-slate-800 text-base">Densité géographique des encombrants</h4>
+                  <p className="text-xs text-slate-500 mt-0.5">Identifiez visuellement les zones à forte charge de travail municipal.</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                  {/* Heatmap interactive */}
-                  <div className="lg:col-span-3 bg-slate-900 border border-slate-800 rounded-2xl h-96 relative overflow-hidden flex items-center justify-center">
+                  {/* Heatmap interactive SVG */}
+                  <div className="lg:col-span-3 bg-slate-50 border border-slate-200 rounded-2xl h-96 relative overflow-hidden flex items-center justify-center">
                     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 500 300">
-                      {/* Tracé de la Seine */}
-                      <path d="M 0 100 Q 150 80 230 140 T 500 120" fill="none" stroke="#1d4ed8" strokeWidth="24" opacity="0.1" />
+                      <path d="M 0 100 Q 150 80 230 140 T 500 120" fill="none" stroke="#dbeafe" strokeWidth="24" opacity="0.4" />
                       
-                      {/* Rues principales */}
-                      <path d="M 50 0 Q 120 150 80 300" fill="none" stroke="#334155" strokeWidth="2" opacity="0.5" />
-                      <path d="M 250 0 L 290 300" fill="none" stroke="#334155" strokeWidth="2" opacity="0.5" />
-                      <path d="M 0 200 Q 250 250 500 180" fill="none" stroke="#334155" strokeWidth="2" opacity="0.5" />
-
-                      {/* Simulation de zones thermiques (Gradients floutés) */}
-                      {/* Centre-Ville : Zone rouge (très dense) */}
-                      <circle cx="160" cy="140" r="45" fill="url(#heat-high)" />
-                      {/* Gondoles Nord : Zone jaune (moyenne) */}
-                      <circle cx="280" cy="90" r="35" fill="url(#heat-medium)" />
-                      {/* Hautes Formes : Zone verte (faible) */}
-                      <circle cx="90" cy="240" r="50" fill="url(#heat-low)" />
+                      <circle cx="160" cy="140" r="50" fill="url(#light-heat-red)" />
+                      <circle cx="280" cy="90" r="40" fill="url(#light-heat-yellow)" />
+                      <circle cx="90" cy="240" r="60" fill="url(#light-heat-green)" />
                       
-                      {/* Gradients definitions */}
                       <defs>
-                        <radialGradient id="heat-high">
-                          <stop offset="0%" stopColor="#ef4444" stopOpacity="0.6" />
+                        <radialGradient id="light-heat-red">
+                          <stop offset="0%" stopColor="#ef4444" stopOpacity="0.4" />
                           <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
                         </radialGradient>
-                        <radialGradient id="heat-medium">
-                          <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.5" />
+                        <radialGradient id="light-heat-yellow">
+                          <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.3" />
                           <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
                         </radialGradient>
-                        <radialGradient id="heat-low">
-                          <stop offset="0%" stopColor="#10b981" stopOpacity="0.4" />
+                        <radialGradient id="light-heat-green">
+                          <stop offset="0%" stopColor="#10b981" stopOpacity="0.3" />
                           <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
                         </radialGradient>
                       </defs>
-
-                      {/* Légende textuelle sur la carte */}
-                      <text x="140" y="145" fill="#ffffff" fontSize="9" fontWeight="bold" opacity="0.8">Zone A (Dense)</text>
-                      <text x="250" y="95" fill="#ffffff" fontSize="9" fontWeight="bold" opacity="0.8">Zone B (Moyenne)</text>
                     </svg>
-
-                    <div className="absolute bottom-4 left-4 bg-slate-950/80 border border-slate-800 p-3 rounded-xl text-[10px] space-y-1.5 backdrop-blur-md">
-                      <span className="font-bold block text-white mb-1">Niveau d'encombrement</span>
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 h-2.5 rounded bg-red-500 opacity-60"></span>
-                        <span className="text-slate-300">Très Élevé (Centre)</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 h-2.5 rounded bg-amber-500 opacity-50"></span>
-                        <span className="text-slate-300">Modéré (Gondoles)</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 h-2.5 rounded bg-emerald-500 opacity-40"></span>
-                        <span className="text-slate-300">Faible (Périphérie)</span>
-                      </div>
-                    </div>
                   </div>
 
-                  {/* Analyse textuelle des données de répartition */}
-                  <div className="bg-slate-900 border border-slate-800 p-4 rounded-2xl space-y-4 text-xs">
-                    <h5 className="font-bold text-white text-xs block uppercase text-slate-400">Volume par Quartier</h5>
-                    
+                  {/* Liste volume par quartier */}
+                  <div className="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-4 text-xs">
+                    <h5 className="font-extrabold text-slate-800">Volume par quartier</h5>
                     <div className="space-y-3">
                       {districtDistribution.map(item => {
                         const maxVal = Math.max(...districtDistribution.map(d => d.count), 1);
                         const pct = Math.round((item.count / maxVal) * 100);
                         return (
                           <div key={item.name} className="space-y-1">
-                            <div className="flex justify-between text-[11px]">
-                              <span className="text-slate-300 font-semibold">{item.name}</span>
-                              <strong className="text-white">{item.count} dmds</strong>
+                            <div className="flex justify-between text-[11px] font-bold text-slate-700">
+                              <span>{item.name}</span>
+                              <span>{item.count} demandes</span>
                             </div>
-                            <div className="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-850">
-                              <div className="bg-gradient-to-r from-emerald-500 to-blue-500 h-full rounded-full" style={{ width: `${pct}%` }}></div>
+                            <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                              <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${pct}%` }}></div>
                             </div>
                           </div>
                         );
@@ -1625,261 +1498,225 @@ export default function ChoisyPropre() {
         {/* ──────── VUE COLLECTEUR ──────── */}
         {role === 'collector' && (
           <div className="max-w-md mx-auto space-y-6 animate-fade-in">
-            {/* Simulateur Téléphone Mobile Collecteur */}
-            <div className="bg-slate-950 border-4 border-slate-800 rounded-[32px] overflow-hidden shadow-2xl relative">
-              {/* Barre de haut-parleur et capteur photo de l'iPhone simulé */}
-              <div className="bg-slate-800 h-5 w-32 mx-auto rounded-b-xl absolute top-0 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-900 block mr-2"></span>
-                <span className="w-8 h-1 rounded bg-slate-900 block"></span>
+            
+            {/* Simulation smartphone claire */}
+            <div className="bg-white border-8 border-slate-800 rounded-[36px] overflow-hidden shadow-2xl relative">
+              {/* Encoche téléphone */}
+              <div className="bg-slate-800 h-4.5 w-28 mx-auto rounded-b-xl absolute top-0 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-900 block"></span>
               </div>
 
-              {/* Écran du téléphone */}
-              <div className="p-4 pt-8 bg-slate-900 min-h-[580px] flex flex-col justify-between text-xs space-y-4">
+              {/* Écran blanc */}
+              <div className="p-4 pt-8 bg-slate-50 min-h-[580px] flex flex-col justify-between text-xs space-y-4">
                 
-                {/* En-tête mobile */}
-                <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+                {/* Header mobile */}
+                <div className="flex justify-between items-center border-b border-slate-200 pb-3">
                   <div className="flex items-center gap-2">
-                    <div className="h-6 w-6 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
+                    <div className="h-7 w-7 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
                       <Truck size={14} />
                     </div>
-                    <div>
-                      <h4 className="font-bold text-white text-[11px] leading-tight">Équipe 94-Propreté</h4>
-                      <p className="text-[9px] text-slate-500">Camion Benne #12</p>
+                    <div className="text-left">
+                      <h4 className="font-bold text-slate-800 text-[11px]">Équipe Propreté 94</h4>
+                      <p className="text-[9px] text-slate-400 font-bold">Camion #12</p>
                     </div>
                   </div>
 
                   <select 
                     value={activeRound}
                     onChange={(e) => { setActiveRound(e.target.value); setCollectorCurrentStop(0); }}
-                    className="bg-slate-950 border border-slate-800 text-[10px] py-1 px-2 w-36"
+                    className="bg-white border border-slate-250 text-[10px] py-1 px-1.5 w-32 rounded-lg font-bold"
                   >
                     <option value="Tournée Bleue (Nord)">Tournée Nord</option>
                     <option value="Tournée Verte (Sud)">Tournée Sud</option>
                   </select>
                 </div>
 
-                {/* État du camion de collecte */}
-                <div className="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-2">
-                  <div className="flex justify-between text-[10px]">
-                    <span className="text-slate-400 font-bold uppercase">Remplissage Camion</span>
-                    <strong className="text-amber-400">{progressPercent}%</strong>
+                {/* Progression de remplissage */}
+                <div className="bg-white border border-slate-200 p-3.5 rounded-2xl shadow-sm space-y-2">
+                  <div className="flex justify-between text-[10px] font-bold text-slate-700">
+                    <span>REMPLISSAGE DU CAMION</span>
+                    <span className="text-amber-600">{progressPercent}%</span>
                   </div>
-                  <div className="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800">
+                  <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
                     <div 
                       className="bg-gradient-to-r from-amber-500 to-amber-300 h-full rounded-full transition-all duration-500" 
                       style={{ width: `${progressPercent}%` }}
                     ></div>
                   </div>
-                  
-                  <div className="flex justify-between text-[9px] text-slate-500">
-                    <span>{collectorCurrentStop} arrêts visités</span>
-                    <span>Temps rest. estimé : ~1h 15</span>
-                  </div>
                 </div>
 
                 {/* Arrêt courant */}
                 {currentStopRequest ? (
-                  <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4 relative overflow-hidden">
-                    <div className="absolute right-0 top-0 bg-amber-500/10 text-amber-400 px-3 py-1 rounded-bl-xl text-[9px] font-black uppercase tracking-wider">
-                      Arrêt en cours
+                  <div className="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm space-y-4 text-left relative overflow-hidden">
+                    <span className="absolute top-0 right-0 bg-amber-500 text-white font-black px-3 py-1 rounded-bl-xl text-[9px] uppercase tracking-wider">
+                      Étape en cours
+                    </span>
+
+                    <div className="space-y-1">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Adresse du dépôt</span>
+                      <h5 className="font-black text-slate-800 text-sm leading-snug">{currentStopRequest.address}</h5>
+                      <span className="text-[10px] text-emerald-600 font-bold block">{currentStopRequest.district}</span>
                     </div>
 
-                    <div>
-                      <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">Adresse à collecter</span>
-                      <h5 className="font-bold text-white text-sm mt-1">{currentStopRequest.address}</h5>
-                      <span className="text-[10px] text-emerald-400 font-medium block mt-0.5">{currentStopRequest.district}</span>
-                    </div>
-
-                    <div className="border-t border-slate-900 pt-3 space-y-2">
-                      <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">Liste des objets</span>
-                      <div className="bg-slate-900/60 p-2.5 rounded-lg border border-slate-850 space-y-1.5">
+                    {/* Liste objets */}
+                    <div className="space-y-2">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider block">Objets à enlever</span>
+                      <div className="bg-slate-50 border border-slate-150 p-3 rounded-xl space-y-1.5">
                         {Object.entries(currentStopRequest.items).map(([itemId, qty]) => {
                           const itemDef = COLLECTIBLE_ITEMS.find(c => c.id === itemId);
                           return (
-                            <div key={itemId} className="flex justify-between items-center text-[10px]">
-                              <span className="text-slate-300">{itemDef ? itemDef.name : itemId}</span>
-                              <strong className="text-white bg-slate-950 px-1.5 py-0.5 rounded">x{qty}</strong>
+                            <div key={itemId} className="flex justify-between items-center text-[10px] font-bold text-slate-700">
+                              <span>{itemDef ? itemDef.name : itemId}</span>
+                              <span className="bg-white border border-slate-200 px-1.5 py-0.5 rounded text-slate-800">x{qty}</span>
                             </div>
                           );
                         })}
                       </div>
                     </div>
 
-                    {/* Simulation Itinéraire GPS sur mobile */}
-                    <div className="bg-slate-900 border border-slate-850 rounded-xl p-3 space-y-2.5">
-                      <span className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">Instructions guidage GPS</span>
-                      <div className="flex gap-2.5 items-start text-[10px]">
-                        <Compass className="text-amber-400 shrink-0 mt-0.5" size={14} />
-                        <p className="text-slate-300 leading-normal">
-                          Prenez à gauche sur <strong>Avenue du Général Leclerc</strong>, puis continuez tout droit sur 350 mètres avant le dépôt sur le trottoir.
-                        </p>
-                      </div>
+                    {/* Guidage GPS dessiné */}
+                    <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-3 flex gap-2.5 items-start">
+                      <Compass className="text-emerald-600 shrink-0 mt-0.5" size={14} />
+                      <p className="text-[10px] text-emerald-800 leading-normal font-medium">
+                        Prendre **Rue Jean d'Orves** à gauche, puis rouler sur 200m. Le dépôt est situé à droite près de l'abribus.
+                      </p>
                     </div>
 
-                    {/* Preuve photo collecteur (simulation) */}
+                    {/* Preuve photo */}
                     <div className="space-y-2">
-                      <label className="text-[9px] text-slate-500 font-bold block uppercase tracking-wider">Justificatif (requis en cas d'absence)</label>
+                      <label className="text-[9px] text-slate-400 font-bold block uppercase tracking-wider">Preuve d'arrêt (obligatoire si impossible)</label>
                       <button 
                         type="button"
                         onClick={() => {
-                          const mockName = "proof_encombrant_" + currentStopRequest.id + ".jpg";
+                          const mockName = "preuve_collecte_" + currentStopRequest.id + ".jpg";
                           setCollectorProofPhoto(mockName);
-                          alert("Photo de preuve enregistrée fictivement : " + mockName);
+                          alert("Photo justificative enregistrée fictivement dans la base : " + mockName);
                         }}
-                        className="w-full bg-slate-900 border border-slate-800 text-[10px] text-slate-400 py-2 rounded-lg hover:text-white transition-all flex items-center justify-center gap-1.5"
+                        className="w-full bg-white border border-slate-200 hover:bg-slate-100 text-[10px] text-slate-650 py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm font-bold"
                       >
-                        <Upload size={12} />
-                        <span>{collectorProofPhoto ? "Modifier photo (" + collectorProofPhoto + ")" : "Prendre photo de preuve"}</span>
+                        <Upload size={12} className="text-slate-450" />
+                        <span>{collectorProofPhoto ? "Modifier la photo" : "Prendre une photo"}</span>
                       </button>
                     </div>
 
-                    {/* Actions de validation de collecte */}
-                    <div className="grid grid-cols-3 gap-2 border-t border-slate-900 pt-3">
+                    {/* Actions de validation */}
+                    <div className="grid grid-cols-3 gap-2 border-t border-slate-100 pt-3.5">
                       <button 
                         onClick={() => handleCollectorStatus('Collected')}
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-lg text-[10px] transition-colors cursor-pointer"
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 rounded-xl text-[10px] transition-colors cursor-pointer shadow-sm"
                       >
-                        Enlevé
+                        Collecté
                       </button>
                       <button 
                         onClick={() => handleCollectorStatus('Absent')}
-                        className="bg-slate-850 hover:bg-slate-800 text-slate-300 border border-slate-700 font-bold py-3 rounded-lg text-[10px] transition-colors cursor-pointer"
+                        className="bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-extrabold py-3.5 rounded-xl text-[10px] transition-colors cursor-pointer"
                       >
                         Absent
                       </button>
                       <button 
                         onClick={() => {
                           if (!collectorProofPhoto) {
-                            alert("Veuillez prendre une photo de preuve pour justifier la collecte impossible.");
+                            alert("Veuillez prendre une photo de preuve pour justifier le refus.");
                             return;
                           }
                           handleCollectorStatus('Impossible');
                         }}
-                        className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-bold py-3 rounded-lg text-[9px] transition-colors cursor-pointer"
+                        className="bg-red-50 hover:bg-red-100 text-red-650 border border-red-200 font-extrabold py-3.5 rounded-xl text-[9px] transition-colors cursor-pointer"
                       >
                         Impossible
                       </button>
                     </div>
+
                   </div>
                 ) : (
-                  <div className="bg-slate-950 p-8 rounded-xl border border-slate-800 text-center text-slate-500 space-y-3">
-                    <CheckCircle2 className="text-emerald-500 mx-auto" size={28} />
-                    <p className="font-bold text-white text-xs">Tournée Accomplie !</p>
-                    <p className="text-[10px] text-slate-400">Aucune autre collecte planifiée dans cette zone.</p>
+                  <div className="bg-white border border-slate-200 p-8 rounded-2xl shadow-sm text-center space-y-3 my-auto">
+                    <CheckCircle2 className="text-emerald-500 mx-auto" size={32} />
+                    <p className="font-extrabold text-slate-800 text-sm">Tournée terminée !</p>
+                    <p className="text-[10px] text-slate-400">Tous les dossiers de propreté ont été instruits avec succès.</p>
                   </div>
                 )}
 
-                {/* Pied de page du téléphone simulé */}
-                <div className="text-center text-[9px] text-slate-500 pt-2 border-t border-slate-800/60">
-                  <span>GPS Connecté • Choisy-le-Roi Réseau Services</span>
-                </div>
               </div>
 
-              {/* Bouton Home de l'iPhone simulé */}
-              <div className="bg-slate-800 h-1.5 w-28 mx-auto rounded-full my-2.5"></div>
+              {/* Bouton Home iPhone */}
+              <div className="bg-slate-200 h-1.5 w-28 mx-auto rounded-full my-2"></div>
             </div>
           </div>
         )}
 
-      </main>
+      </div>
 
-      {/* ═══ MODALE SIGNALEMENT DÉPÔT SAUVAGE (CITOYEN) ═══ */}
+      {/* ═══ MODALE SIGNALEMENT DÉPÔT SAUVAGE ═══ */}
       {isDumpingModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
           <form 
             onSubmit={submitDumpingReport}
-            className="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-md w-full space-y-4 animate-fade-in text-xs"
+            className="bg-white border border-slate-250 rounded-3xl p-6 max-w-md w-full space-y-4 animate-fade-in text-xs shadow-2xl text-left"
           >
-            <div className="flex justify-between items-center">
-              <h4 className="text-lg font-bold text-white flex items-center gap-2">
-                <AlertTriangle className="text-red-400" size={20} />
+            <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+              <h4 className="text-base font-black text-slate-800 flex items-center gap-2">
+                <AlertTriangle className="text-red-500" size={18} />
                 <span>Signaler un dépôt sauvage</span>
               </h4>
               <button 
                 type="button" 
                 onClick={() => setIsDumpingModalOpen(false)}
-                className="text-slate-400 hover:text-white font-bold"
+                className="text-slate-400 hover:text-slate-600 font-extrabold cursor-pointer"
               >
                 Fermer
               </button>
             </div>
 
-            <p className="text-slate-400 leading-relaxed">
-              Un dépôt sauvage d'encombrants pollue le paysage de Choisy-le-Roi ? Signalez-le immédiatement. Nos brigades d'intervention verte interviendront d'ici 2h.
+            <p className="text-slate-550 leading-relaxed">
+              Aidez nos équipes à maintenir Choisy-le-Roi propre. Indiquez la localisation exacte de l'infraction. La brigade verte interviendra d'ici 2 heures.
             </p>
 
             <div className="space-y-3">
               <div>
-                <label className="text-[9px] text-slate-400 font-bold block mb-1">ADRESSE DU SIGNALEMENT</label>
+                <label className="text-[10px] text-slate-400 font-extrabold block mb-1">ADRESSE PRÉCISE</label>
                 <input 
                   type="text" 
                   required
-                  placeholder="ex: 14 Rue de la Marne, Choisy-le-Roi" 
+                  placeholder="ex: Face au 18 Rue des Gondoles" 
                   value={dumpingAddress}
                   onChange={(e) => setDumpingAddress(e.target.value)}
-                  className="bg-slate-950 border border-slate-800"
+                  className="bg-slate-50 border border-slate-200 text-xs py-2.5 rounded-lg"
                 />
               </div>
 
               <div>
-                <label className="text-[9px] text-slate-400 font-bold block mb-1">DESCRIPTION / DESCRIPTION DE L'OBJET</label>
+                <label className="text-[10px] text-slate-400 font-extrabold block mb-1">DESCRIPTION DU SIGNALEMENT</label>
                 <textarea 
-                  placeholder="ex: 3 vieux matelas jetés sur le trottoir près du parc..." 
+                  placeholder="ex: Canapé déchiré posé près des poubelles collectives..." 
                   value={dumpingDesc}
                   onChange={(e) => setDumpingDesc(e.target.value)}
-                  className="bg-slate-950 border border-slate-800 h-20 py-2 px-3"
+                  className="bg-slate-50 border border-slate-200 text-xs h-20 py-2 px-3 rounded-lg"
                 />
-              </div>
-
-              <div className="border border-dashed border-slate-800 rounded-xl p-4 text-center bg-slate-950/40">
-                <span className="text-[10px] text-slate-400 font-semibold block">Ajouter une photo du dépôt</span>
-                <span className="text-[9px] text-slate-500 mt-1 block">Permet aux agents d'estimer le volume et le camion requis.</span>
               </div>
             </div>
 
             <button 
               type="submit"
-              className="w-full bg-red-600 hover:bg-red-500 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg text-xs"
+              className="w-full bg-red-650 hover:bg-red-600 text-white font-extrabold py-3.5 rounded-xl transition-all shadow-md text-xs cursor-pointer"
             >
-              Signaler l'infraction
+              Envoyer l'alerte brigade
             </button>
           </form>
         </div>
       )}
 
-      {/* ═══ FOOTER ═══ */}
-      <footer className="bg-slate-950 border-t border-slate-800/80 py-8 px-6 mt-12 text-center text-xs text-slate-500">
+      {/* ═══ PIED DE PAGE (Scoped Div) ═══ */}
+      <div className="w-full bg-white border-t border-slate-200 py-8 px-6 mt-12 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <p>© 2026 Ville de Choisy-le-Roi — Tous droits réservés.</p>
-          <div className="flex gap-6">
-            <a href="/" className="hover:text-emerald-400 transition-colors">Politique de confidentialité</a>
-            <a href="/" className="hover:text-emerald-400 transition-colors">Mentions légales</a>
-            <a href="/" className="hover:text-emerald-400 transition-colors">Règlement municipal</a>
+          <p>© 2026 Mairie de Choisy-le-Roi — Direction de la Transition Écologique.</p>
+          <div className="flex gap-6 font-semibold">
+            <a href="/" className="hover:text-emerald-600 transition-colors">Données Personnelles</a>
+            <a href="/" className="hover:text-emerald-600 transition-colors">Mentions Légales</a>
+            <a href="/" className="hover:text-emerald-600 transition-colors">Consignes de tri</a>
           </div>
         </div>
-      </footer>
+      </div>
 
     </div>
-  );
-}
-
-// Composants Icones personnalisés rapides
-function SearchIcon({ size = 16, className = "" }) {
-  return (
-    <svg 
-      xmlns="http://www.w3.org/2000/svg" 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      stroke="currentColor" 
-      strokeWidth="2" 
-      strokeLinecap="round" 
-      strokeLinejoin="round" 
-      className={className}
-    >
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
   );
 }
