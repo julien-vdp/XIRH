@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   ArrowRight, Sun, Moon, Layers, Cpu, GraduationCap, Briefcase, 
   Laptop, CalendarDays, Award, Globe, MapPin, BookOpen, Building2, 
-  Mail, Phone, Clock, Send, Check 
+  Mail, Phone, Clock, Send, Check, Trash2 
 } from 'lucide-react';
 import './landing.css';
 
@@ -353,6 +353,23 @@ export default function Home() {
                 <span className="bento-tag">UI/UX</span>
               </div>
               <span className="pf-action">Consulter mon agenda <ArrowRight  size={16} /></span>
+            </div>
+          </a>
+
+          {/* Carte 3 : Mon Choisy Propre */}
+          <a href="/choisy-propre" className="pf-card fade-up stagger-3">
+            <div className="pf-img-wrap">
+              <Trash2 size={80} />
+            </div>
+            <div className="pf-content">
+              <h3>Mon Choisy Propre</h3>
+              <p>Une maquette de plateforme municipale éco-citoyenne de gestion des encombrants pour Choisy-le-Roi. Prototype interactif simulant les workflows Citoyen, Administrateur et Collecteur.</p>
+              <div className="bento-tags" style={{marginBottom: '24px'}}>
+                <span className="bento-tag">Civic Tech</span>
+                <span className="bento-tag">Logistique</span>
+                <span className="bento-tag">Mockup Multi-Rôles</span>
+              </div>
+              <span className="pf-action">Essayer le prototype <ArrowRight size={16} /></span>
             </div>
           </a>
         </div>
