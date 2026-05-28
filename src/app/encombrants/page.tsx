@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   ArrowRight, Shield, Leaf, Clock, MapPin, 
   CheckCircle2, AlertTriangle, Phone, FileText, Info
@@ -8,8 +9,14 @@ import {
 import './encombrants.css';
 
 export default function EncombrantsPage() {
+  const router = useRouter();
+
   const handleProfileClick = (profile: string) => {
-    alert(`Redirection simulée vers l'application : Espace ${profile}`);
+    if (profile === 'Citoyen') {
+      router.push('/encombrants/citoyen');
+    } else {
+      alert(`Redirection simulée vers l'application : Espace ${profile}`);
+    }
   };
 
   return (
