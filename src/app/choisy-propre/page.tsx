@@ -487,123 +487,182 @@ export default function ChoisyPropreRedesign() {
 
         {/* ──────── 0. ROLE SELECTION PAGE (PORTAIL) ──────── */}
         {view === 'role-selection' && (
-          <div className="w-full min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center relative px-5 py-8 md:px-10 overflow-hidden">
-            
-            {/* Ambient Background Glow */}
-            <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-white to-transparent pointer-events-none"></div>
-            <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[780px] h-[420px] bg-blue-100/45 rounded-full filter blur-[90px] pointer-events-none"></div>
+          <div className="w-full min-h-screen bg-[#eef4f8] relative overflow-hidden px-4 py-5 md:px-8 md:py-8">
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute left-0 top-0 h-full w-full bg-[linear-gradient(120deg,#ffffff_0%,#f8fafc_42%,#dcebe6_100%)]"></div>
+              <div className="absolute right-[-18%] top-[-20%] h-[560px] w-[560px] rounded-full bg-[#00D182]/20 blur-[110px]"></div>
+              <div className="absolute left-[-16%] bottom-[-28%] h-[640px] w-[640px] rounded-full bg-[#2563EB]/16 blur-[120px]"></div>
+              <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'linear-gradient(#0F2C59 1px, transparent 1px), linear-gradient(90deg, #0F2C59 1px, transparent 1px)', backgroundSize: '48px 48px' }}></div>
+            </div>
 
-            <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center">
-              
-              {/* Logo Central & Titre */}
-              <div className="mb-10 md:mb-12 flex flex-col items-center text-center animate-[fadeIn_0.6s_ease-out]">
-                <div className="w-20 h-20 bg-white border border-slate-200 rounded-[24px] shadow-lg shadow-blue-950/5 flex items-center justify-center mb-7 relative group">
-                  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-700 group-hover:rotate-180">
-                    <path d="M12 32 C12 20 20 12 32 12 C44 12 52 20 52 32" stroke="#0F2C59" strokeWidth="5" strokeLinecap="round"/>
-                    <path d="M12 32 C12 44 20 52 32 52 C44 52 52 44 52 32" stroke="#00D182" strokeWidth="5" strokeLinecap="round" strokeDasharray="4 6"/>
-                    <circle cx="32" cy="32" r="5" fill="#2563EB"/>
-                  </svg>
+            <div className="relative z-10 mx-auto grid min-h-[calc(100vh-40px)] w-full max-w-[1320px] grid-cols-1 overflow-hidden rounded-[36px] border border-white/70 bg-white/76 shadow-2xl shadow-blue-950/10 backdrop-blur-2xl lg:grid-cols-[0.92fr_1.08fr]">
+              <section className="relative flex min-h-[420px] flex-col justify-between overflow-hidden bg-[#0F2C59] p-7 text-white md:p-10">
+                <div className="absolute inset-0 opacity-80">
+                  <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-white/10 to-transparent"></div>
+                  <div className="absolute -right-24 top-20 h-72 w-72 rounded-full bg-[#00D182]/25 blur-3xl"></div>
+                  <div className="absolute -left-28 bottom-10 h-80 w-80 rounded-full bg-blue-400/20 blur-3xl"></div>
                 </div>
-                
-                <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-950 text-center leading-tight">
-                  Mon Choisy <span className="font-bold text-blue-950">Propre</span>
-                </h1>
-                <p className="mt-4 max-w-xl text-slate-500 font-medium text-base leading-7">Choisissez votre espace pour déclarer un retrait, piloter les demandes ou suivre une tournée terrain.</p>
-              </div>
 
-              {/* 3 Cartes de Choix - Layout Aéré */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
-                
-                {/* 1. CITOYEN */}
-                <button 
-                  onClick={() => { setRole('citizen'); setView('landing'); }}
-                  className="group min-h-[300px] bg-white border border-slate-200 rounded-[28px] p-7 text-left transition-all duration-300 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-950/10 hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none focus:ring-4 focus:ring-blue-100"
-                >
-                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-                  
-                  {/* Illustration */}
-                  <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
-                    <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8">
-                      <path d="M8 24L24 10L40 24V38H8V24Z" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M20 38V28H28V38" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <circle cx="35" cy="19" r="5" fill="none" stroke="#00D182" strokeWidth="2" strokeDasharray="2 2"/>
+                <div className="relative flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border border-white/15 bg-white shadow-lg">
+                      <img src="/encombrant-logo.png" alt="" className="h-full w-full object-cover" />
+                    </div>
+                    <div>
+                      <p className="text-base font-black tracking-tight">Mon Choisy Propre</p>
+                      <p className="text-[10px] font-black uppercase tracking-[0.24em] text-blue-100/70">Service encombrants</p>
+                    </div>
+                  </div>
+                  <div className="hidden rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-emerald-200 md:block">
+                    Demo interactive
+                  </div>
+                </div>
+
+                <div className="relative my-10 md:my-14">
+                  <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-bold text-blue-50">
+                    <span className="h-2 w-2 rounded-full bg-[#00D182] shadow-[0_0_14px_rgba(0,209,130,0.9)]"></span>
+                    Plateforme municipale connectee
+                  </p>
+                  <h1 className="max-w-xl text-5xl font-black leading-[0.98] tracking-tight md:text-7xl">
+                    Le retrait des encombrants, sans friction.
+                  </h1>
+                  <p className="mt-6 max-w-lg text-base font-medium leading-7 text-blue-50/76">
+                    Une experience claire pour les habitants, une console de pilotage pour la mairie, un terminal terrain pour les equipes de collecte.
+                  </p>
+                </div>
+
+                <div className="relative rounded-[28px] border border-white/14 bg-white/10 p-5 shadow-2xl shadow-black/20 backdrop-blur-xl">
+                  <div className="mb-4 flex items-center justify-between">
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-100/60">Vue operationnelle</p>
+                      <p className="mt-1 text-sm font-black text-white">Choisy-le-Roi aujourd'hui</p>
+                    </div>
+                    <div className="flex items-center gap-2 rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-black text-emerald-200">
+                      <CheckCircle2 size={14} />
+                      Live
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="rounded-2xl bg-white/10 p-4">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-blue-100/60">Demandes</p>
+                      <p className="mt-2 text-2xl font-black">128</p>
+                    </div>
+                    <div className="rounded-2xl bg-white/10 p-4">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-blue-100/60">Validees</p>
+                      <p className="mt-2 text-2xl font-black">84</p>
+                    </div>
+                    <div className="rounded-2xl bg-white/10 p-4">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-blue-100/60">Tournees</p>
+                      <p className="mt-2 text-2xl font-black">6</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 h-28 overflow-hidden rounded-2xl border border-white/10 bg-[#082044]">
+                    <svg viewBox="0 0 520 150" className="h-full w-full">
+                      <path d="M-20 86 C110 36 176 122 284 68 C368 28 430 54 548 20" fill="none" stroke="#60A5FA" strokeWidth="18" strokeLinecap="round" opacity="0.24" />
+                      <path d="M-20 86 C110 36 176 122 284 68 C368 28 430 54 548 20" fill="none" stroke="#60A5FA" strokeWidth="3" strokeDasharray="10 8" />
+                      <circle cx="102" cy="50" r="9" fill="#00D182" />
+                      <circle cx="252" cy="82" r="9" fill="#FACC15" />
+                      <circle cx="394" cy="48" r="9" fill="#00D182" />
+                      <circle cx="452" cy="32" r="18" fill="#2563EB" opacity="0.22" />
+                      <circle cx="452" cy="32" r="8" fill="#2563EB" />
                     </svg>
                   </div>
+                </div>
+              </section>
 
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-black text-slate-950 mb-3">Espace Citoyen</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">
-                      Déclarez vos encombrants et suivez leur prise en charge par les équipes municipales.
-                    </p>
-                  </div>
+              <section className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
+                <div className="mb-8 max-w-2xl">
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-slate-400">Selection du profil</p>
+                  <h2 className="mt-3 text-4xl font-black leading-tight tracking-tight text-slate-950 md:text-5xl">
+                    Quel espace souhaitez-vous ouvrir ?
+                  </h2>
+                  <p className="mt-4 text-base font-medium leading-7 text-slate-500">
+                    Chaque acces simule un parcours complet du service de retrait des encombrants.
+                  </p>
+                </div>
 
-                  <div className="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between gap-2 text-blue-700 text-sm font-black">
-                    <span>Accéder</span>
-                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </button>
+                <div className="grid gap-4">
+                  <button
+                    onClick={() => { setRole('citizen'); setView('landing'); }}
+                    className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 rounded-[26px] border border-slate-200 bg-white p-5 text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-950/10 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                  >
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+                      <User size={30} />
+                    </div>
+                    <div>
+                      <div className="mb-2 flex flex-wrap items-center gap-2">
+                        <h3 className="text-xl font-black text-slate-950">Habitant</h3>
+                        <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-blue-700">Demande</span>
+                      </div>
+                      <p className="text-sm font-medium leading-6 text-slate-500">
+                        Declarer des encombrants, choisir une date, ajouter une photo et suivre le dossier.
+                      </p>
+                    </div>
+                    <div className="hidden h-11 w-11 items-center justify-center rounded-full bg-slate-50 text-slate-400 transition-all group-hover:bg-blue-600 group-hover:text-white md:flex">
+                      <ArrowRight size={20} />
+                    </div>
+                  </button>
 
-                {/* 2. ADMIN */}
-                <button 
-                  onClick={() => { setRole('admin'); setAdminActiveSubTab('list'); setSelectedRequest(null); setView('admin'); }}
-                  className="group min-h-[300px] bg-blue-950 border border-blue-900 rounded-[28px] p-7 text-left transition-all duration-300 hover:bg-blue-900 hover:shadow-2xl hover:shadow-blue-950/25 hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none focus:ring-4 focus:ring-blue-200"
-                >
-                  {/* Illustration */}
-                  <div className="w-14 h-14 rounded-2xl bg-blue-900 flex items-center justify-center flex-shrink-0">
-                    <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8">
-                      <rect x="8" y="10" width="32" height="28" rx="4" stroke="#60A5FA" strokeWidth="2.5"/>
-                      <path d="M8 20H40" stroke="#60A5FA" strokeWidth="2.5"/>
-                      <circle cx="14" cy="15" r="2" fill="#3B82F6"/>
-                      <circle cx="20" cy="15" r="2" fill="#3B82F6"/>
-                      <path d="M14 30Q20 23 28 27L34 24" fill="none" stroke="#34D399" strokeWidth="2.5" strokeLinecap="round"/>
-                    </svg>
-                  </div>
+                  <button
+                    onClick={() => { setRole('admin'); setAdminActiveSubTab('list'); setSelectedRequest(null); setView('admin'); }}
+                    className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 rounded-[26px] border border-slate-950 bg-slate-950 p-5 text-left shadow-xl shadow-slate-950/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0F2C59] hover:shadow-2xl hover:shadow-blue-950/20 focus:outline-none focus:ring-4 focus:ring-slate-200"
+                  >
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 text-emerald-300">
+                      <ShieldCheck size={30} />
+                    </div>
+                    <div>
+                      <div className="mb-2 flex flex-wrap items-center gap-2">
+                        <h3 className="text-xl font-black text-white">Mairie</h3>
+                        <span className="rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-200">Pilotage</span>
+                      </div>
+                      <p className="text-sm font-medium leading-6 text-slate-300">
+                        Valider les dossiers, refuser les demandes non conformes et visualiser la charge ville.
+                      </p>
+                    </div>
+                    <div className="hidden h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-all group-hover:bg-[#00D182] md:flex">
+                      <ArrowRight size={20} />
+                    </div>
+                  </button>
 
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-black text-white mb-3">Supervision</h3>
-                    <p className="text-sm text-blue-200 leading-relaxed">
-                      Console de pilotage. Validez les dossiers, assignez les tournées et analysez les données.
-                    </p>
-                  </div>
+                  <button
+                    onClick={() => { setRole('collector'); setView('collector'); }}
+                    className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 rounded-[26px] border border-slate-200 bg-white p-5 text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-xl hover:shadow-emerald-950/10 focus:outline-none focus:ring-4 focus:ring-emerald-100"
+                  >
+                    <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
+                      <Truck size={30} />
+                    </div>
+                    <div>
+                      <div className="mb-2 flex flex-wrap items-center gap-2">
+                        <h3 className="text-xl font-black text-slate-950">Equipe terrain</h3>
+                        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-emerald-700">Collecte</span>
+                      </div>
+                      <p className="text-sm font-medium leading-6 text-slate-500">
+                        Ouvrir la tournee, consulter l'adresse suivante et confirmer la collecte sur place.
+                      </p>
+                    </div>
+                    <div className="hidden h-11 w-11 items-center justify-center rounded-full bg-slate-50 text-slate-400 transition-all group-hover:bg-emerald-600 group-hover:text-white md:flex">
+                      <ArrowRight size={20} />
+                    </div>
+                  </button>
+                </div>
 
-                  <div className="mt-auto pt-5 border-t border-white/10 flex items-center justify-between gap-2 text-emerald-300 text-sm font-black">
-                    <span>Accéder</span>
-                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                <div className="mt-8 grid grid-cols-1 gap-3 text-sm font-bold text-slate-500 sm:grid-cols-3">
+                  <div className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
+                    <MapPin size={16} className="text-blue-600" />
+                    Choisy-le-Roi
                   </div>
-                </button>
-
-                {/* 3. FLOTTE */}
-                <button 
-                  onClick={() => { setRole('collector'); setView('collector'); }}
-                  className="group min-h-[300px] bg-white border border-slate-200 rounded-[28px] p-7 text-left transition-all duration-300 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-950/10 hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none focus:ring-4 focus:ring-emerald-100"
-                >
-                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-emerald-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-                  
-                  {/* Illustration */}
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
-                    <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8">
-                      <path d="M6 34H42" stroke="#D1FAE5" strokeWidth="3" strokeLinecap="round" strokeDasharray="3 5"/>
-                      <rect x="8" y="18" width="22" height="14" rx="2" stroke="#10B981" strokeWidth="2.5"/>
-                      <path d="M30 22H37C38 22 39 23 39 24V32H30V22Z" stroke="#10B981" strokeWidth="2.5" strokeLinejoin="round"/>
-                      <circle cx="15" cy="34" r="4" fill="#0F2C59"/>
-                      <circle cx="33" cy="34" r="4" fill="#0F2C59"/>
-                    </svg>
+                  <div className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
+                    <Clock size={16} className="text-emerald-600" />
+                    Suivi temps reel
                   </div>
-
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-black text-slate-950 mb-3">Flotte de Collecte</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">
-                      Terminal embarqué. Suivi GPS des collectes, remplissage des bennes et validation terrain.
-                    </p>
+                  <div className="flex items-center gap-2 rounded-2xl bg-slate-50 px-4 py-3">
+                    <Bell size={16} className="text-amber-500" />
+                    Alertes simulees
                   </div>
-
-                  <div className="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between gap-2 text-emerald-700 text-sm font-black">
-                    <span>Accéder</span>
-                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </button>
-                
-              </div>
+                </div>
+              </section>
             </div>
           </div>
         )}
