@@ -185,7 +185,7 @@ const DISTRICTS = [
 export default function ChoisyPropreRedesign() {
   // Navigation active: 'landing' | 'citizen-form' | 'citizen-track' | 'admin' | 'collector' | 'rules'
   const [role, setRole] = useState<'citizen' | 'admin' | 'collector'>('citizen');
-  const [view, setView] = useState<'landing' | 'citizen-form' | 'citizen-track' | 'admin' | 'collector' | 'rules'>('landing');
+  const [view, setView] = useState<'role-selection' | 'landing' | 'citizen-form' | 'citizen-track' | 'admin' | 'collector' | 'rules'>('role-selection');
   const [requests, setRequests] = useState<RequestData[]>(INITIAL_REQUESTS);
   
   // États d'alertes
@@ -430,7 +430,7 @@ export default function ChoisyPropreRedesign() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-lg font-black text-[#0F2C59] tracking-tight">Mon Choisy Propre</span>
+                <span className="text-lg font-black text-blue-950 tracking-tight">Mon Choisy Propre</span>
                 <span className="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full border border-slate-200">BETA</span>
               </div>
               <p className="text-[11px] text-slate-500 font-medium tracking-wide">Plateforme logistique urbaine</p>
@@ -503,7 +503,7 @@ export default function ChoisyPropreRedesign() {
                     <circle cx="32" cy="32" r="6" fill="#2563EB" className="animate-pulse"/>
                   </svg>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black text-[#0F2C59] tracking-tighter text-center">
+                <h1 className="text-4xl md:text-5xl font-black text-blue-950 tracking-tighter text-center">
                   Portail <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0F2C59] via-[#2563EB] to-[#00D182]">Logistique</span>
                 </h1>
                 <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mt-4">Plateforme de Choisy-le-Roi</p>
@@ -527,7 +527,7 @@ export default function ChoisyPropreRedesign() {
                     </svg>
                   </div>
                   <div className="relative z-10">
-                    <h3 className="text-2xl font-black text-[#0F2C59] mb-3 group-hover:text-[#2563EB] transition-colors">Espace Citoyen</h3>
+                    <h3 className="text-2xl font-black text-blue-950 mb-3 group-hover:text-[#2563EB] transition-colors">Espace Citoyen</h3>
                     <p className="text-sm font-medium text-slate-500 leading-relaxed">Déclarez vos objets, suivez l'évolution logistique et consultez les consignes de recyclage de la ville.</p>
                   </div>
                   <div className="absolute right-8 bottom-8 w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-blue-50 transition-colors text-slate-300 group-hover:text-blue-500 z-10">
@@ -580,7 +580,7 @@ export default function ChoisyPropreRedesign() {
                     </svg>
                   </div>
                   <div className="relative z-10">
-                    <h3 className="text-2xl font-black text-[#0F2C59] mb-3 group-hover:text-[#00D182] transition-colors">Flotte de Collecte</h3>
+                    <h3 className="text-2xl font-black text-blue-950 mb-3 group-hover:text-[#00D182] transition-colors">Flotte de Collecte</h3>
                     <p className="text-sm font-medium text-slate-500 leading-relaxed">Terminal embarqué pour les chauffeurs. Suivi des itinéraires, chargement des bennes et validation terrain.</p>
                   </div>
                   <div className="absolute right-8 bottom-8 w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-emerald-50 transition-colors text-slate-300 group-hover:text-emerald-500 z-10">
@@ -614,7 +614,7 @@ export default function ChoisyPropreRedesign() {
                   <span className="text-xs font-semibold text-slate-700 tracking-wide uppercase">Infrastructure active</span>
                 </div>
                 
-                <h1 className="text-6xl md:text-7xl lg:text-[84px] font-black text-[#0F2C59] leading-[1.05] tracking-tighter">
+                <h1 className="text-6xl md:text-7xl lg:text-[84px] font-black text-blue-950 leading-[1.05] tracking-tighter">
                   La propreté urbaine <br/>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0F2C59] via-[#2563EB] to-[#00D182]">intelligente.</span>
                 </h1>
@@ -711,7 +711,7 @@ export default function ChoisyPropreRedesign() {
                           </div>
                           <div className="flex-1 bg-white/90 backdrop-blur-md border border-slate-200/80 p-4 rounded-xl shadow-lg">
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">État Collecte</span>
-                            <div className="text-2xl font-black text-[#0F2C59]">45/60</div>
+                            <div className="text-2xl font-black text-blue-950">45/60</div>
                             <div className="w-full bg-slate-100 h-1.5 rounded-full mt-2">
                               <div className="bg-[#00D182] h-full rounded-full w-3/4"></div>
                             </div>
@@ -738,7 +738,7 @@ export default function ChoisyPropreRedesign() {
             {/* SECTION COMMENT CA MARCHE - HORIZONTALE ET RESPIRENTE */}
             <section className="w-full max-w-[1400px] mx-auto px-6 md:px-12 relative z-10">
               <div className="text-left md:text-center max-w-2xl mx-auto space-y-6 mb-20">
-                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#0F2C59] tracking-tighter">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-blue-950 tracking-tighter">
                   Trois étapes. <br/> <span className="text-slate-400">Zéro contrainte.</span>
                 </h2>
               </div>
@@ -806,7 +806,7 @@ export default function ChoisyPropreRedesign() {
                     </div>
 
                     <div className="space-y-3 relative z-10">
-                      <h3 className="font-black text-[#0F2C59] text-xl md:text-2xl">{item.title}</h3>
+                      <h3 className="font-black text-blue-950 text-xl md:text-2xl">{item.title}</h3>
                       <p className="text-slate-500 text-sm leading-relaxed font-medium">{item.desc}</p>
                     </div>
                   </div>
@@ -884,7 +884,7 @@ export default function ChoisyPropreRedesign() {
 
             {/* CTA FOOTER */}
             <div className="w-full max-w-5xl mx-auto px-8 py-12 text-center space-y-6">
-              <h3 className="text-2xl font-black text-[#0F2C59]">Prêt à participer à la transition écologique ?</h3>
+              <h3 className="text-2xl font-black text-blue-950">Prêt à participer à la transition écologique ?</h3>
               <p className="text-slate-500 text-xs font-medium max-w-md mx-auto">Déclarez vos objets encombrants dès maintenant. C'est rapide, conforme et entièrement gratuit.</p>
               <button 
                 onClick={() => { setFormStep(1); setView('citizen-form'); }}
@@ -910,7 +910,7 @@ export default function ChoisyPropreRedesign() {
               <span className="text-[9px] text-[#2563EB] bg-[#EFF6FF] border border-blue-200/60 font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full inline-block">
                 Consignes Officielles
               </span>
-              <h2 className="text-4xl md:text-5xl font-black text-[#0F2C59] tracking-tight">Règles d'acceptation des déchets</h2>
+              <h2 className="text-4xl md:text-5xl font-black text-blue-950 tracking-tight">Règles d'acceptation des déchets</h2>
               <p className="text-slate-500 text-xs font-semibold leading-relaxed max-w-2xl">
                 Afin de préserver la sécurité de nos agents et de respecter les réglementations écologiques, seuls les objets d'origine ménagère suivants sont pris en charge.
               </p>
@@ -998,7 +998,7 @@ export default function ChoisyPropreRedesign() {
                         }`}>
                           {formStep > s.step ? <Check size={14} strokeWidth={3} /> : s.step}
                         </div>
-                        <span className={`text-[10px] font-bold uppercase tracking-widest ${formStep >= s.step ? 'text-[#0F2C59]' : 'text-slate-400'}`}>
+                        <span className={`text-[10px] font-bold uppercase tracking-widest ${formStep >= s.step ? 'text-blue-950' : 'text-slate-400'}`}>
                           {s.label}
                         </span>
                       </div>
@@ -1015,7 +1015,7 @@ export default function ChoisyPropreRedesign() {
                 {formStep === 1 && (
                   <div className="space-y-10 relative z-10">
                     <div className="space-y-3">
-                      <h2 className="text-4xl md:text-5xl font-black text-[#0F2C59] tracking-tight">Où se situe le dépôt ?</h2>
+                      <h2 className="text-4xl md:text-5xl font-black text-blue-950 tracking-tight">Où se situe le dépôt ?</h2>
                       <p className="text-sm text-slate-500 font-medium">L'adresse nous permet de déterminer le circuit logistique et l'équipe assignée.</p>
                     </div>
 
@@ -1080,7 +1080,7 @@ export default function ChoisyPropreRedesign() {
                 {formStep === 2 && (
                   <div className="space-y-10 relative z-10">
                     <div className="space-y-3">
-                      <h2 className="text-4xl md:text-5xl font-black text-[#0F2C59] tracking-tight">Sélection des objets</h2>
+                      <h2 className="text-4xl md:text-5xl font-black text-blue-950 tracking-tight">Sélection des objets</h2>
                       <p className="text-sm text-slate-500 font-medium">Déclarez les volumes afin que nous puissions dimensionner la benne de collecte.</p>
                     </div>
 
@@ -1111,7 +1111,7 @@ export default function ChoisyPropreRedesign() {
                               >
                                 <Minus size={16} />
                               </button>
-                              <span className="font-black text-lg text-[#0F2C59] w-8 text-center">{qty}</span>
+                              <span className="font-black text-lg text-blue-950 w-8 text-center">{qty}</span>
                               <button 
                                 type="button"
                                 onClick={() => {
@@ -1160,7 +1160,7 @@ export default function ChoisyPropreRedesign() {
                 {formStep === 3 && (
                   <div className="space-y-10 relative z-10">
                     <div className="space-y-3">
-                      <h2 className="text-4xl md:text-5xl font-black text-[#0F2C59] tracking-tight">Contrôle visuel</h2>
+                      <h2 className="text-4xl md:text-5xl font-black text-blue-950 tracking-tight">Contrôle visuel</h2>
                       <p className="text-sm text-slate-500 font-medium">Fournissez une photographie claire du dépôt afin de valider la nature des objets.</p>
                     </div>
 
@@ -1217,7 +1217,7 @@ export default function ChoisyPropreRedesign() {
                 {formStep === 4 && (
                   <div className="space-y-10 relative z-10">
                     <div className="space-y-3">
-                      <h2 className="text-4xl md:text-5xl font-black text-[#0F2C59] tracking-tight">Détails finaux</h2>
+                      <h2 className="text-4xl md:text-5xl font-black text-blue-950 tracking-tight">Détails finaux</h2>
                       <p className="text-sm text-slate-500 font-medium">Indiquez la date de passage souhaitée et vos coordonnées pour le suivi.</p>
                     </div>
 
@@ -1299,7 +1299,7 @@ export default function ChoisyPropreRedesign() {
                     </div>
 
                     <div className="space-y-4">
-                      <h2 className="text-4xl md:text-5xl font-black text-[#0F2C59] tracking-tight">Dossier Transmis</h2>
+                      <h2 className="text-4xl md:text-5xl font-black text-blue-950 tracking-tight">Dossier Transmis</h2>
                       <p className="text-base text-slate-500 font-medium max-w-lg mx-auto">Votre demande de collecte a été envoyée avec succès. Elle sera traitée par l'administration dans les prochaines heures.</p>
                     </div>
 
@@ -1337,7 +1337,7 @@ export default function ChoisyPropreRedesign() {
             <div className="max-w-6xl mx-auto px-6 md:px-12 space-y-16 animate-[fadeIn_0.3s_ease-out]">
               
               <div className="text-center space-y-4 max-w-2xl mx-auto">
-                <h2 className="text-5xl md:text-6xl font-black text-[#0F2C59] tracking-tighter">Console de Suivi</h2>
+                <h2 className="text-5xl md:text-6xl font-black text-blue-950 tracking-tighter">Console de Suivi</h2>
                 <p className="text-slate-500 text-base font-medium leading-relaxed">Suivez l'état logistique de votre demande en temps réel grâce à notre intégration avec les camions de collecte.</p>
               </div>
 
@@ -1371,7 +1371,7 @@ export default function ChoisyPropreRedesign() {
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-slate-100 pb-10">
                     <div>
                       <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-2 block">Dossier identifié</span>
-                      <h3 className="text-4xl md:text-5xl font-black text-[#0F2C59] tracking-tight">{trackedRequest.id}</h3>
+                      <h3 className="text-4xl md:text-5xl font-black text-blue-950 tracking-tight">{trackedRequest.id}</h3>
                     </div>
                     <div className="flex flex-col items-end gap-2">
                       <span className={`px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest border ${
@@ -1425,7 +1425,7 @@ export default function ChoisyPropreRedesign() {
                               <div className={`w-12 h-12 rounded-full border-4 flex items-center justify-center transition-all bg-white ${isDone ? 'border-[#00D182] text-[#00D182]' : 'border-slate-200 text-slate-300'} ${isActive ? 'ring-8 ring-emerald-50 scale-110' : ''}`}>
                                 {isDone ? <Check size={18} strokeWidth={3} /> : <div className="w-3 h-3 rounded-full bg-slate-200"></div>}
                               </div>
-                              <span className={`text-[11px] font-black uppercase tracking-widest ${isActive ? 'text-[#0F2C59]' : isDone ? 'text-slate-800' : 'text-slate-400'}`}>
+                              <span className={`text-[11px] font-black uppercase tracking-widest ${isActive ? 'text-blue-950' : isDone ? 'text-slate-800' : 'text-slate-400'}`}>
                                 {st.name}
                               </span>
                             </div>
@@ -1455,7 +1455,7 @@ export default function ChoisyPropreRedesign() {
                     <div className="space-y-8 p-4">
                       <div>
                         <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Adresse de récupération</span>
-                        <p className="text-lg font-black text-[#0F2C59] leading-snug">{trackedRequest.address}</p>
+                        <p className="text-lg font-black text-blue-950 leading-snug">{trackedRequest.address}</p>
                         <p className="text-sm font-bold text-[#2563EB] mt-1">{trackedRequest.district}</p>
                       </div>
 
@@ -1493,7 +1493,7 @@ export default function ChoisyPropreRedesign() {
                     <div className="w-2 h-2 rounded-full bg-[#00D182] animate-pulse"></div>
                     <span className="text-[10px] font-black text-slate-600 tracking-widest uppercase">Admin sécurisé</span>
                   </div>
-                  <h2 className="text-4xl font-black text-[#0F2C59] tracking-tight">Supervision Logistique</h2>
+                  <h2 className="text-4xl font-black text-blue-950 tracking-tight">Supervision Logistique</h2>
                   <p className="text-slate-500 font-medium text-sm mt-2">Vue globale de la charge et assignation des tournées municipales.</p>
                 </div>
 
@@ -1625,7 +1625,7 @@ export default function ChoisyPropreRedesign() {
                         <div className="flex justify-between items-start border-b border-slate-100 pb-6">
                           <div>
                             <span className="text-[10px] text-slate-400 font-black block uppercase tracking-widest mb-1">Dossier Actif</span>
-                            <h4 className="text-2xl font-black text-[#0F2C59]">{selectedRequest.id}</h4>
+                            <h4 className="text-2xl font-black text-blue-950">{selectedRequest.id}</h4>
                           </div>
                           <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider border ${
                             selectedRequest.status === 'Pending' ? 'bg-amber-50 text-amber-700 border-amber-200' :
@@ -1710,7 +1710,7 @@ export default function ChoisyPropreRedesign() {
               {adminActiveSubTab === 'map' && (
                 <div className="bg-white border border-slate-200 p-8 rounded-[40px] shadow-sm space-y-8">
                   <div className="max-w-2xl">
-                    <h4 className="font-black text-[#0F2C59] text-2xl">Cartographie Opérationnelle</h4>
+                    <h4 className="font-black text-blue-950 text-2xl">Cartographie Opérationnelle</h4>
                     <p className="text-sm text-slate-500 font-medium mt-2">Vue satellite vectorielle de la répartition des dépôts sur le secteur de Choisy-le-Roi.</p>
                   </div>
 
@@ -1741,7 +1741,7 @@ export default function ChoisyPropreRedesign() {
                       {selectedRequest ? (
                         <div className="space-y-6">
                           <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest block">Point ciblé</span>
-                          <p className="font-black text-[#0F2C59] text-xl">{selectedRequest.id}</p>
+                          <p className="font-black text-blue-950 text-xl">{selectedRequest.id}</p>
                           <div className="space-y-3 text-sm font-medium">
                             <p className="text-slate-700"><span className="text-slate-400 font-bold block mb-1">Citoyen</span> {selectedRequest.name}</p>
                             <p className="text-slate-700"><span className="text-slate-400 font-bold block mb-1">Localisation</span> {selectedRequest.address}</p>
@@ -1760,7 +1760,7 @@ export default function ChoisyPropreRedesign() {
               {adminActiveSubTab === 'heatmap' && (
                 <div className="bg-white border border-slate-200 p-8 rounded-[40px] shadow-sm space-y-8">
                   <div className="max-w-2xl">
-                    <h4 className="font-black text-[#0F2C59] text-2xl">Densité Logistique</h4>
+                    <h4 className="font-black text-blue-950 text-2xl">Densité Logistique</h4>
                     <p className="text-sm text-slate-500 font-medium mt-2">Identification des points chauds de la ville pour réallouer les flottes de collecte.</p>
                   </div>
 
@@ -1792,7 +1792,7 @@ export default function ChoisyPropreRedesign() {
                     </div>
 
                     <div className="bg-slate-50 border border-slate-200 p-8 rounded-[32px] space-y-8">
-                      <h5 className="font-black text-[#0F2C59] uppercase tracking-widest text-[10px] mb-2">Volumes Déclarés</h5>
+                      <h5 className="font-black text-blue-950 uppercase tracking-widest text-[10px] mb-2">Volumes Déclarés</h5>
                       <div className="space-y-6">
                         {districtDistribution.map(item => {
                           const maxVal = Math.max(...districtDistribution.map(d => d.count), 1);
