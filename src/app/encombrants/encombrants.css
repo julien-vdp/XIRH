@@ -25,7 +25,7 @@
 /* --- RE-INITIALISATIONS DE BASE --- */
 .encombrants-root {
   min-height: 100vh;
-  background-color: var(--bg-primary);
+  background: linear-gradient(135deg, #f0f7ff 0%, #f4fbf6 50%, #f8fafc 100%);
   color: var(--text-dark);
   font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
@@ -33,6 +33,66 @@
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* --- DÉCORATION D'ARRIÈRE-PLAN ANIMÉE --- */
+.muni-bg-decor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.muni-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.14;
+  animation: floatBlob 25s infinite alternate ease-in-out;
+}
+
+.muni-blob-1 {
+  top: -10%;
+  right: -5%;
+  width: 600px;
+  height: 600px;
+  background-color: var(--municipal-blue);
+}
+
+.muni-blob-2 {
+  bottom: -10%;
+  left: -10%;
+  width: 700px;
+  height: 700px;
+  background-color: var(--eco-green);
+  animation-delay: -6s;
+}
+
+.muni-blob-3 {
+  top: 35%;
+  left: 60%;
+  width: 500px;
+  height: 500px;
+  background-color: #f2994a;
+  opacity: 0.07;
+  animation-delay: -12s;
+}
+
+@keyframes floatBlob {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, -40px) scale(1.15); }
+  100% { transform: translate(-40px, 50px) scale(0.9); }
+}
+
+/* Force elements to render above background blobs */
+.muni-header, .muni-hero, .muni-profiles-section, .muni-stats, .muni-explain, .muni-footer, .citoyen-container {
+  position: relative;
+  z-index: 1;
 }
 
 /* --- HEADER MUNICIPAL --- */
@@ -74,7 +134,7 @@
 }
 
 .muni-title h1 {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: var(--municipal-blue);
   margin: 0;
@@ -84,7 +144,7 @@
 }
 
 .muni-title span {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -100,8 +160,8 @@
 .muni-nav-link {
   color: var(--text-dark);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.9rem;
+  font-weight: 600;
+  font-size: 0.95rem;
   transition: color 0.2s ease;
 }
 
@@ -112,10 +172,10 @@
 .btn-emergency {
   background-color: var(--municipal-blue-light);
   color: var(--municipal-blue);
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: 700;
+  font-size: 0.9rem;
   text-decoration: none;
   border: 1px solid rgba(15, 76, 129, 0.15);
   transition: all 0.2s ease;
@@ -129,8 +189,7 @@
 /* --- HERO SECTION --- */
 .muni-hero {
   position: relative;
-  padding: 80px 24px 60px;
-  background: radial-gradient(circle at 80% 20%, #eef6ff 0%, var(--bg-primary) 50%);
+  padding: 90px 24px 70px;
   text-align: center;
 }
 
@@ -140,11 +199,11 @@
   gap: 8px;
   background-color: var(--eco-green-light);
   color: var(--eco-green-hover);
-  padding: 6px 14px;
+  padding: 8px 16px;
   border-radius: 50px;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   border: 1px solid rgba(45, 157, 93, 0.15);
 }
 
@@ -153,12 +212,13 @@
 }
 
 .muni-hero h2 {
-  font-size: 2.8rem;
-  font-weight: 800;
+  font-size: 3.4rem;
+  font-weight: 850;
   color: var(--municipal-blue);
   line-height: 1.15;
-  max-width: 800px;
-  margin: 0 auto 20px;
+  max-width: 900px;
+  margin: 0 auto 24px;
+  letter-spacing: -0.5px;
 }
 
 .muni-hero-gradient-text {
@@ -168,33 +228,34 @@
 }
 
 .muni-hero-desc {
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   color: var(--text-muted);
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto 40px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 /* --- PROFILE SELECTOR CARDS --- */
 .muni-profiles-section {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px 80px;
+  padding: 0 24px 100px;
   width: 100%;
 }
 
 .profiles-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  gap: 36px;
   margin-top: 20px;
 }
 
 .profile-card {
-  background-color: var(--bg-card);
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 32px;
+  padding: 40px 32px;
   text-decoration: none;
   color: inherit;
   display: flex;
@@ -207,12 +268,12 @@
   overflow: hidden;
 }
 
-/* Base style for card icons */
+/* Base style for card icons - ENLARGED */
 .profile-card-icon-wrapper {
-  width: 180px;
-  height: 180px;
+  width: 220px;
+  height: 220px;
   border-radius: var(--radius-sm);
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -231,37 +292,39 @@
 }
 
 .profile-card h3 {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.7rem;
+  font-weight: 800;
   color: var(--municipal-blue);
-  margin: 0 0 12px 0;
+  margin: 0 0 14px 0;
   transition: color 0.3s ease;
 }
 
 .profile-card p {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   color: var(--text-muted);
-  line-height: 1.5;
-  margin: 0 0 24px 0;
+  line-height: 1.6;
+  margin: 0 0 28px 0;
   flex-grow: 1;
 }
 
 .profile-card-btn {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 700;
+  font-size: 1.05rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
 }
 
 /* Theme variations for cards */
 .profile-card.citoyen {
-  border-top: 4px solid var(--eco-green);
+  border-top: 5px solid var(--eco-green);
 }
 .profile-card.citoyen .profile-card-icon-wrapper {
   background-color: var(--eco-green-light);
@@ -273,7 +336,7 @@
 }
 
 .profile-card.admin {
-  border-top: 4px solid var(--municipal-blue);
+  border-top: 5px solid var(--municipal-blue);
 }
 .profile-card.admin .profile-card-btn {
   background-color: var(--municipal-blue-light);
@@ -282,7 +345,7 @@
 }
 
 .profile-card.conducteur {
-  border-top: 4px solid #f2994a;
+  border-top: 5px solid #f2994a;
 }
 .profile-card.conducteur .profile-card-icon-wrapper {
   background-color: #fdf5ee;
@@ -297,6 +360,7 @@
 .profile-card:hover {
   transform: translateY(-8px);
   box-shadow: var(--shadow-lg);
+  background-color: var(--white);
 }
 
 .profile-card.citoyen:hover {
@@ -329,14 +393,15 @@
 
 /* --- SECTION DE CONFIANCE / CHIFFRES --- */
 .muni-stats {
-  background-color: var(--white);
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
   border-top: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
-  padding: 48px 24px;
+  padding: 60px 24px;
 }
 
 .muni-stats-inner {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -351,11 +416,11 @@
 }
 
 .stat-number {
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size: 3.2rem;
+  font-weight: 850;
   color: var(--municipal-blue);
   line-height: 1;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .stat-number.green {
@@ -363,41 +428,42 @@
 }
 
 .stat-label {
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
   color: var(--text-dark);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .stat-desc {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
 /* --- EXPLANATION SECTION "COMMENT ÇA MARCHE" --- */
 .muni-explain {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 80px 24px;
+  padding: 100px 24px;
   width: 100%;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 60px;
 }
 
 .section-header h2 {
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 2.2rem;
+  font-weight: 850;
   color: var(--municipal-blue);
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .section-header p {
   color: var(--text-muted);
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto;
+  font-size: 1.1rem;
 }
 
 .steps-flow {
@@ -408,29 +474,30 @@
 }
 
 .step-card {
-  background: var(--bg-card);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
-  padding: 24px;
+  padding: 32px 28px;
   box-shadow: var(--shadow-sm);
   position: relative;
 }
 
 .step-badge {
   position: absolute;
-  top: -16px;
-  left: 24px;
+  top: -18px;
+  left: 28px;
   background-color: var(--municipal-blue);
   color: var(--white);
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 0.9rem;
-  border: 3px solid var(--bg-primary);
+  font-weight: 800;
+  font-size: 1rem;
+  border: 3px solid #f2f7fb;
 }
 
 .step-card.green .step-badge {
@@ -438,24 +505,24 @@
 }
 
 .step-card h4 {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: 1.25rem;
+  font-weight: 800;
   color: var(--text-dark);
-  margin: 8px 0 12px 0;
+  margin: 8px 0 14px 0;
 }
 
 .step-card p {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 0;
 }
 
 /* --- FOOTER MUNICIPAL --- */
 .muni-footer {
-  background-color: var(--white);
+  background-color: rgba(255, 255, 255, 0.95);
   border-top: 1px solid var(--border-color);
-  padding: 40px 24px;
+  padding: 48px 24px;
   margin-top: auto;
 }
 
@@ -476,24 +543,25 @@
 }
 
 .footer-logo-img {
-  height: 36px;
+  height: 40px;
   width: auto;
 }
 
 .footer-info {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
 }
 
 .footer-links {
   display: flex;
-  gap: 20px;
+  gap: 24px;
 }
 
 .footer-link {
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   transition: color 0.2s ease;
 }
 
@@ -502,12 +570,12 @@
 }
 
 /* --- RESPONSIVE DESIGN --- */
-@media (max-width: 900px) {
+@media (max-width: 950px) {
   .profiles-grid {
     grid-template-columns: 1fr;
-    max-width: 450px;
+    max-width: 480px;
     margin: 0 auto;
-    gap: 24px;
+    gap: 30px;
   }
   
   .steps-flow {
@@ -521,7 +589,7 @@
   }
 
   .muni-hero h2 {
-    font-size: 2.2rem;
+    font-size: 2.6rem;
   }
 }
 

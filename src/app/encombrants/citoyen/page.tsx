@@ -173,6 +173,13 @@ export default function CitoyenPage() {
   return (
     <div className="encombrants-root">
       
+      {/* ═══ DÉCORATION D'ARRIÈRE-PLAN ANIMÉE ═══ */}
+      <div className="muni-bg-decor">
+        <div className="muni-blob muni-blob-1"></div>
+        <div className="muni-blob muni-blob-2"></div>
+        <div className="muni-blob muni-blob-3"></div>
+      </div>
+      
       {/* ═══ HEADER MUNICIPAL ═══ */}
       <header className="muni-header">
         <div className="muni-header-inner">
