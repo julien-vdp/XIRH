@@ -487,16 +487,17 @@ export default function ChoisyPropreRedesign() {
 
         {/* ──────── 0. ROLE SELECTION PAGE (PORTAIL) ──────── */}
         {view === 'role-selection' && (
-          <div className="w-full min-h-screen bg-white flex flex-col items-center justify-center relative p-6 md:p-12 overflow-hidden">
+          <div className="w-full min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center relative px-5 py-8 md:px-10 overflow-hidden">
             
             {/* Ambient Background Glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-b from-blue-50/80 to-transparent rounded-full filter blur-[100px] opacity-70 pointer-events-none"></div>
+            <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-white to-transparent pointer-events-none"></div>
+            <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[780px] h-[420px] bg-blue-100/45 rounded-full filter blur-[90px] pointer-events-none"></div>
 
-            <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
+            <div className="relative z-10 w-full max-w-6xl mx-auto flex flex-col items-center">
               
               {/* Logo Central & Titre */}
-              <div className="mb-20 flex flex-col items-center animate-[fadeIn_0.6s_ease-out]">
-                <div className="w-20 h-20 bg-white border border-slate-200 rounded-[28px] shadow-sm flex items-center justify-center mb-8 relative group">
+              <div className="mb-10 md:mb-12 flex flex-col items-center text-center animate-[fadeIn_0.6s_ease-out]">
+                <div className="w-20 h-20 bg-white border border-slate-200 rounded-[24px] shadow-lg shadow-blue-950/5 flex items-center justify-center mb-7 relative group">
                   <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-700 group-hover:rotate-180">
                     <path d="M12 32 C12 20 20 12 32 12 C44 12 52 20 52 32" stroke="#0F2C59" strokeWidth="5" strokeLinecap="round"/>
                     <path d="M12 32 C12 44 20 52 32 52 C44 52 52 44 52 32" stroke="#00D182" strokeWidth="5" strokeLinecap="round" strokeDasharray="4 6"/>
@@ -504,24 +505,24 @@ export default function ChoisyPropreRedesign() {
                   </svg>
                 </div>
                 
-                <h1 className="text-4xl md:text-5xl font-light tracking-tight text-slate-900 text-center">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-950 text-center leading-tight">
                   Mon Choisy <span className="font-bold text-blue-950">Propre</span>
                 </h1>
-                <p className="mt-4 text-slate-400 font-semibold tracking-widest text-xs uppercase">Plateforme Logistique Urbaine</p>
+                <p className="mt-4 max-w-xl text-slate-500 font-medium text-base leading-7">Choisissez votre espace pour déclarer un retrait, piloter les demandes ou suivre une tournée terrain.</p>
               </div>
 
               {/* 3 Cartes de Choix - Layout Aéré */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
                 
                 {/* 1. CITOYEN */}
                 <button 
                   onClick={() => { setRole('citizen'); setView('landing'); }}
-                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-300 hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none"
+                  className="group min-h-[300px] bg-white border border-slate-200 rounded-[28px] p-7 text-left transition-all duration-300 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-950/10 hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none focus:ring-4 focus:ring-blue-100"
                 >
                   <div className="absolute top-0 left-0 right-0 h-0.5 bg-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                   
                   {/* Illustration */}
-                  <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+                  <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0">
                     <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8">
                       <path d="M8 24L24 10L40 24V38H8V24Z" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M20 38V28H28V38" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -530,13 +531,13 @@ export default function ChoisyPropreRedesign() {
                   </div>
 
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">Espace Citoyen</h3>
+                    <h3 className="text-2xl font-black text-slate-950 mb-3">Espace Citoyen</h3>
                     <p className="text-sm text-slate-500 leading-relaxed">
                       Déclarez vos encombrants et suivez leur prise en charge par les équipes municipales.
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2 text-blue-600 text-sm font-semibold">
+                  <div className="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between gap-2 text-blue-700 text-sm font-black">
                     <span>Accéder</span>
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -545,7 +546,7 @@ export default function ChoisyPropreRedesign() {
                 {/* 2. ADMIN */}
                 <button 
                   onClick={() => { setRole('admin'); setAdminActiveSubTab('list'); setSelectedRequest(null); setView('admin'); }}
-                  className="group bg-blue-950 border border-blue-900 rounded-3xl p-8 text-left transition-all duration-300 hover:bg-blue-900 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none"
+                  className="group min-h-[300px] bg-blue-950 border border-blue-900 rounded-[28px] p-7 text-left transition-all duration-300 hover:bg-blue-900 hover:shadow-2xl hover:shadow-blue-950/25 hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none focus:ring-4 focus:ring-blue-200"
                 >
                   {/* Illustration */}
                   <div className="w-14 h-14 rounded-2xl bg-blue-900 flex items-center justify-center flex-shrink-0">
@@ -559,13 +560,13 @@ export default function ChoisyPropreRedesign() {
                   </div>
 
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-white mb-2">Supervision</h3>
+                    <h3 className="text-2xl font-black text-white mb-3">Supervision</h3>
                     <p className="text-sm text-blue-200 leading-relaxed">
                       Console de pilotage. Validez les dossiers, assignez les tournées et analysez les données.
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2 text-blue-300 text-sm font-semibold">
+                  <div className="mt-auto pt-5 border-t border-white/10 flex items-center justify-between gap-2 text-emerald-300 text-sm font-black">
                     <span>Accéder</span>
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -574,12 +575,12 @@ export default function ChoisyPropreRedesign() {
                 {/* 3. FLOTTE */}
                 <button 
                   onClick={() => { setRole('collector'); setView('collector'); }}
-                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-300 hover:border-emerald-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none"
+                  className="group min-h-[300px] bg-white border border-slate-200 rounded-[28px] p-7 text-left transition-all duration-300 hover:border-emerald-300 hover:shadow-2xl hover:shadow-emerald-950/10 hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none focus:ring-4 focus:ring-emerald-100"
                 >
                   <div className="absolute top-0 left-0 right-0 h-0.5 bg-emerald-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                   
                   {/* Illustration */}
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
                     <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8">
                       <path d="M6 34H42" stroke="#D1FAE5" strokeWidth="3" strokeLinecap="round" strokeDasharray="3 5"/>
                       <rect x="8" y="18" width="22" height="14" rx="2" stroke="#10B981" strokeWidth="2.5"/>
@@ -590,13 +591,13 @@ export default function ChoisyPropreRedesign() {
                   </div>
 
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">Flotte de Collecte</h3>
+                    <h3 className="text-2xl font-black text-slate-950 mb-3">Flotte de Collecte</h3>
                     <p className="text-sm text-slate-500 leading-relaxed">
                       Terminal embarqué. Suivi GPS des collectes, remplissage des bennes et validation terrain.
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2 text-emerald-600 text-sm font-semibold">
+                  <div className="mt-auto pt-5 border-t border-slate-100 flex items-center justify-between gap-2 text-emerald-700 text-sm font-black">
                     <span>Accéder</span>
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
