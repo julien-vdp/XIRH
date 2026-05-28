@@ -411,7 +411,9 @@ export default function ChoisyPropreRedesign() {
         )}
       </div>
 
-      {/* ═══ HEADER PREMIUM / VERCEL STYLE ═══ */}
+      {view !== 'role-selection' && (
+      <>
+{/* ═══ HEADER PREMIUM / VERCEL STYLE ═══ */}
       <header className="w-full bg-white/80 border-b border-slate-200/50 py-5 sticky top-0 z-50 backdrop-blur-2xl">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Logo Minimaliste */}
@@ -477,9 +479,121 @@ export default function ChoisyPropreRedesign() {
           </nav>
         </div>
       </header>
+      </>
+      )}
 
       {/* ═══ CONTENT AREA ═══ */}
       <main className="flex-1 w-full flex flex-col justify-start">
+
+        {/* ──────── 0. ROLE SELECTION PAGE (PORTAIL) ──────── */}
+        {view === 'role-selection' && (
+          <div className="w-full min-h-screen bg-white flex flex-col items-center justify-center relative overflow-hidden">
+            {/* Arrière-plan épuré avec Glow subtil */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-blue-50/40 to-emerald-50/20 rounded-full filter blur-[100px] pointer-events-none"></div>
+
+            <div className="relative z-10 w-full max-w-6xl mx-auto px-6 flex flex-col items-center">
+              
+              {/* Grand Logo Central Animé */}
+              <div className="mb-20 flex flex-col items-center animate-[fadeIn_0.5s_ease-out]">
+                <div className="w-24 h-24 rounded-[32px] bg-white border border-slate-100 flex items-center justify-center shadow-xl shadow-blue-900/5 mb-8 relative group">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-emerald-500/10 rounded-[32px] filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <svg viewBox="0 0 64 64" fill="none" className="w-12 h-12 relative z-10">
+                    <path d="M12 32 C12 20 20 12 32 12 C44 12 52 20 52 32" stroke="#0F2C59" strokeWidth="6" strokeLinecap="round"/>
+                    <path d="M12 32 C12 44 20 52 32 52 C44 52 52 44 52 32" stroke="#00D182" strokeWidth="6" strokeLinecap="round" strokeDasharray="4 8"/>
+                    <circle cx="32" cy="32" r="6" fill="#2563EB" className="animate-pulse"/>
+                  </svg>
+                </div>
+                <h1 className="text-4xl md:text-5xl font-black text-[#0F2C59] tracking-tighter text-center">
+                  Portail <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0F2C59] via-[#2563EB] to-[#00D182]">Logistique</span>
+                </h1>
+                <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mt-4">Plateforme de Choisy-le-Roi</p>
+              </div>
+
+              {/* 3 Cartes de Choix */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl">
+                
+                {/* Choix 1 : Citoyen */}
+                <button 
+                  onClick={() => { setRole('citizen'); setView('landing'); }}
+                  className="group relative bg-white border border-slate-200/60 rounded-[40px] p-10 text-left transition-all duration-500 hover:shadow-[0_20px_40px_rgba(37,99,235,0.07)] hover:-translate-y-2 hover:border-blue-200 overflow-hidden outline-none"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 relative z-10">
+                    {/* Illustration Citoyen */}
+                    <svg viewBox="0 0 40 40" className="w-8 h-8">
+                      <path d="M 6 20 L 20 8 L 34 20 L 34 32 L 6 32 Z" fill="none" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <rect x="16" y="22" width="8" height="10" fill="none" stroke="#2563EB" strokeWidth="2"/>
+                      <circle cx="28" cy="18" r="6" fill="none" stroke="#00D182" strokeWidth="2" strokeDasharray="2 2"/>
+                      <path d="M 28 18 L 28 32" stroke="#00D182" strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                  </div>
+                  <div className="relative z-10">
+                    <h3 className="text-2xl font-black text-[#0F2C59] mb-3 group-hover:text-[#2563EB] transition-colors">Espace Citoyen</h3>
+                    <p className="text-sm font-medium text-slate-500 leading-relaxed">Déclarez vos objets, suivez l'évolution logistique et consultez les consignes de recyclage de la ville.</p>
+                  </div>
+                  <div className="absolute right-8 bottom-8 w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-blue-50 transition-colors text-slate-300 group-hover:text-blue-500 z-10">
+                    <ArrowRight size={20} />
+                  </div>
+                </button>
+
+                {/* Choix 2 : Administrateur */}
+                <button 
+                  onClick={() => { setRole('admin'); setAdminActiveSubTab('list'); setSelectedRequest(null); setView('admin'); }}
+                  className="group relative bg-[#0F2C59] border border-[#1e3e78] rounded-[40px] p-10 text-left transition-all duration-500 hover:shadow-[0_20px_40px_rgba(15,44,89,0.2)] hover:-translate-y-2 overflow-hidden outline-none"
+                >
+                  {/* Glow admin */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 relative z-10">
+                    {/* Illustration Admin */}
+                    <svg viewBox="0 0 40 40" className="w-8 h-8">
+                      <rect x="6" y="8" width="28" height="24" rx="4" fill="none" stroke="#60A5FA" strokeWidth="2.5"/>
+                      <path d="M 6 16 L 34 16" stroke="#60A5FA" strokeWidth="2"/>
+                      <circle cx="12" cy="12" r="2" fill="#3B82F6"/>
+                      <circle cx="18" cy="12" r="2" fill="#3B82F6"/>
+                      <path d="M 12 28 Q 20 20 28 26" fill="none" stroke="#00D182" strokeWidth="2.5" strokeLinecap="round"/>
+                      <circle cx="28" cy="26" r="3" fill="#00D182"/>
+                    </svg>
+                  </div>
+                  <div className="relative z-10">
+                    <h3 className="text-2xl font-black text-white mb-3">Supervision</h3>
+                    <p className="text-sm font-medium text-blue-200 leading-relaxed">Centre de contrôle logistique. Approuvez les dossiers et analysez les heatmaps de la ville.</p>
+                  </div>
+                  <div className="absolute right-8 bottom-8 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors text-blue-300 group-hover:text-white z-10">
+                    <ArrowRight size={20} />
+                  </div>
+                </button>
+
+                {/* Choix 3 : Flotte */}
+                <button 
+                  onClick={() => { setRole('collector'); setView('collector'); }}
+                  className="group relative bg-white border border-slate-200/60 rounded-[40px] p-10 text-left transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,209,130,0.1)] hover:-translate-y-2 hover:border-emerald-200 overflow-hidden outline-none"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 relative z-10">
+                    {/* Illustration Camion / Route */}
+                    <svg viewBox="0 0 40 40" className="w-8 h-8">
+                      <path d="M 6 30 L 34 30" stroke="#E2E8F0" strokeWidth="3" strokeLinecap="round" strokeDasharray="4 4"/>
+                      <rect x="8" y="16" width="16" height="12" rx="2" fill="none" stroke="#00D182" strokeWidth="2.5"/>
+                      <path d="M 24 20 L 30 20 C 31 20 32 21 32 22 L 32 28 L 24 28 Z" fill="none" stroke="#00D182" strokeWidth="2.5" strokeLinejoin="round"/>
+                      <circle cx="14" cy="30" r="3" fill="#10B981"/>
+                      <circle cx="28" cy="30" r="3" fill="#10B981"/>
+                      <path d="M 28 20 L 30 24" stroke="#00D182" strokeWidth="2"/>
+                    </svg>
+                  </div>
+                  <div className="relative z-10">
+                    <h3 className="text-2xl font-black text-[#0F2C59] mb-3 group-hover:text-[#00D182] transition-colors">Flotte de Collecte</h3>
+                    <p className="text-sm font-medium text-slate-500 leading-relaxed">Terminal embarqué pour les chauffeurs. Suivi des itinéraires, chargement des bennes et validation terrain.</p>
+                  </div>
+                  <div className="absolute right-8 bottom-8 w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-emerald-50 transition-colors text-slate-300 group-hover:text-emerald-500 z-10">
+                    <ArrowRight size={20} />
+                  </div>
+                </button>
+                
+              </div>
+            </div>
+          </div>
+        )}
+
+
 
         {/* ──────── 1. LANDING PAGE PREMIUM (DESKTOP FIRST) ──────── */}
         {view === 'landing' && (
