@@ -487,7 +487,7 @@ export default function ChoisyPropreRedesign() {
 
         {/* ──────── 0. ROLE SELECTION PAGE (PORTAIL) ──────── */}
         {view === 'role-selection' && (
-          <div className="w-full min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center relative p-6 md:p-12 overflow-hidden">
+          <div className="w-full min-h-screen bg-white flex flex-col items-center justify-center relative p-6 md:p-12 overflow-hidden">
             
             {/* Ambient Background Glow */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-b from-blue-50/80 to-transparent rounded-full filter blur-[100px] opacity-70 pointer-events-none"></div>
@@ -505,99 +505,100 @@ export default function ChoisyPropreRedesign() {
                 </div>
                 
                 <h1 className="text-4xl md:text-5xl font-light tracking-tight text-slate-900 text-center">
-                  Mon Choisy <span className="font-bold" style={{ color: '#0F2C59' }}>Propre</span>
+                  Mon Choisy <span className="font-bold text-blue-950">Propre</span>
                 </h1>
-                <p className="mt-4 text-slate-500 font-medium tracking-wide text-sm uppercase">Plateforme Logistique Urbaine</p>
+                <p className="mt-4 text-slate-400 font-semibold tracking-widest text-xs uppercase">Plateforme Logistique Urbaine</p>
               </div>
 
               {/* 3 Cartes de Choix - Layout Aéré */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 w-full">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
                 
                 {/* 1. CITOYEN */}
                 <button 
                   onClick={() => { setRole('citizen'); setView('landing'); }}
-                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-500 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-2 relative overflow-hidden h-[320px] flex flex-col justify-between cursor-pointer outline-none"
+                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-300 hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none"
                 >
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-blue-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                   
-                  {/* Dessin SVG */}
-                  <div className="w-16 h-16 rounded-2xl bg-blue-50/50 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                    <svg viewBox="0 0 48 48" className="w-10 h-10">
-                      <path d="M 8 24 L 24 10 L 40 24 L 40 38 L 8 38 Z" fill="none" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M 20 38 L 20 26 L 28 26 L 28 38" fill="none" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <circle cx="34" cy="20" r="5" fill="none" stroke="#00D182" strokeWidth="2.5" strokeDasharray="2 2"/>
+                  {/* Illustration */}
+                  <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center flex-shrink-0">
+                    <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8">
+                      <path d="M8 24L24 10L40 24V38H8V24Z" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M20 38V28H28V38" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="35" cy="19" r="5" fill="none" stroke="#00D182" strokeWidth="2" strokeDasharray="2 2"/>
                     </svg>
                   </div>
 
-                  <div className="pr-8">
-                    <h3 className="text-2xl font-bold mb-3 transition-colors" style={{ color: '#0F2C59' }}>Citoyen</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed font-medium">
-                      Déclarez vos encombrants, suivez leur prise en charge et consultez les consignes de tri.
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">Espace Citoyen</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">
+                      Déclarez vos encombrants et suivez leur prise en charge par les équipes municipales.
                     </p>
                   </div>
 
-                  <div className="absolute bottom-8 right-8 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-2 transition-all">
-                    <ArrowRight size={24} strokeWidth={2.5} />
+                  <div className="flex items-center gap-2 text-blue-600 text-sm font-semibold">
+                    <span>Accéder</span>
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                 </button>
 
                 {/* 2. ADMIN */}
                 <button 
                   onClick={() => { setRole('admin'); setAdminActiveSubTab('list'); setSelectedRequest(null); setView('admin'); }}
-                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-500 hover:border-[#0F2C59] hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-2 relative overflow-hidden h-[320px] flex flex-col justify-between cursor-pointer outline-none"
+                  className="group bg-blue-950 border border-blue-900 rounded-3xl p-8 text-left transition-all duration-300 hover:bg-blue-900 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none"
                 >
-                  <div className="absolute top-0 left-0 w-full h-1 bg-[#0F2C59] opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  
-                  {/* Dessin SVG */}
-                  <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                    <svg viewBox="0 0 48 48" className="w-10 h-10">
-                      <rect x="8" y="10" width="32" height="28" rx="4" fill="none" stroke="#0F2C59" strokeWidth="2.5"/>
-                      <path d="M 8 20 L 40 20" stroke="#0F2C59" strokeWidth="2.5"/>
-                      <circle cx="14" cy="15" r="2" fill="#2563EB"/>
-                      <circle cx="20" cy="15" r="2" fill="#2563EB"/>
-                      <path d="M 16 32 Q 24 24 32 30" fill="none" stroke="#00D182" strokeWidth="3" strokeLinecap="round"/>
+                  {/* Illustration */}
+                  <div className="w-14 h-14 rounded-2xl bg-blue-900 flex items-center justify-center flex-shrink-0">
+                    <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8">
+                      <rect x="8" y="10" width="32" height="28" rx="4" stroke="#60A5FA" strokeWidth="2.5"/>
+                      <path d="M8 20H40" stroke="#60A5FA" strokeWidth="2.5"/>
+                      <circle cx="14" cy="15" r="2" fill="#3B82F6"/>
+                      <circle cx="20" cy="15" r="2" fill="#3B82F6"/>
+                      <path d="M14 30Q20 23 28 27L34 24" fill="none" stroke="#34D399" strokeWidth="2.5" strokeLinecap="round"/>
                     </svg>
                   </div>
 
-                  <div className="pr-8">
-                    <h3 className="text-2xl font-bold mb-3 transition-colors" style={{ color: '#0F2C59' }}>Supervision</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed font-medium">
-                      Console d'administration. Validez les dossiers, assignez les tournées et analysez la heatmap.
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-2">Supervision</h3>
+                    <p className="text-sm text-blue-200 leading-relaxed">
+                      Console de pilotage. Validez les dossiers, assignez les tournées et analysez les données.
                     </p>
                   </div>
 
-                  <div className="absolute bottom-8 right-8 text-slate-300 group-hover:text-[#0F2C59] group-hover:translate-x-2 transition-all">
-                    <ArrowRight size={24} strokeWidth={2.5} />
+                  <div className="flex items-center gap-2 text-blue-300 text-sm font-semibold">
+                    <span>Accéder</span>
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                 </button>
 
                 {/* 3. FLOTTE */}
                 <button 
                   onClick={() => { setRole('collector'); setView('collector'); }}
-                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-500 hover:border-emerald-400 hover:shadow-2xl hover:shadow-emerald-900/10 hover:-translate-y-2 relative overflow-hidden h-[320px] flex flex-col justify-between cursor-pointer outline-none"
+                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-300 hover:border-emerald-300 hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col gap-6 cursor-pointer outline-none"
                 >
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#00D182] to-teal-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-emerald-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
                   
-                  {/* Dessin SVG */}
-                  <div className="w-16 h-16 rounded-2xl bg-emerald-50/50 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                    <svg viewBox="0 0 48 48" className="w-10 h-10">
-                      <path d="M 8 34 L 40 34" stroke="#E2E8F0" strokeWidth="3" strokeLinecap="round" strokeDasharray="4 6"/>
-                      <rect x="10" y="16" width="20" height="14" rx="2" fill="none" stroke="#00D182" strokeWidth="2.5"/>
-                      <path d="M 30 20 L 36 20 C 37 20 38 21 38 23 L 38 30 L 30 30 Z" fill="none" stroke="#00D182" strokeWidth="2.5" strokeLinejoin="round"/>
-                      <circle cx="16" cy="34" r="4" fill="#0F2C59"/>
-                      <circle cx="32" cy="34" r="4" fill="#0F2C59"/>
+                  {/* Illustration */}
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                    <svg viewBox="0 0 48 48" fill="none" className="w-8 h-8">
+                      <path d="M6 34H42" stroke="#D1FAE5" strokeWidth="3" strokeLinecap="round" strokeDasharray="3 5"/>
+                      <rect x="8" y="18" width="22" height="14" rx="2" stroke="#10B981" strokeWidth="2.5"/>
+                      <path d="M30 22H37C38 22 39 23 39 24V32H30V22Z" stroke="#10B981" strokeWidth="2.5" strokeLinejoin="round"/>
+                      <circle cx="15" cy="34" r="4" fill="#0F2C59"/>
+                      <circle cx="33" cy="34" r="4" fill="#0F2C59"/>
                     </svg>
                   </div>
 
-                  <div className="pr-8">
-                    <h3 className="text-2xl font-bold mb-3 transition-colors" style={{ color: '#0F2C59' }}>Logistique</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">Flotte de Collecte</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">
                       Terminal embarqué. Suivi GPS des collectes, remplissage des bennes et validation terrain.
                     </p>
                   </div>
 
-                  <div className="absolute bottom-8 right-8 text-slate-300 group-hover:text-[#00D182] group-hover:translate-x-2 transition-all">
-                    <ArrowRight size={24} strokeWidth={2.5} />
+                  <div className="flex items-center gap-2 text-emerald-600 text-sm font-semibold">
+                    <span>Accéder</span>
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                 </button>
                 
