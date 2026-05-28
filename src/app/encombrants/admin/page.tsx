@@ -29,8 +29,10 @@ interface Request {
   date: string;
   items: ItemFamily;
   totalQty: number;
-  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'COLLECTED' | 'INCIDENT';
   createdAt: string;
+  incidentReason?: string;
+  incidentNote?: string;
 }
 
 export default function AdminPage() {
@@ -38,6 +40,7 @@ export default function AdminPage() {
   const [selectedDate, setSelectedDate] = useState('');
   const [wednesdays, setWednesdays] = useState<string[]>([]);
   const [activeModalRequest, setActiveModalRequest] = useState<Request | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Dynamic Wednesday calculation
   useEffect(() => {
@@ -65,21 +68,32 @@ export default function AdminPage() {
     }
   }, []);
 
-  // Load requests from server API
+  const fetchRequests = async (silent = false) => {
+    if (!silent) setIsRefreshing(true);
+    try {
+      const res = await fetch('/api/encombrants');
+      const data = await res.json();
+      setRequests(data);
+    } catch (err) {
+      console.error("Erreur lors du chargement des demandes du serveur", err);
+    } finally {
+      if (!silent) setIsRefreshing(false);
+    }
+  };
+
+  // Load requests from server API on mount / date calculation
   useEffect(() => {
     if (wednesdays.length === 0) return;
+    fetchRequests(false);
+  }, [wednesdays]);
 
-    const fetchRequests = async () => {
-      try {
-        const res = await fetch('/api/encombrants');
-        const data = await res.json();
-        setRequests(data);
-      } catch (err) {
-        console.error("Erreur lors du chargement des demandes du serveur", err);
-      }
-    };
-
-    fetchRequests();
+  // Polling every 8 seconds for real-time simulation updates
+  useEffect(() => {
+    if (wednesdays.length === 0) return;
+    const interval = setInterval(() => {
+      fetchRequests(true);
+    }, 8000);
+    return () => clearInterval(interval);
   }, [wednesdays]);
 
   const formatDateFrench = (dateStr: string) => {
@@ -127,7 +141,7 @@ export default function AdminPage() {
   // Calculate truck load for the selected date
   const calculateTruckLoad = (date: string) => {
     let loadPercent = 0;
-    const dateRequests = requests.filter(req => req.date === date && req.status === 'APPROVED');
+    const dateRequests = requests.filter(req => req.date === date && (req.status === 'APPROVED' || req.status === 'COLLECTED' || req.status === 'INCIDENT'));
     
     dateRequests.forEach(req => {
       // Add weight per item family
@@ -202,6 +216,15 @@ export default function AdminPage() {
               <ArrowLeft size={14} style={{ marginRight: '6px', verticalAlign: 'middle', display: 'inline' }} />
               Retour Accueil
             </a>
+            <button 
+              onClick={() => fetchRequests(false)}
+              disabled={isRefreshing}
+              className="btn-emergency"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', border: '1px solid rgba(15, 76, 129, 0.1)' }}
+            >
+              <RefreshCw size={14} className={isRefreshing ? 'spin-animation' : ''} />
+              Rafraîchir
+            </button>
             <button 
               onClick={resetDemo}
               className="btn-emergency"
@@ -303,7 +326,10 @@ export default function AdminPage() {
                           <span>Soumis le {new Date(req.createdAt).toLocaleDateString('fr-FR')} à {new Date(req.createdAt).toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}</span>
                         </div>
                         <span className={`badge-status ${req.status.toLowerCase()}`}>
-                          {req.status === 'PENDING' ? 'En attente' : req.status === 'APPROVED' ? 'Confirmé' : 'Refusé'}
+                          {req.status === 'PENDING' ? 'En attente' : 
+                           req.status === 'APPROVED' ? 'Confirmé' : 
+                           req.status === 'COLLECTED' ? 'Collecté' : 
+                           req.status === 'INCIDENT' ? 'Incident' : 'Refusé'}
                         </span>
                       </div>
 
@@ -347,6 +373,17 @@ export default function AdminPage() {
                         </div>
 
                       </div>
+
+                      {req.status === 'INCIDENT' && (req.incidentReason || req.incidentNote) && (
+                        <div className="incident-alert-box" style={{ marginTop: '16px', background: '#fef2f2', border: '1px solid #fecaca', padding: '12px 16px', borderRadius: '8px', color: '#991b1b', fontSize: '0.9rem' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 'bold', marginBottom: '4px' }}>
+                            <AlertTriangle size={16} style={{ color: '#dc2626' }} />
+                            <span>Incident de collecte</span>
+                          </div>
+                          <div><strong>Motif :</strong> {req.incidentReason || 'Non spécifié'}</div>
+                          {req.incidentNote && <div style={{ marginTop: '4px', fontStyle: 'italic', color: '#7f1d1d' }}>&ldquo;{req.incidentNote}&rdquo;</div>}
+                        </div>
+                      )}
 
                       {/* Card Action footer */}
                       <div className="dossier-card-actions">

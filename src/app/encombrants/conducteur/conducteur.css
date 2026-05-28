@@ -1,0 +1,333 @@
+/* --- DRIVER DASHBOARD DESIGN SYSTEM (ORANGE/YELLOW ACCENTS) --- */
+.conducteur-container {
+  max-width: 1000px;
+  margin: 40px auto 80px;
+  padding: 0 24px;
+  width: 100%;
+}
+
+/* Driver header/stats layout */
+.driver-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.driver-stat-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.driver-stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #fdf5ee;
+  color: #c96b17;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.driver-stat-icon.green {
+  background-color: var(--eco-green-light);
+  color: var(--eco-green);
+}
+
+.driver-stat-icon.red {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.driver-stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.driver-stat-info strong {
+  font-size: 1.8rem;
+  font-weight: 850;
+  line-height: 1.1;
+  color: var(--text-dark);
+}
+
+.driver-stat-info span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Date filter for Driver */
+.driver-date-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.driver-date-info h3 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--municipal-blue);
+  margin: 0 0 4px 0;
+}
+
+.driver-date-info p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.driver-date-selector {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-driver-date {
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--white);
+  color: var(--text-dark);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-driver-date:hover {
+  background-color: #fdf5ee;
+  border-color: rgba(242, 153, 74, 0.3);
+}
+
+.btn-driver-date.active {
+  background-color: #f2994a;
+  color: var(--white);
+  border-color: #f2994a;
+  box-shadow: 0 4px 12px rgba(242, 153, 74, 0.25);
+}
+
+/* Roadmap / Job Card styles */
+.roadmap-section-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+}
+
+.job-card {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.job-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.job-card.collected {
+  border-left: 6px solid var(--eco-green);
+}
+
+.job-card.incident {
+  border-left: 6px solid #ef4444;
+}
+
+.job-card.approved {
+  border-left: 6px solid #f2994a;
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 12px;
+}
+
+.job-address-block h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.job-address-block span {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Job Action Buttons */
+.job-actions-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+  border-top: 1px solid var(--border-color);
+  padding-top: 16px;
+}
+
+.btn-collect-success {
+  background-color: var(--eco-green-light);
+  border: 1px solid rgba(45, 157, 93, 0.2);
+  color: var(--eco-green-hover);
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-collect-success:hover {
+  background-color: var(--eco-green);
+  color: var(--white);
+}
+
+.btn-collect-incident {
+  background-color: #fef2f2;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  padding: 12px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-collect-incident:hover {
+  background-color: #ef4444;
+  color: var(--white);
+}
+
+/* Job status indicators */
+.job-status-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 16px;
+}
+
+.job-status-banner.success {
+  background-color: var(--eco-green-light);
+  color: var(--eco-green-hover);
+}
+
+.job-status-banner.danger {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
+
+/* Incident Modal styles */
+.incident-modal-content {
+  padding: 24px;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-select-incident {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  background-color: var(--white);
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.textarea-incident {
+  width: 100%;
+  height: 100px;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.btn-incident-submit {
+  background-color: #ef4444;
+  color: var(--white);
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-incident-submit:hover {
+  background-color: #dc2626;
+}
+
+@media (max-width: 650px) {
+  .driver-stats-bar {
+    grid-template-columns: 1fr;
+  }
+  .driver-date-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .driver-date-selector {
+    width: 100%;
+    flex-direction: column;
+  }
+  .btn-driver-date {
+    width: 100%;
+  }
+  .job-actions-row {
+    flex-direction: column;
+  }
+}

@@ -24,6 +24,8 @@ export default function CitoyenPage() {
   const [step, setStep] = useState(1);
   const [success, setSuccess] = useState(false);
   const [dossierNumber, setDossierNumber] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   // Step 1: Info & Adresse
   const [fullName, setFullName] = useState('');
@@ -192,9 +194,11 @@ export default function CitoyenPage() {
     setStep(prev => prev - 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isStepValid() && step === 3) {
+      setIsSubmitting(true);
+      setSubmitError('');
       const num = 'DEC-94600-' + Math.floor(10000 + Math.random() * 90000);
       setDossierNumber(num);
       
@@ -212,23 +216,30 @@ export default function CitoyenPage() {
         createdAt: new Date().toISOString()
       };
       
-      fetch('/api/encombrants', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'create',
-          data: requestData
-        })
-      })
-      .then(res => res.json())
-      .then(result => {
+      try {
+        const res = await fetch('/api/encombrants', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'create',
+            data: requestData
+          })
+        });
+        
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.error || 'Erreur serveur lors de la création.');
+        }
+        
+        const result = await res.json();
         console.log("Demande sauvegardée sur le serveur", result);
-      })
-      .catch(err => {
+        setSuccess(true);
+      } catch (err: any) {
         console.error("Erreur de sauvegarde serveur", err);
-      });
-      
-      setSuccess(true);
+        setSubmitError(err.message || "Erreur de connexion au serveur municipal. Veuillez réessayer.");
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -710,20 +721,33 @@ export default function CitoyenPage() {
                     </ul>
                   </div>
 
+                  {submitError && (
+                    <div className="danger-panel" style={{ marginTop: '16px', background: '#fef2f2', border: '1px solid #fecaca', display: 'block' }}>
+                      <div className="danger-panel-header">
+                        <AlertTriangle size={20} style={{ color: '#dc2626' }} />
+                        <h4 style={{ color: '#991b1b', margin: '0 0 0 8px', fontSize: '1rem' }}>Erreur de transmission</h4>
+                      </div>
+                      <p style={{ fontSize: '0.85rem', color: '#991b1b', marginTop: '6px', marginBottom: '0', lineHeight: '1.4' }}>
+                        {submitError}
+                      </p>
+                    </div>
+                  )}
+
                   <div className="form-actions-row">
                     <button 
                       type="button" 
                       onClick={handlePrev}
+                      disabled={isSubmitting}
                       className="btn-muni-secondary"
                     >
                       Retour
                     </button>
                     <button 
                       type="submit" 
-                      disabled={!isStepValid()}
+                      disabled={!isStepValid() || isSubmitting}
                       className="btn-muni-primary success"
                     >
-                      Valider et envoyer
+                      {isSubmitting ? 'Transmission en cours...' : 'Valider et envoyer'}
                       <CheckCircle2 size={16} />
                     </button>
                   </div>

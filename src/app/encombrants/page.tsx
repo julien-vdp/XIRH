@@ -16,8 +16,8 @@ export default function EncombrantsPage() {
       router.push('/encombrants/citoyen');
     } else if (profile === 'Administrateur') {
       router.push('/encombrants/admin');
-    } else {
-      alert(`Redirection simulée vers l'application : Espace ${profile}`);
+    } else if (profile === 'Conducteur') {
+      router.push('/encombrants/conducteur');
     }
   };
 

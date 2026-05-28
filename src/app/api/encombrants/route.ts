@@ -3,6 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
+export const dynamic = 'force-dynamic';
+
 // Use os.tmpdir() to ensure write permissions and standalone compatibility
 const filePath = path.join(os.tmpdir(), 'encombrants_requests_db.json');
 
@@ -219,7 +221,10 @@ export async function POST(request: Request) {
       };
       
       currentRequests.push(newRequest);
-      writeData(currentRequests);
+      const success = writeData(currentRequests);
+      if (!success) {
+        return NextResponse.json({ error: 'Failed to write request to database' }, { status: 500 });
+      }
       return NextResponse.json({ success: true, request: newRequest });
     } 
     
@@ -236,14 +241,20 @@ export async function POST(request: Request) {
         return req;
       });
 
-      writeData(updated);
+      const success = writeData(updated);
+      if (!success) {
+        return NextResponse.json({ error: 'Failed to update status in database' }, { status: 500 });
+      }
       const found = updated.find((req: any) => req.id === id);
       return NextResponse.json({ success: true, request: found });
     }
 
     if (type === 'reset') {
       const defaultMock = getDefaultMockData();
-      writeData(defaultMock);
+      const success = writeData(defaultMock);
+      if (!success) {
+        return NextResponse.json({ error: 'Failed to reset database' }, { status: 500 });
+      }
       return NextResponse.json({ success: true, requests: defaultMock });
     }
 
