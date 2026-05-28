@@ -1,0 +1,580 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { 
+  ArrowLeft, Calendar, User, MapPin, 
+  Check, X, RefreshCw, Mail, AlertTriangle, 
+  Trash2, FileText, CheckCircle2, ShieldCheck, Inbox
+} from 'lucide-react';
+import './admin.css';
+import '../encombrants.css';
+
+interface Item {
+  id: string;
+  name: string;
+  desc: string;
+  qty: number;
+}
+
+interface ItemFamily {
+  [key: string]: Item[];
+}
+
+interface Request {
+  id: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  address: string;
+  date: string;
+  items: ItemFamily;
+  totalQty: number;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  createdAt: string;
+}
+
+export default function AdminPage() {
+  const [requests, setRequests] = useState<Request[]>([]);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [wednesdays, setWednesdays] = useState<string[]>([]);
+  const [activeModalRequest, setActiveModalRequest] = useState<Request | null>(null);
+
+  // Dynamic Wednesday calculation
+  useEffect(() => {
+    const dates: string[] = [];
+    const today = new Date();
+    let dayOfWeek = today.getDay();
+    let daysUntilWednesday = (3 - dayOfWeek + 7) % 7;
+    if (daysUntilWednesday === 0) {
+      daysUntilWednesday = 7;
+    }
+    const nextWednesday = new Date(today);
+    nextWednesday.setDate(today.getDate() + daysUntilWednesday);
+
+    for (let i = 0; i < 3; i++) {
+      const d = new Date(nextWednesday);
+      d.setDate(nextWednesday.getDate() + (i * 7));
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      dates.push(`${yyyy}-${mm}-${dd}`);
+    }
+    setWednesdays(dates);
+    if (dates.length > 0) {
+      setSelectedDate(dates[0]); // Select first Wednesday by default
+    }
+  }, []);
+
+  // Load and pre-populate requests
+  useEffect(() => {
+    if (wednesdays.length === 0) return;
+
+    const loadRequests = () => {
+      const localData = localStorage.getItem('encombrants_requests');
+      if (localData) {
+        setRequests(JSON.parse(localData));
+      } else {
+        // Pre-populate with realistic mock requests
+        const mockRequests: Request[] = [
+          {
+            id: 'DEC-94600-87291',
+            fullName: 'Marc Morel',
+            email: 'marc.morel@gmail.com',
+            phone: '06 87 65 43 21',
+            address: '12 Rue de l\'Église, 94600 Choisy-le-Roi',
+            date: wednesdays[0],
+            items: {
+              mobilier: [
+                { id: 'matelas', name: 'Matelas / Sommier', desc: 'Matelas 1 ou 2 places, sommier à lattes', qty: 1 },
+                { id: 'armoire', name: 'Armoire / Commode', desc: 'Armoire commode, buffet', qty: 0 },
+                { id: 'canape', name: 'Canapé / Fauteuil', desc: 'Canapé convertible, canapé droit', qty: 0 },
+                { id: 'table', name: 'Table / Bureau', desc: 'Table de cuisine, bureau', qty: 0 },
+                { id: 'chaise', name: 'Chaise / Tabouret', desc: 'Chaises individuelles, tabourets', qty: 2 }
+              ],
+              electro: [],
+              loisirs: [],
+              divers: []
+            },
+            totalQty: 3,
+            status: 'PENDING',
+            createdAt: new Date(Date.now() - 3600000 * 2).toISOString()
+          },
+          {
+            id: 'DEC-94600-29103',
+            fullName: 'Sophie Bernard',
+            email: 's.bernard@yahoo.fr',
+            phone: '07 12 34 56 78',
+            address: '45 Avenue de la République, 94600 Choisy-le-Roi',
+            date: wednesdays[0],
+            items: {
+              mobilier: [],
+              electro: [
+                { id: 'frigo', name: 'Réfrigérateur / Congélateur', desc: 'Gros électroménager froid', qty: 1 },
+                { id: 'lavelinge', name: 'Lave-linge / Sèche-linge', desc: 'Lave-linge, lave-vaisselle', qty: 0 },
+                { id: 'four', name: 'Four / Micro-ondes', desc: 'Four, plaques, micro-ondes', qty: 0 },
+                { id: 'tele', name: 'Téléviseur / Écran', desc: 'Téléviseurs anciens ou écrans plats', qty: 0 }
+              ],
+              loisirs: [],
+              divers: []
+            },
+            totalQty: 1,
+            status: 'APPROVED',
+            createdAt: new Date(Date.now() - 3600000 * 5).toISOString()
+          },
+          {
+            id: 'DEC-94600-54910',
+            fullName: 'Lucas Petit',
+            email: 'lucas.petit@outlook.fr',
+            phone: '06 43 21 87 65',
+            address: '8 Rue Jean Jaurès, 94600 Choisy-le-Roi',
+            date: wednesdays[1],
+            items: {
+              mobilier: [
+                { id: 'matelas', name: 'Matelas / Sommier', desc: 'Matelas 1 ou 2 places', qty: 0 },
+                { id: 'armoire', name: 'Armoire / Commode', desc: 'Armoire commode, buffet', qty: 0 },
+                { id: 'canape', name: 'Canapé / Fauteuil', desc: 'Canapé convertible', qty: 0 },
+                { id: 'table', name: 'Table / Bureau', desc: 'Table de cuisine, bureau', qty: 1 },
+                { id: 'chaise', name: 'Chaise / Tabouret', desc: 'Chaises', qty: 0 }
+              ],
+              electro: [
+                { id: 'frigo', name: 'Réfrigérateur', desc: 'Frigo', qty: 0 },
+                { id: 'lavelinge', name: 'Lave-linge', desc: 'Lave-linge', qty: 1 },
+                { id: 'four', name: 'Four', desc: 'Four', qty: 0 },
+                { id: 'tele', name: 'Téléviseur', desc: 'Télé', qty: 1 }
+              ],
+              loisirs: [],
+              divers: []
+            },
+            totalQty: 3,
+            status: 'PENDING',
+            createdAt: new Date(Date.now() - 3600000 * 20).toISOString()
+          },
+          {
+            id: 'DEC-94600-72109',
+            fullName: 'Emma Roussel',
+            email: 'emma.roussel@gmail.com',
+            phone: '07 98 76 54 32',
+            address: '27 Rue de la Marne, 94600 Choisy-le-Roi',
+            date: wednesdays[2],
+            items: {
+              mobilier: [],
+              electro: [],
+              loisirs: [
+                { id: 'velo', name: 'Vélo / Trottinette', desc: 'Vélos adultes/enfants', qty: 1 },
+                { id: 'salonjardin', name: 'Salon de jardin', desc: 'Mobilier extérieur', qty: 0 },
+                { id: 'outillage', name: 'Outillage', desc: 'Tondeuse, outils', qty: 0 },
+                { id: 'jouets', name: 'Cabanes / Jouets', desc: 'Grands jouets', qty: 0 }
+              ],
+              divers: [
+                { id: 'carton', name: 'Grands cartons', desc: 'Cartons vides pliés', qty: 0 },
+                { id: 'palette', name: 'Palettes en bois', desc: 'Palettes', qty: 3 },
+                { id: 'ferraille', name: 'Ferraille / Métaux', desc: 'Ferraille', qty: 0 },
+                { id: 'planches', name: 'Planches / Portes', desc: 'Planches', qty: 0 }
+              ]
+            },
+            totalQty: 4,
+            status: 'PENDING',
+            createdAt: new Date(Date.now() - 3600000 * 24).toISOString()
+          }
+        ];
+        localStorage.setItem('encombrants_requests', JSON.stringify(mockRequests));
+        setRequests(mockRequests);
+      }
+    };
+
+    loadRequests();
+  }, [wednesdays]);
+
+  const formatDateFrench = (dateStr: string) => {
+    if (!dateStr) return '';
+    const [yyyy, mm, dd] = dateStr.split('-');
+    const d = new Date(parseInt(yyyy), parseInt(mm) - 1, parseInt(dd));
+    return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  };
+
+  const formatDateShort = (dateStr: string) => {
+    if (!dateStr) return '';
+    const [yyyy, mm, dd] = dateStr.split('-');
+    return `${dd}/${mm}/${yyyy}`;
+  };
+
+  // Status updates
+  const updateStatus = (id: string, newStatus: 'APPROVED' | 'REJECTED' | 'PENDING') => {
+    const updated = requests.map(req => {
+      if (req.id === id) {
+        const uReq = { ...req, status: newStatus };
+        if (newStatus === 'APPROVED') {
+          // Open Simulated email modal
+          setActiveModalRequest(uReq);
+        }
+        return uReq;
+      }
+      return req;
+    });
+    setRequests(updated);
+    localStorage.setItem('encombrants_requests', JSON.stringify(updated));
+  };
+
+  // Calculate truck load for the selected date
+  const calculateTruckLoad = (date: string) => {
+    let loadPercent = 0;
+    const dateRequests = requests.filter(req => req.date === date && req.status === 'APPROVED');
+    
+    dateRequests.forEach(req => {
+      // Add weight per item family
+      if (req.items) {
+        Object.keys(req.items).forEach(family => {
+          const qtyMultiplier = family === 'mobilier' ? 15 
+                              : family === 'electro' ? 20 
+                              : family === 'loisirs' ? 10 
+                              : 5; // divers
+          const familyItems = req.items[family] || [];
+          familyItems.forEach(item => {
+            loadPercent += item.qty * qtyMultiplier;
+          });
+        });
+      }
+    });
+
+    return loadPercent;
+  };
+
+  // Get color class for the gauge
+  const getGaugeColorClass = (percent: number) => {
+    if (percent < 70) return 'green';
+    if (percent <= 100) return 'orange';
+    return 'red';
+  };
+
+  // Reset demo
+  const resetDemo = () => {
+    localStorage.removeItem('encombrants_requests');
+    window.location.reload();
+  };
+
+  // Filter requests for display
+  const filteredRequests = requests.filter(req => req.date === selectedDate);
+  const currentLoad = calculateTruckLoad(selectedDate);
+
+  return (
+    <div className="encombrants-root">
+      
+      {/* ═══ DÉCORATION D'ARRIÈRE-PLAN ANIMÉE ═══ */}
+      <div className="muni-bg-decor">
+        <div className="muni-blob muni-blob-1"></div>
+        <div className="muni-blob muni-blob-2"></div>
+        <div className="muni-blob muni-blob-3"></div>
+      </div>
+
+      {/* ═══ HEADER MUNICIPAL ═══ */}
+      <header className="muni-header">
+        <div className="muni-header-inner">
+          <a href="/encombrants" className="logo-block">
+            <img src="/encombrant-logo.png" alt="Choisy le Roi Logo" className="muni-logo-img" />
+            <div className="muni-title">
+              <h1>Choisy-le-Roi</h1>
+              <span>Console d'Administration</span>
+            </div>
+          </a>
+          
+          <nav className="muni-nav">
+            <a href="/encombrants" className="muni-nav-link">
+              <ArrowLeft size={14} style={{ marginRight: '6px', verticalAlign: 'middle', display: 'inline' }} />
+              Retour Accueil
+            </a>
+            <button 
+              onClick={resetDemo}
+              className="btn-emergency"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', border: '1px solid rgba(15, 76, 129, 0.1)' }}
+            >
+              <RefreshCw size={14} />
+              Réinitialiser la démo
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      {/* ═══ MAIN ADMIN LAYOUT ═══ */}
+      <main className="admin-container">
+        <div className="admin-layout">
+          
+          {/* SIDEBAR : DATE SELECTION & GAUGE */}
+          <section className="admin-sidebar">
+            
+            {/* Date Filters Card */}
+            <div className="sidebar-card">
+              <h3>Sessions de collecte</h3>
+              <div className="date-selector-list">
+                {wednesdays.map(wDate => (
+                  <button
+                    key={wDate}
+                    onClick={() => setSelectedDate(wDate)}
+                    className={`btn-date-filter ${selectedDate === wDate ? 'active' : ''}`}
+                  >
+                    <Calendar size={16} />
+                    <span>{formatDateFrench(wDate)}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Truck Gauge Card */}
+            <div className="sidebar-card">
+              <h3>Volume du Camion</h3>
+              <div className="gauge-wrapper">
+                <span className="gauge-percent">{currentLoad}%</span>
+                <span className="gauge-label">Taux de remplissage</span>
+                
+                <div className="gauge-track">
+                  <div 
+                    className={`gauge-fill ${getGaugeColorClass(currentLoad)}`}
+                    style={{ width: `${Math.min(100, currentLoad)}%` }}
+                  ></div>
+                </div>
+                
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                  Capacité calculée pour le mercredi {formatDateShort(selectedDate)} (basé sur les demandes validées).
+                </span>
+
+                {currentLoad > 100 && (
+                  <div className="gauge-warning-box">
+                    <AlertTriangle size={18} style={{ flexShrink: 0 }} />
+                    <span>
+                      Surcharge ! Camion complet. Pensez à planifier un second camion ou à refuser/décaler les prochaines demandes.
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+          </section>
+
+          {/* MAIN DOSSIERS LIST */}
+          <section className="admin-main">
+            <div className="admin-main-header">
+              <h2>Demandes de ramassage</h2>
+              <span className="dossier-count-badge">
+                {filteredRequests.length} dossier(s) trouvé(s)
+              </span>
+            </div>
+
+            <div className="dossiers-list">
+              {filteredRequests.length > 0 ? (
+                filteredRequests.map(req => {
+                  // Get selected items count
+                  const itemsList: { name: string; qty: number }[] = [];
+                  if (req.items) {
+                    Object.values(req.items).forEach(familyItems => {
+                      familyItems.forEach(item => {
+                        if (item.qty > 0) {
+                          itemsList.push({ name: item.name, qty: item.qty });
+                        }
+                      });
+                    });
+                  }
+
+                  return (
+                    <div key={req.id} className="dossier-card">
+                      
+                      {/* Card Header */}
+                      <div className="dossier-card-header">
+                        <div className="dossier-id-block">
+                          <h4>{req.id}</h4>
+                          <span>Soumis le {new Date(req.createdAt).toLocaleDateString('fr-FR')} à {new Date(req.createdAt).toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})}</span>
+                        </div>
+                        <span className={`badge-status ${req.status.toLowerCase()}`}>
+                          {req.status === 'PENDING' ? 'En attente' : req.status === 'APPROVED' ? 'Confirmé' : 'Refusé'}
+                        </span>
+                      </div>
+
+                      {/* Card Content Grid */}
+                      <div className="dossier-grid">
+                        
+                        {/* Info details column */}
+                        <div className="dossier-info-col">
+                          <div className="dossier-info-item">
+                            <span>Citoyen</span>
+                            <span>{req.fullName}</span>
+                          </div>
+                          <div className="dossier-info-item">
+                            <span>Adresse de collecte</span>
+                            <span>{req.address}</span>
+                          </div>
+                          <div className="dossier-info-item">
+                            <span>Coordonnées</span>
+                            <span>{req.phone} · {req.email}</span>
+                          </div>
+                          
+                          {/* Items breakdown list */}
+                          <div className="dossier-items-list">
+                            <h5>Détail des encombrants</h5>
+                            {itemsList.map((item, idx) => (
+                              <div key={idx} className="dossier-item-row">
+                                <span>{item.name}</span>
+                                <strong>x{item.qty}</strong>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Photo attachment column */}
+                        <div className="dossier-photo-col">
+                          <span>Photo illustrative</span>
+                          <div className="dossier-photo-placeholder">
+                            <Inbox size={28} />
+                            <span>Aucune photo téléversée</span>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      {/* Card Action footer */}
+                      <div className="dossier-card-actions">
+                        {req.status === 'PENDING' ? (
+                          <>
+                            <button
+                              onClick={() => updateStatus(req.id, 'REJECTED')}
+                              className="btn-card-reject"
+                            >
+                              Refuser la demande
+                            </button>
+                            <button
+                              onClick={() => updateStatus(req.id, 'APPROVED')}
+                              className="btn-card-approve"
+                            >
+                              <Check size={16} />
+                              Valider & Confirmer
+                            </button>
+                          </>
+                        ) : (
+                          <button
+                            onClick={() => updateStatus(req.id, 'PENDING')}
+                            className="btn-card-reset"
+                          >
+                            Réinitialiser la décision
+                          </button>
+                        )}
+                      </div>
+
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="empty-state">
+                  <Inbox size={48} />
+                  <h4>Aucune demande pour ce jour</h4>
+                  <p>Les citoyens n'ont pas encore soumis de demandes d'encombrants pour le mercredi {formatDateShort(selectedDate)}.</p>
+                </div>
+              )}
+            </div>
+
+          </section>
+
+        </div>
+      </main>
+
+      {/* ═══ EMAIL SIMULATION MODAL ═══ */}
+      {activeModalRequest && (
+        <div className="modal-overlay">
+          <div className="email-modal-card">
+            
+            <div className="email-modal-header">
+              <ShieldCheck size={20} />
+              <h4>Simulation : E-mail officiel envoyé au citoyen</h4>
+              <button 
+                onClick={() => setActiveModalRequest(null)}
+                style={{ background: 'none', border: 'none', color: 'var(--white)', cursor: 'pointer', fontSize: '1.2rem', fontWeight: 'bold' }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="email-client-box">
+              <div className="email-header-field">
+                <span>De :</span>
+                <span>service.propreté@choisyleroi.fr (Mairie de Choisy-le-Roi)</span>
+              </div>
+              <div className="email-header-field">
+                <span>À :</span>
+                <span>{activeModalRequest.email} ({activeModalRequest.fullName})</span>
+              </div>
+              <div className="email-header-field">
+                <span>Objet :</span>
+                <span>Confirmation de votre rendez-vous d'enlèvement d'encombrants ({activeModalRequest.id})</span>
+              </div>
+            </div>
+
+            <div className="email-body-content">
+              <p>Bonjour {activeModalRequest.fullName},</p>
+              <p>
+                Votre demande de retrait d'encombrants a été **validée** par nos services municipaux pour le créneau suivant :
+              </p>
+              
+              <div className="email-instruction-box">
+                <strong>Date de passage :</strong> Mercredi {formatDateFrench(activeModalRequest.date)}<br />
+                <strong>Adresse de collecte :</strong> {activeModalRequest.address}<br />
+                <strong>Votre numéro de dossier :</strong> {activeModalRequest.id}
+              </div>
+
+              <p style={{ fontWeight: 'bold', color: 'var(--municipal-blue)' }}>
+                ⚠️ Consignes importantes de dépôt :
+              </p>
+              <ol style={{ paddingLeft: '20px', margin: '10px 0' }}>
+                <li style={{ marginBottom: '8px' }}>
+                  <strong>Heure de dépôt :</strong> Vos objets doivent être sortis proprement sur le trottoir la veille au soir à partir de 20h00.
+                </li>
+                <li style={{ marginBottom: '8px' }}>
+                  <strong>Identification requise :</strong> Vous devez écrire de façon lisible et visible le numéro de votre dossier <strong>({activeModalRequest.id})</strong> sur une feuille ou étiquette solidement fixée à vos objets.
+                </li>
+                <li style={{ marginBottom: '8px' }}>
+                  <strong>Tri et conformité :</strong> Tout objet non déclaré ou figurant dans la liste des objets non autorisés (gravats, solvants, produits toxiques, pneus) ne sera pas collecté et restera sous votre responsabilité.
+                </li>
+              </ol>
+
+              <p>Merci pour votre collaboration active à la propreté de notre commune.</p>
+              <p>
+                Cordialement,<br />
+                <strong>Le Service Propreté & Déchets</strong><br />
+                Mairie de Choisy-le-Roi
+              </p>
+            </div>
+
+            <div className="email-modal-footer">
+              <button 
+                onClick={() => setActiveModalRequest(null)}
+                className="btn-muni-primary"
+              >
+                Fermer l'aperçu
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ═══ MUNICIPAL FOOTER ═══ */}
+      <footer className="muni-footer">
+        <div className="muni-footer-inner">
+          <div className="footer-logo">
+            <img src="/encombrant-logo.png" alt="Choisy" className="footer-logo-img" />
+            <div className="footer-info">
+              <strong>Mairie de Choisy-le-Roi</strong><br />
+              Place Gabriel Péri, 94600 Choisy-le-Roi<br />
+              <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                Fait par <strong>XIRH</strong>, with love in Choisy-le-Roi
+              </span>
+            </div>
+          </div>
+          
+          <div className="footer-links">
+            <a href="#" className="footer-link">Mentions Légales</a>
+            <a href="#" className="footer-link">Données Personnelles</a>
+            <a href="#" className="footer-link">Contactez-nous</a>
+            <a href="#" className="footer-link">Choisy.fr</a>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  );
+}

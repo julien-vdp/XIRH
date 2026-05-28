@@ -33,6 +33,38 @@ export default function CitoyenPage() {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [addressLoading, setAddressLoading] = useState(false);
+  
+  const [selectedDate, setSelectedDate] = useState('');
+  const [wednesdays, setWednesdays] = useState<string[]>([]);
+
+  useEffect(() => {
+    const dates: string[] = [];
+    const today = new Date();
+    let dayOfWeek = today.getDay();
+    let daysUntilWednesday = (3 - dayOfWeek + 7) % 7;
+    if (daysUntilWednesday === 0) {
+      daysUntilWednesday = 7;
+    }
+    const nextWednesday = new Date(today);
+    nextWednesday.setDate(today.getDate() + daysUntilWednesday);
+
+    for (let i = 0; i < 3; i++) {
+      const d = new Date(nextWednesday);
+      d.setDate(nextWednesday.getDate() + (i * 7));
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      dates.push(`${yyyy}-${mm}-${dd}`);
+    }
+    setWednesdays(dates);
+  }, []);
+
+  const formatDateFrench = (dateStr: string) => {
+    if (!dateStr) return '';
+    const [yyyy, mm, dd] = dateStr.split('-');
+    const d = new Date(parseInt(yyyy), parseInt(mm) - 1, parseInt(dd));
+    return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  };
 
   // Step 2: Encombrants selection
   const [items, setItems] = useState<ItemFamily>({
@@ -142,7 +174,7 @@ export default function CitoyenPage() {
   // Form validation per step
   const isStepValid = () => {
     if (step === 1) {
-      return fullName.trim() !== '' && email.trim() !== '' && phone.trim() !== '' && address.trim() !== '' && address.includes('94600');
+      return fullName.trim() !== '' && email.trim() !== '' && phone.trim() !== '' && address.trim() !== '' && address.includes('94600') && selectedDate !== '';
     }
     if (step === 2) {
       return getTotalQty() > 0;
@@ -163,9 +195,31 @@ export default function CitoyenPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isStepValid() && step === 3) {
-      // Simulate submission & generate random dossier number
       const num = 'DEC-94600-' + Math.floor(10000 + Math.random() * 90000);
       setDossierNumber(num);
+      
+      // Save request to localStorage for admin space
+      const newRequest = {
+        id: num,
+        fullName,
+        email,
+        phone,
+        address,
+        date: selectedDate,
+        items,
+        totalQty: getTotalQty(),
+        status: 'PENDING',
+        createdAt: new Date().toISOString()
+      };
+      
+      try {
+        const existingRequests = JSON.parse(localStorage.getItem('encombrants_requests') || '[]');
+        existingRequests.push(newRequest);
+        localStorage.setItem('encombrants_requests', JSON.stringify(existingRequests));
+      } catch (err) {
+        console.error("Impossible de sauvegarder dans localStorage", err);
+      }
+      
       setSuccess(true);
     }
   };
@@ -335,6 +389,24 @@ export default function CitoyenPage() {
                         ? '✓ Adresse valide à Choisy-le-Roi' 
                         : 'Saisissez votre adresse. Les suggestions de l\'API Adresse sont automatiquement filtrées sur Choisy-le-Roi (94600).'}
                     </span>
+                  </div>
+
+                  <div className="form-field" style={{ marginBottom: '32px' }}>
+                    <label htmlFor="selectedDate">Date de ramassage (Uniquement le mercredi, 3 prochaines semaines)</label>
+                    <select
+                      id="selectedDate"
+                      value={selectedDate}
+                      onChange={(e) => setSelectedDate(e.target.value)}
+                      className="form-input"
+                      required
+                    >
+                      <option value="">Sélectionnez un mercredi...</option>
+                      {wednesdays.map((wDate) => (
+                        <option key={wDate} value={wDate}>
+                          {formatDateFrench(wDate)}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="form-actions-row">
@@ -600,6 +672,10 @@ export default function CitoyenPage() {
                       <strong>{phone}</strong>
                     </div>
                     <div className="summary-row">
+                      <span>Date de ramassage choisie :</span>
+                      <strong style={{ color: 'var(--municipal-blue)' }}>{formatDateFrench(selectedDate)}</strong>
+                    </div>
+                    <div className="summary-row">
                       <span>Total d'objets déclarés :</span>
                       <strong>{getTotalQty()} objet(s)</strong>
                     </div>
@@ -670,6 +746,10 @@ export default function CitoyenPage() {
                 <strong style={{ color: 'var(--municipal-blue)' }}>En attente de planification</strong>
               </div>
               <div className="success-detail-row">
+                <span>Date d'intervention :</span>
+                <strong style={{ color: 'var(--eco-green-hover)' }}>{formatDateFrench(selectedDate)}</strong>
+              </div>
+              <div className="success-detail-row">
                 <span>Adresse :</span>
                 <span>{address}</span>
               </div>
@@ -698,7 +778,10 @@ export default function CitoyenPage() {
             <img src="/encombrant-logo.png" alt="Choisy" className="footer-logo-img" />
             <div className="footer-info">
               <strong>Mairie de Choisy-le-Roi</strong><br />
-              Place Gabriel Péri, 94600 Choisy-le-Roi
+              Place Gabriel Péri, 94600 Choisy-le-Roi<br />
+              <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                Fait par <strong>XIRH</strong>, with love in Choisy-le-Roi
+              </span>
             </div>
           </div>
           

@@ -14,6 +14,8 @@ export default function EncombrantsPage() {
   const handleProfileClick = (profile: string) => {
     if (profile === 'Citoyen') {
       router.push('/encombrants/citoyen');
+    } else if (profile === 'Administrateur') {
+      router.push('/encombrants/admin');
     } else {
       alert(`Redirection simulée vers l'application : Espace ${profile}`);
     }
@@ -184,7 +186,10 @@ export default function EncombrantsPage() {
             <img src="/encombrant-logo.png" alt="Choisy" className="footer-logo-img" />
             <div className="footer-info">
               <strong>Mairie de Choisy-le-Roi</strong><br />
-              Place Gabriel Péri, 94600 Choisy-le-Roi
+              Place Gabriel Péri, 94600 Choisy-le-Roi<br />
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                Fait par <strong>XIRH</strong>, with love in Choisy-le-Roi
+              </span>
             </div>
           </div>
           
