@@ -1,0 +1,538 @@
+/* --- DESIGN SYSTEM : CLAIR, SMART ET MUNICIPAL --- */
+:root {
+  --municipal-blue: #0f4c81;
+  --municipal-blue-light: #eef5fc;
+  --municipal-blue-hover: #0a355c;
+  --eco-green: #2d9d5d;
+  --eco-green-light: #eaf6ee;
+  --eco-green-hover: #1f6e40;
+  
+  --bg-primary: #f8fafc;
+  --bg-card: #ffffff;
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --white: #ffffff;
+  
+  --shadow-sm: 0 2px 8px rgba(15, 76, 129, 0.04);
+  --shadow-md: 0 10px 30px rgba(15, 76, 129, 0.06);
+  --shadow-lg: 0 20px 40px rgba(15, 76, 129, 0.1);
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+}
+
+/* --- RE-INITIALISATIONS DE BASE --- */
+.encombrants-root {
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-dark);
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* --- HEADER MUNICIPAL --- */
+.muni-header {
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: all 0.3s ease;
+}
+
+.muni-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+}
+
+.muni-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.muni-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.muni-title h1 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--municipal-blue);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.muni-title span {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.muni-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.muni-nav-link {
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+}
+
+.muni-nav-link:hover {
+  color: var(--municipal-blue);
+}
+
+.btn-emergency {
+  background-color: var(--municipal-blue-light);
+  color: var(--municipal-blue);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  border: 1px solid rgba(15, 76, 129, 0.15);
+  transition: all 0.2s ease;
+}
+
+.btn-emergency:hover {
+  background-color: var(--municipal-blue);
+  color: var(--white);
+}
+
+/* --- HERO SECTION --- */
+.muni-hero {
+  position: relative;
+  padding: 80px 24px 60px;
+  background: radial-gradient(circle at 80% 20%, #eef6ff 0%, var(--bg-primary) 50%);
+  text-align: center;
+}
+
+.muni-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--eco-green-light);
+  color: var(--eco-green-hover);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  border: 1px solid rgba(45, 157, 93, 0.15);
+}
+
+.muni-hero-badge svg {
+  color: var(--eco-green);
+}
+
+.muni-hero h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--municipal-blue);
+  line-height: 1.15;
+  max-width: 800px;
+  margin: 0 auto 20px;
+}
+
+.muni-hero-gradient-text {
+  background: linear-gradient(135deg, var(--municipal-blue) 30%, var(--eco-green) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.muni-hero-desc {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
+/* --- PROFILE SELECTOR CARDS --- */
+.muni-profiles-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+  width: 100%;
+}
+
+.profiles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.profile-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Base style for card icons */
+.profile-card-icon-wrapper {
+  width: 180px;
+  height: 180px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--municipal-blue-light);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(15, 76, 129, 0.05);
+  transition: all 0.4s ease;
+}
+
+.profile-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.profile-card h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--municipal-blue);
+  margin: 0 0 12px 0;
+  transition: color 0.3s ease;
+}
+
+.profile-card p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+  flex-grow: 1;
+}
+
+.profile-card-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Theme variations for cards */
+.profile-card.citoyen {
+  border-top: 4px solid var(--eco-green);
+}
+.profile-card.citoyen .profile-card-icon-wrapper {
+  background-color: var(--eco-green-light);
+}
+.profile-card.citoyen .profile-card-btn {
+  background-color: var(--eco-green-light);
+  color: var(--eco-green-hover);
+  border: 1px solid rgba(45, 157, 93, 0.1);
+}
+
+.profile-card.admin {
+  border-top: 4px solid var(--municipal-blue);
+}
+.profile-card.admin .profile-card-btn {
+  background-color: var(--municipal-blue-light);
+  color: var(--municipal-blue);
+  border: 1px solid rgba(15, 76, 129, 0.1);
+}
+
+.profile-card.conducteur {
+  border-top: 4px solid #f2994a;
+}
+.profile-card.conducteur .profile-card-icon-wrapper {
+  background-color: #fdf5ee;
+}
+.profile-card.conducteur .profile-card-btn {
+  background-color: #fdf5ee;
+  color: #c96b17;
+  border: 1px solid rgba(242, 153, 74, 0.1);
+}
+
+/* Hover effects */
+.profile-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.profile-card.citoyen:hover {
+  border-color: var(--eco-green);
+}
+.profile-card.citoyen:hover .profile-card-btn {
+  background-color: var(--eco-green);
+  color: var(--white);
+}
+
+.profile-card.admin:hover {
+  border-color: var(--municipal-blue);
+}
+.profile-card.admin:hover .profile-card-btn {
+  background-color: var(--municipal-blue);
+  color: var(--white);
+}
+
+.profile-card.conducteur:hover {
+  border-color: #f2994a;
+}
+.profile-card.conducteur:hover .profile-card-btn {
+  background-color: #f2994a;
+  color: var(--white);
+}
+
+.profile-card:hover .profile-card-img {
+  transform: scale(1.08);
+}
+
+/* --- SECTION DE CONFIANCE / CHIFFRES --- */
+.muni-stats {
+  background-color: var(--white);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 48px 24px;
+}
+
+.muni-stats-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  text-align: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--municipal-blue);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-number.green {
+  color: var(--eco-green);
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.stat-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* --- EXPLANATION SECTION "COMMENT ÇA MARCHE" --- */
+.muni-explain {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  width: 100%;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-header h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--municipal-blue);
+  margin-bottom: 12px;
+}
+
+.section-header p {
+  color: var(--text-muted);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.steps-flow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  position: relative;
+}
+
+.step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+
+.step-badge {
+  position: absolute;
+  top: -16px;
+  left: 24px;
+  background-color: var(--municipal-blue);
+  color: var(--white);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: 3px solid var(--bg-primary);
+}
+
+.step-card.green .step-badge {
+  background-color: var(--eco-green);
+}
+
+.step-card h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 8px 0 12px 0;
+}
+
+.step-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* --- FOOTER MUNICIPAL --- */
+.muni-footer {
+  background-color: var(--white);
+  border-top: 1px solid var(--border-color);
+  padding: 40px 24px;
+  margin-top: auto;
+}
+
+.muni-footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-logo-img {
+  height: 36px;
+  width: auto;
+}
+
+.footer-info {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--municipal-blue);
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 900px) {
+  .profiles-grid {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+    margin: 0 auto;
+    gap: 24px;
+  }
+  
+  .steps-flow {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .muni-stats-inner {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .muni-hero h2 {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .muni-header-inner {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .muni-footer-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+}
