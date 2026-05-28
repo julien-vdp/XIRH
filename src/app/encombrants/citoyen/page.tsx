@@ -198,8 +198,8 @@ export default function CitoyenPage() {
       const num = 'DEC-94600-' + Math.floor(10000 + Math.random() * 90000);
       setDossierNumber(num);
       
-      // Save request to localStorage for admin space
-      const newRequest = {
+      // Save request to backend API
+      const requestData = {
         id: num,
         fullName,
         email,
@@ -212,13 +212,21 @@ export default function CitoyenPage() {
         createdAt: new Date().toISOString()
       };
       
-      try {
-        const existingRequests = JSON.parse(localStorage.getItem('encombrants_requests') || '[]');
-        existingRequests.push(newRequest);
-        localStorage.setItem('encombrants_requests', JSON.stringify(existingRequests));
-      } catch (err) {
-        console.error("Impossible de sauvegarder dans localStorage", err);
-      }
+      fetch('/api/encombrants', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'create',
+          data: requestData
+        })
+      })
+      .then(res => res.json())
+      .then(result => {
+        console.log("Demande sauvegardée sur le serveur", result);
+      })
+      .catch(err => {
+        console.error("Erreur de sauvegarde serveur", err);
+      });
       
       setSuccess(true);
     }
