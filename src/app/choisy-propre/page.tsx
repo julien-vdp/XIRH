@@ -487,104 +487,117 @@ export default function ChoisyPropreRedesign() {
 
         {/* ──────── 0. ROLE SELECTION PAGE (PORTAIL) ──────── */}
         {view === 'role-selection' && (
-          <div className="w-full min-h-screen bg-white flex flex-col items-center justify-center relative overflow-hidden">
-            {/* Arrière-plan épuré avec Glow subtil */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-tr from-blue-50/40 to-emerald-50/20 rounded-full filter blur-[100px] pointer-events-none"></div>
+          <div className="w-full min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center relative p-6 md:p-12 overflow-hidden">
+            
+            {/* Ambient Background Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-b from-blue-50/80 to-transparent rounded-full filter blur-[100px] opacity-70 pointer-events-none"></div>
 
-            <div className="relative z-10 w-full max-w-6xl mx-auto px-6 flex flex-col items-center">
+            <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
               
-              {/* Grand Logo Central Animé */}
-              <div className="mb-20 flex flex-col items-center animate-[fadeIn_0.5s_ease-out]">
-                <div className="w-24 h-24 rounded-[32px] bg-white border border-slate-100 flex items-center justify-center shadow-xl shadow-blue-900/5 mb-8 relative group">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-emerald-500/10 rounded-[32px] filter blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <svg viewBox="0 0 64 64" fill="none" className="w-12 h-12 relative z-10">
-                    <path d="M12 32 C12 20 20 12 32 12 C44 12 52 20 52 32" stroke="#0F2C59" strokeWidth="6" strokeLinecap="round"/>
-                    <path d="M12 32 C12 44 20 52 32 52 C44 52 52 44 52 32" stroke="#00D182" strokeWidth="6" strokeLinecap="round" strokeDasharray="4 8"/>
-                    <circle cx="32" cy="32" r="6" fill="#2563EB" className="animate-pulse"/>
+              {/* Logo Central & Titre */}
+              <div className="mb-20 flex flex-col items-center animate-[fadeIn_0.6s_ease-out]">
+                <div className="w-20 h-20 bg-white border border-slate-200 rounded-[28px] shadow-sm flex items-center justify-center mb-8 relative group">
+                  <svg viewBox="0 0 64 64" fill="none" className="w-10 h-10 transition-transform duration-700 group-hover:rotate-180">
+                    <path d="M12 32 C12 20 20 12 32 12 C44 12 52 20 52 32" stroke="#0F2C59" strokeWidth="5" strokeLinecap="round"/>
+                    <path d="M12 32 C12 44 20 52 32 52 C44 52 52 44 52 32" stroke="#00D182" strokeWidth="5" strokeLinecap="round" strokeDasharray="4 6"/>
+                    <circle cx="32" cy="32" r="5" fill="#2563EB"/>
                   </svg>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black text-blue-950 tracking-tighter text-center">
-                  Portail <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0F2C59] via-[#2563EB] to-[#00D182]">Logistique</span>
+                
+                <h1 className="text-4xl md:text-5xl font-light tracking-tight text-slate-900 text-center">
+                  Mon Choisy <span className="font-bold" style={{ color: '#0F2C59' }}>Propre</span>
                 </h1>
-                <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mt-4">Plateforme de Choisy-le-Roi</p>
+                <p className="mt-4 text-slate-500 font-medium tracking-wide text-sm uppercase">Plateforme Logistique Urbaine</p>
               </div>
 
-              {/* 3 Cartes de Choix */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl">
+              {/* 3 Cartes de Choix - Layout Aéré */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 w-full">
                 
-                {/* Choix 1 : Citoyen */}
+                {/* 1. CITOYEN */}
                 <button 
                   onClick={() => { setRole('citizen'); setView('landing'); }}
-                  className="group relative bg-white border border-slate-200/60 rounded-[40px] p-10 text-left transition-all duration-500 hover:shadow-[0_20px_40px_rgba(37,99,235,0.07)] hover:-translate-y-2 hover:border-blue-200 overflow-hidden outline-none"
+                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-500 hover:border-blue-300 hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-2 relative overflow-hidden h-[320px] flex flex-col justify-between cursor-pointer outline-none"
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 relative z-10">
-                    {/* Illustration Citoyen */}
-                    <svg viewBox="0 0 40 40" className="w-8 h-8">
-                      <path d="M 6 20 L 20 8 L 34 20 L 34 32 L 6 32 Z" fill="none" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      <rect x="16" y="22" width="8" height="10" fill="none" stroke="#2563EB" strokeWidth="2"/>
-                      <circle cx="28" cy="18" r="6" fill="none" stroke="#00D182" strokeWidth="2" strokeDasharray="2 2"/>
-                      <path d="M 28 18 L 28 32" stroke="#00D182" strokeWidth="2" strokeLinecap="round"/>
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  
+                  {/* Dessin SVG */}
+                  <div className="w-16 h-16 rounded-2xl bg-blue-50/50 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                    <svg viewBox="0 0 48 48" className="w-10 h-10">
+                      <path d="M 8 24 L 24 10 L 40 24 L 40 38 L 8 38 Z" fill="none" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M 20 38 L 20 26 L 28 26 L 28 38" fill="none" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <circle cx="34" cy="20" r="5" fill="none" stroke="#00D182" strokeWidth="2.5" strokeDasharray="2 2"/>
                     </svg>
                   </div>
-                  <div className="relative z-10">
-                    <h3 className="text-2xl font-black text-blue-950 mb-3 group-hover:text-[#2563EB] transition-colors">Espace Citoyen</h3>
-                    <p className="text-sm font-medium text-slate-500 leading-relaxed">Déclarez vos objets, suivez l'évolution logistique et consultez les consignes de recyclage de la ville.</p>
+
+                  <div className="pr-8">
+                    <h3 className="text-2xl font-bold mb-3 transition-colors" style={{ color: '#0F2C59' }}>Citoyen</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                      Déclarez vos encombrants, suivez leur prise en charge et consultez les consignes de tri.
+                    </p>
                   </div>
-                  <div className="absolute right-8 bottom-8 w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-blue-50 transition-colors text-slate-300 group-hover:text-blue-500 z-10">
-                    <ArrowRight size={20} />
+
+                  <div className="absolute bottom-8 right-8 text-slate-300 group-hover:text-blue-600 group-hover:translate-x-2 transition-all">
+                    <ArrowRight size={24} strokeWidth={2.5} />
                   </div>
                 </button>
 
-                {/* Choix 2 : Administrateur */}
+                {/* 2. ADMIN */}
                 <button 
                   onClick={() => { setRole('admin'); setAdminActiveSubTab('list'); setSelectedRequest(null); setView('admin'); }}
-                  className="group relative bg-[#0F2C59] border border-[#1e3e78] rounded-[40px] p-10 text-left transition-all duration-500 hover:shadow-[0_20px_40px_rgba(15,44,89,0.2)] hover:-translate-y-2 overflow-hidden outline-none"
+                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-500 hover:border-[#0F2C59] hover:shadow-2xl hover:shadow-blue-900/10 hover:-translate-y-2 relative overflow-hidden h-[320px] flex flex-col justify-between cursor-pointer outline-none"
                 >
-                  {/* Glow admin */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute top-0 left-0 w-full h-1 bg-[#0F2C59] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   
-                  <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 relative z-10">
-                    {/* Illustration Admin */}
-                    <svg viewBox="0 0 40 40" className="w-8 h-8">
-                      <rect x="6" y="8" width="28" height="24" rx="4" fill="none" stroke="#60A5FA" strokeWidth="2.5"/>
-                      <path d="M 6 16 L 34 16" stroke="#60A5FA" strokeWidth="2"/>
-                      <circle cx="12" cy="12" r="2" fill="#3B82F6"/>
-                      <circle cx="18" cy="12" r="2" fill="#3B82F6"/>
-                      <path d="M 12 28 Q 20 20 28 26" fill="none" stroke="#00D182" strokeWidth="2.5" strokeLinecap="round"/>
-                      <circle cx="28" cy="26" r="3" fill="#00D182"/>
+                  {/* Dessin SVG */}
+                  <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                    <svg viewBox="0 0 48 48" className="w-10 h-10">
+                      <rect x="8" y="10" width="32" height="28" rx="4" fill="none" stroke="#0F2C59" strokeWidth="2.5"/>
+                      <path d="M 8 20 L 40 20" stroke="#0F2C59" strokeWidth="2.5"/>
+                      <circle cx="14" cy="15" r="2" fill="#2563EB"/>
+                      <circle cx="20" cy="15" r="2" fill="#2563EB"/>
+                      <path d="M 16 32 Q 24 24 32 30" fill="none" stroke="#00D182" strokeWidth="3" strokeLinecap="round"/>
                     </svg>
                   </div>
-                  <div className="relative z-10">
-                    <h3 className="text-2xl font-black text-white mb-3">Supervision</h3>
-                    <p className="text-sm font-medium text-blue-200 leading-relaxed">Centre de contrôle logistique. Approuvez les dossiers et analysez les heatmaps de la ville.</p>
+
+                  <div className="pr-8">
+                    <h3 className="text-2xl font-bold mb-3 transition-colors" style={{ color: '#0F2C59' }}>Supervision</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                      Console d'administration. Validez les dossiers, assignez les tournées et analysez la heatmap.
+                    </p>
                   </div>
-                  <div className="absolute right-8 bottom-8 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors text-blue-300 group-hover:text-white z-10">
-                    <ArrowRight size={20} />
+
+                  <div className="absolute bottom-8 right-8 text-slate-300 group-hover:text-[#0F2C59] group-hover:translate-x-2 transition-all">
+                    <ArrowRight size={24} strokeWidth={2.5} />
                   </div>
                 </button>
 
-                {/* Choix 3 : Flotte */}
+                {/* 3. FLOTTE */}
                 <button 
                   onClick={() => { setRole('collector'); setView('collector'); }}
-                  className="group relative bg-white border border-slate-200/60 rounded-[40px] p-10 text-left transition-all duration-500 hover:shadow-[0_20px_40px_rgba(0,209,130,0.1)] hover:-translate-y-2 hover:border-emerald-200 overflow-hidden outline-none"
+                  className="group bg-white border border-slate-200 rounded-3xl p-8 text-left transition-all duration-500 hover:border-emerald-400 hover:shadow-2xl hover:shadow-emerald-900/10 hover:-translate-y-2 relative overflow-hidden h-[320px] flex flex-col justify-between cursor-pointer outline-none"
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 relative z-10">
-                    {/* Illustration Camion / Route */}
-                    <svg viewBox="0 0 40 40" className="w-8 h-8">
-                      <path d="M 6 30 L 34 30" stroke="#E2E8F0" strokeWidth="3" strokeLinecap="round" strokeDasharray="4 4"/>
-                      <rect x="8" y="16" width="16" height="12" rx="2" fill="none" stroke="#00D182" strokeWidth="2.5"/>
-                      <path d="M 24 20 L 30 20 C 31 20 32 21 32 22 L 32 28 L 24 28 Z" fill="none" stroke="#00D182" strokeWidth="2.5" strokeLinejoin="round"/>
-                      <circle cx="14" cy="30" r="3" fill="#10B981"/>
-                      <circle cx="28" cy="30" r="3" fill="#10B981"/>
-                      <path d="M 28 20 L 30 24" stroke="#00D182" strokeWidth="2"/>
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#00D182] to-teal-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  
+                  {/* Dessin SVG */}
+                  <div className="w-16 h-16 rounded-2xl bg-emerald-50/50 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                    <svg viewBox="0 0 48 48" className="w-10 h-10">
+                      <path d="M 8 34 L 40 34" stroke="#E2E8F0" strokeWidth="3" strokeLinecap="round" strokeDasharray="4 6"/>
+                      <rect x="10" y="16" width="20" height="14" rx="2" fill="none" stroke="#00D182" strokeWidth="2.5"/>
+                      <path d="M 30 20 L 36 20 C 37 20 38 21 38 23 L 38 30 L 30 30 Z" fill="none" stroke="#00D182" strokeWidth="2.5" strokeLinejoin="round"/>
+                      <circle cx="16" cy="34" r="4" fill="#0F2C59"/>
+                      <circle cx="32" cy="34" r="4" fill="#0F2C59"/>
                     </svg>
                   </div>
-                  <div className="relative z-10">
-                    <h3 className="text-2xl font-black text-blue-950 mb-3 group-hover:text-[#00D182] transition-colors">Flotte de Collecte</h3>
-                    <p className="text-sm font-medium text-slate-500 leading-relaxed">Terminal embarqué pour les chauffeurs. Suivi des itinéraires, chargement des bennes et validation terrain.</p>
+
+                  <div className="pr-8">
+                    <h3 className="text-2xl font-bold mb-3 transition-colors" style={{ color: '#0F2C59' }}>Logistique</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                      Terminal embarqué. Suivi GPS des collectes, remplissage des bennes et validation terrain.
+                    </p>
                   </div>
-                  <div className="absolute right-8 bottom-8 w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-emerald-50 transition-colors text-slate-300 group-hover:text-emerald-500 z-10">
-                    <ArrowRight size={20} />
+
+                  <div className="absolute bottom-8 right-8 text-slate-300 group-hover:text-[#00D182] group-hover:translate-x-2 transition-all">
+                    <ArrowRight size={24} strokeWidth={2.5} />
                   </div>
                 </button>
                 
@@ -592,8 +605,6 @@ export default function ChoisyPropreRedesign() {
             </div>
           </div>
         )}
-
-
 
         {/* ──────── 1. LANDING PAGE PREMIUM (DESKTOP FIRST) ──────── */}
         {view === 'landing' && (
