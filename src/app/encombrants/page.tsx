@@ -180,7 +180,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <img src="/btn-citoyen-saas.png" alt="Espace Citoyen" className="profile-card-img" />
+              <img src="/card-citoyen-vector.png" alt="Espace Citoyen" className="profile-card-img" />
             </div>
             <h3>Espace Citoyen</h3>
             <p>
@@ -199,7 +199,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <img src="/btn-admin-saas.png" alt="Espace Administration" className="profile-card-img" />
+              <img src="/card-admin-vector.png" alt="Espace Administration" className="profile-card-img" />
             </div>
             <h3>Console d'Administration</h3>
             <p>
@@ -218,7 +218,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <img src="/btn-conducteur-saas.png" alt="Espace Conducteur" className="profile-card-img" />
+              <img src="/card-conducteur-vector.png" alt="Espace Conducteur" className="profile-card-img" />
             </div>
             <h3>Espace Conducteur</h3>
             <p>
@@ -243,16 +243,25 @@ export default function EncombrantsPage() {
         <div className="steps-flow">
           <div className="step-card">
             <span className="step-badge">1</span>
+            <div className="step-card-img-wrapper">
+              <img src="/step-signalement-vector.png" alt="Signalement" className="step-card-img" />
+            </div>
             <h4>Signalement</h4>
             <p>Le citoyen effectue sa demande de retrait en ligne avec la liste des objets et sa géolocalisation précise.</p>
           </div>
           <div className="step-card">
             <span className="step-badge">2</span>
+            <div className="step-card-img-wrapper">
+              <img src="/step-optimisation-vector.png" alt="Optimisation" className="step-card-img" />
+            </div>
             <h4>Optimisation</h4>
             <p>L'administration valide la demande et l'insère automatiquement dans l'itinéraire le plus optimal.</p>
           </div>
           <div className="step-card green">
             <span className="step-badge">3</span>
+            <div className="step-card-img-wrapper">
+              <img src="/step-collecte-vector.png" alt="Collecte" className="step-card-img" />
+            </div>
             <h4>Collecte</h4>
             <p>Le conducteur suit sa feuille de route en direct et déclare le ramassage pour recyclage.</p>
           </div>
