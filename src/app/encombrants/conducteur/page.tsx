@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import './conducteur.css';
 import '../encombrants.css';
+import DriverMap from './DriverMap';
 
 interface Item {
   id: string;
@@ -290,6 +291,9 @@ export default function ConducteurPage() {
             </div>
           </div>
         </div>
+
+        {/* Interactive map routing */}
+        <DriverMap requests={activeRoadmap} />
 
         {/* Roadmap list */}
         <section className="roadmap-section">
