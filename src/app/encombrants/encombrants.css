@@ -1,38 +1,38 @@
-/* --- DESIGN SYSTEM : CLAIR, PREMIUM ET CIVIC-TECH --- */
+/* --- DESIGN SYSTEM : SAAS LOGISTIQUE URBAINE --- */
 :root {
-  --municipal-blue: #0a2540; /* Bleu Choisy très profond (style Stripe/Uber) */
-  --municipal-blue-light: #f0f5fa; /* Fond de surbrillance bleu */
-  --municipal-blue-hover: #07192b;
-  --eco-green: #10b981; /* Vert Choisy éco vibrant */
-  --eco-green-light: #ecfdf5; /* Fond vert éco léger */
+  --municipal-blue: #0a2540; /* Bleu profond SaaS */
+  --municipal-blue-light: #f3f6f9; /* Blanc-gris bleuté pour fonds secondaires */
+  --municipal-blue-hover: #071a2e;
+  --eco-green: #10b981; /* Vert d'action principale */
+  --eco-green-light: #ecfdf5;
   --eco-green-hover: #059669;
   
-  --bg-primary: #fafbfe; /* Blanc cassé glacé ultra-moderne */
+  --bg-primary: #fafbfe; /* Blanc cassé dominant */
   --bg-card: #ffffff;
-  --text-dark: #0f172a; /* Slate 900 pour une typographie affirmée */
-  --text-muted: #475569; /* Slate 600 pour les descriptions */
-  --border-color: #e2e8f0;
-  --border-color-light: #f1f5f9;
+  --text-dark: #0f172a; /* Slate 900 pour contrastes élevés */
+  --text-muted: #475569; /* Slate 600 */
+  --border-color: rgba(10, 37, 64, 0.06); /* Bordures ultra-fines translucides */
   --white: #ffffff;
   
-  /* Ombres fines et douces inspirées de Tailwind/Notion */
-  --shadow-sm: 0 1px 3px rgba(10, 37, 64, 0.05), 0 1px 2px rgba(10, 37, 64, 0.03);
-  --shadow-md: 0 8px 30px rgba(10, 37, 64, 0.04), 0 2px 10px rgba(10, 37, 64, 0.02);
-  --shadow-lg: 0 20px 40px rgba(10, 37, 64, 0.06), 0 4px 16px rgba(10, 37, 64, 0.03);
+  /* Profondeur visuelle par ombres multi-couches */
+  --shadow-sm: 0 1px 2px rgba(10, 37, 64, 0.02);
+  --shadow-md: 0 10px 30px -10px rgba(10, 37, 64, 0.08), 0 1px 3px rgba(10, 37, 64, 0.02);
+  --shadow-lg: 0 20px 50px -12px rgba(10, 37, 64, 0.12), 0 4px 12px -4px rgba(10, 37, 64, 0.04);
   
-  --radius-sm: 10px;
-  --radius-md: 18px;
-  --radius-lg: 26px;
+  /* Arrondis uniformisés */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px; /* Courbure standard SaaS */
   
-  --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- RE-INITIALISATIONS DE BASE --- */
+/* --- BASE --- */
 .encombrants-root {
   min-height: 100vh;
   background-color: var(--bg-primary);
   color: var(--text-dark);
-  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
@@ -41,7 +41,7 @@
   position: relative;
 }
 
-/* --- DÉCORATION D'ARRIÈRE-PLAN --- */
+/* Arrière-plan épuré */
 .muni-bg-decor {
   position: fixed;
   top: 0;
@@ -56,64 +56,53 @@
 .muni-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(140px);
-  opacity: 0.06; /* Très discret et élégant */
-  animation: floatBlob 30s infinite alternate ease-in-out;
+  filter: blur(160px);
+  opacity: 0.04;
+  animation: floatBlob 35s infinite alternate ease-in-out;
 }
 
 .muni-blob-1 {
   top: -10%;
   right: -5%;
-  width: 700px;
-  height: 700px;
+  width: 600px;
+  height: 600px;
   background-color: var(--municipal-blue);
 }
 
 .muni-blob-2 {
   bottom: -10%;
   left: -10%;
-  width: 800px;
-  height: 800px;
+  width: 700px;
+  height: 700px;
   background-color: var(--eco-green);
-  animation-delay: -8s;
-}
-
-.muni-blob-3 {
-  top: 40%;
-  left: 50%;
-  width: 600px;
-  height: 600px;
-  background-color: #f2994a;
-  opacity: 0.03;
-  animation-delay: -15s;
+  animation-delay: -10s;
 }
 
 @keyframes floatBlob {
   0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(40px, -30px) scale(1.1); }
-  100% { transform: translate(-30px, 40px) scale(0.95); }
+  50% { transform: translate(30px, -20px) scale(1.05); }
+  100% { transform: translate(-20px, 30px) scale(0.95); }
 }
 
-.muni-header, .muni-hero, .muni-profiles-section, .muni-stats, .muni-explain, .muni-footer, .citoyen-container, .admin-container, .conducteur-container {
+.muni-header, .muni-hero, .muni-profiles-section, .muni-explain, .muni-footer, .citoyen-container, .admin-container, .conducteur-container {
   position: relative;
   z-index: 1;
 }
 
-/* --- HEADER MUNICIPAL --- */
+/* --- HEADER --- */
 .muni-header {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border-color-light);
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 50;
-  transition: var(--transition-smooth);
 }
 
 .muni-header-inner {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 18px 24px;
+  padding: 14px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -122,12 +111,12 @@
 .logo-block {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   text-decoration: none;
 }
 
 .muni-logo-img {
-  height: 52px;
+  height: 38px;
   width: auto;
   object-fit: contain;
 }
@@ -138,35 +127,33 @@
 }
 
 .muni-title h1 {
-  font-size: 1.3rem;
-  font-weight: 900;
+  font-size: 1.15rem;
+  font-weight: 800;
   color: var(--municipal-blue);
   margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  line-height: 1.15;
+  letter-spacing: -0.3px;
+  line-height: 1.1;
 }
 
 .muni-title span {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
   color: var(--eco-green);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-top: 2px;
+  letter-spacing: 1px;
 }
 
 .muni-nav {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
 }
 
 .muni-nav-link {
   color: var(--text-dark);
   text-decoration: none;
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 0.9rem;
   transition: var(--transition-smooth);
 }
 
@@ -175,31 +162,29 @@
 }
 
 .btn-emergency {
-  background-color: var(--municipal-blue-light);
+  background-color: var(--white);
   color: var(--municipal-blue);
-  padding: 12px 22px;
+  padding: 10px 18px;
   border-radius: var(--radius-sm);
-  font-weight: 800;
-  font-size: 0.9rem;
+  font-weight: 700;
+  font-size: 0.85rem;
   text-decoration: none;
-  border: 1px solid rgba(10, 37, 64, 0.08);
+  border: 1px solid var(--border-color);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
   transition: var(--transition-smooth);
 }
 
 .btn-emergency:hover {
-  background-color: var(--municipal-blue);
-  color: var(--white);
-  border-color: var(--municipal-blue);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(10, 37, 64, 0.15);
+  background-color: var(--municipal-blue-light);
+  transform: translateY(-1px);
 }
 
-/* --- HERO SECTION SPLIT LAYOUT --- */
+/* --- HERO COMPACT (HAUTEUR REDUITE DE 30%) --- */
 .muni-hero {
-  padding: 80px 24px 60px;
+  padding: 40px 24px; /* Réduit pour afficher plus d'éléments hors scroll */
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
@@ -208,8 +193,8 @@
 
 .muni-hero-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 60px;
+  grid-template-columns: 0.8fr 1.2fr; /* Carte élargie pour dominer le Hero */
+  gap: 48px;
   align-items: center;
 }
 
@@ -223,63 +208,58 @@
 .muni-hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background-color: var(--eco-green-light);
   color: var(--eco-green-hover);
-  padding: 8px 18px;
+  padding: 6px 12px;
   border-radius: 50px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  margin-bottom: 24px;
-  border: 1px solid rgba(16, 185, 129, 0.15);
-}
-
-.muni-hero-badge svg {
-  color: var(--eco-green);
+  margin-bottom: 16px;
+  border: 1px solid rgba(16, 185, 129, 0.12);
 }
 
 .muni-hero h2 {
-  font-size: 3.8rem;
-  font-weight: 900;
+  font-size: 3.2rem; /* Légèrement plus compact */
+  font-weight: 850;
   color: var(--municipal-blue);
   line-height: 1.1;
-  margin: 0 0 24px 0;
-  letter-spacing: -1px;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.8px;
 }
 
 .muni-hero-gradient-text {
-  background: linear-gradient(135deg, var(--municipal-blue) 40%, var(--eco-green) 100%);
+  background: linear-gradient(135deg, var(--municipal-blue) 45%, var(--eco-green) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .muni-hero-desc {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: var(--text-muted);
-  margin: 0 0 36px 0;
-  line-height: 1.6;
+  margin: 0 0 28px 0;
+  line-height: 1.5;
+  max-width: 90%;
 }
 
-/* CTAs Directs dans le Hero */
 .muni-hero-actions {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   width: 100%;
-  margin-bottom: 40px;
 }
 
 .btn-hero-primary {
   background-color: var(--eco-green);
   color: var(--white);
-  padding: 16px 32px;
+  padding: 14px 28px; /* Boutons agrandis */
   border-radius: var(--radius-sm);
-  font-weight: 800;
-  font-size: 1.05rem;
+  font-weight: 700;
+  font-size: 1rem;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25);
+  gap: 8px;
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
   transition: var(--transition-smooth);
   border: none;
   cursor: pointer;
@@ -287,21 +267,21 @@
 
 .btn-hero-primary:hover {
   background-color: var(--eco-green-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16, 185, 129, 0.3);
 }
 
 .btn-hero-secondary {
   background-color: var(--white);
   color: var(--municipal-blue);
-  padding: 16px 28px;
+  padding: 14px 24px;
   border-radius: var(--radius-sm);
-  font-weight: 800;
-  font-size: 1.05rem;
+  font-weight: 700;
+  font-size: 1rem;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   transition: var(--transition-smooth);
@@ -309,11 +289,10 @@
 
 .btn-hero-secondary:hover {
   background-color: var(--municipal-blue-light);
-  border-color: rgba(10, 37, 64, 0.15);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
-/* --- CARTE INTERACTIVE SIMULÉE DANS LE HERO --- */
+/* --- CARTE LOGISTIQUE ACTIVE (CENTRE VISUEL) --- */
 .muni-hero-visual {
   width: 100%;
 }
@@ -322,43 +301,31 @@
   background-color: var(--white);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-lg);
-  padding: 24px;
+  box-shadow: var(--shadow-lg); /* Plus de profondeur */
+  padding: 20px;
   overflow: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  transition: var(--transition-smooth);
-}
-
-.hero-map-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 30px 60px rgba(10, 37, 64, 0.1);
+  gap: 14px;
 }
 
 .map-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--border-color-light);
-  padding-bottom: 14px;
-}
-
-.map-card-title-block {
-  display: flex;
-  flex-direction: column;
 }
 
 .map-card-title-block h4 {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 800;
   color: var(--municipal-blue);
   margin: 0;
+  letter-spacing: -0.2px;
 }
 
 .map-card-title-block span {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
@@ -368,15 +335,15 @@
   gap: 6px;
   background-color: #fef2f2;
   color: #ef4444;
-  padding: 4px 10px;
+  padding: 4px 8px;
   border-radius: 50px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
 }
 
 .live-pulse {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   background-color: #ef4444;
   border-radius: 50%;
   position: relative;
@@ -385,9 +352,9 @@
 .live-pulse::after {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -3px;
   border-radius: 50%;
-  border: 2px solid #ef4444;
+  border: 1.5px solid #ef4444;
   animation: pulseScale 1.8s infinite;
 }
 
@@ -396,26 +363,25 @@
   100% { transform: scale(1.8); opacity: 0; }
 }
 
-/* Zone Map interactive en SVG */
+/* Map canvas agrandi */
 .map-canvas-simulated {
-  height: 240px;
+  height: 380px; /* Plus d'importance visuelle */
   background-color: #f8fafc;
-  border: 1px solid var(--border-color-light);
-  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
   position: relative;
   overflow: hidden;
 }
 
-/* Grille de fond de la carte */
 .map-grid-bg {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-  background-size: 16px 16px;
-  opacity: 0.45;
+  background-image: radial-gradient(var(--border-color) 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+  opacity: 0.6;
 }
 
-/* Tracés de routes de Choisy */
+/* SVG streets */
 .map-streets-svg {
   position: absolute;
   inset: 0;
@@ -425,58 +391,32 @@
 
 .street-line {
   stroke: #e2e8f0;
-  stroke-width: 5;
+  stroke-width: 6;
   stroke-linecap: round;
   fill: none;
 }
 
 .street-line-active {
-  stroke: var(--municipal-blue-light);
-  stroke-width: 6;
+  stroke: #eef2f6;
+  stroke-width: 7;
   stroke-linecap: round;
   fill: none;
 }
 
 .route-path-highlight {
   stroke: var(--eco-green);
-  stroke-width: 3;
+  stroke-width: 3.5;
   stroke-dasharray: 8 6;
   stroke-linecap: round;
   fill: none;
-  animation: dashAnimation 30s linear infinite;
+  animation: dashOffsetAnim 25s linear infinite;
 }
 
-@keyframes dashAnimation {
-  to {
-    stroke-dashoffset: -1000;
-  }
+@keyframes dashOffsetAnim {
+  to { stroke-dashoffset: -1000; }
 }
 
-/* Camion poubelle animé */
-.animated-truck-marker {
-  position: absolute;
-  width: 36px;
-  height: 36px;
-  background-color: var(--white);
-  border: 2px solid var(--eco-green);
-  color: var(--eco-green);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-sm);
-  z-index: 5;
-  animation: truckMoveOnMap 16s ease-in-out infinite alternate;
-}
-
-@keyframes truckMoveOnMap {
-  0% { left: 15%; top: 75%; }
-  33% { left: 45%; top: 40%; }
-  66% { left: 70%; top: 55%; }
-  100% { left: 82%; top: 22%; }
-}
-
-/* Marqueurs et tooltips de la carte */
+/* Marqueurs numérotés pour la tournée optimisée */
 .map-marker {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -488,43 +428,55 @@
 }
 
 .map-marker-pin {
-  width: 12px;
-  height: 12px;
-  background-color: var(--white);
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
+  background-color: var(--white);
   box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  transition: var(--transition-smooth);
 }
 
 .map-marker.success .map-marker-pin {
-  border: 3px solid var(--eco-green);
+  border: 2px solid var(--eco-green);
+  color: var(--eco-green-hover);
 }
 
 .map-marker.pending .map-marker-pin {
-  border: 3px solid #f2994a;
+  border: 2px solid #f2994a;
+  color: #c96b17;
 }
 
 .map-marker.incident .map-marker-pin {
-  border: 3px solid #ef4444;
+  border: 2px solid #ef4444;
+  color: #dc2626;
+}
+
+.map-marker:hover .map-marker-pin {
+  transform: scale(1.2);
 }
 
 /* Tooltips de la carte */
 .map-tooltip {
   position: absolute;
-  bottom: 20px;
+  bottom: 26px;
   background-color: var(--municipal-blue);
   color: var(--white);
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: var(--radius-sm);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   white-space: nowrap;
   box-shadow: var(--shadow-md);
-  opacity: 0.95;
+  opacity: 0;
+  visibility: hidden;
   transition: var(--transition-smooth);
   pointer-events: none;
+  transform: translateY(5px);
 }
 
 .map-tooltip::after {
@@ -533,66 +485,94 @@
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border: 5px solid transparent;
+  border: 4px solid transparent;
   border-top-color: var(--municipal-blue);
 }
 
-/* Mini stat cards en bas de la carte */
-.map-card-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+.map-marker:hover .map-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
-.map-stat-subcard {
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color-light);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
+/* Camion poubelle sur la carte */
+.animated-truck-marker {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background-color: var(--white);
+  border: 2px solid var(--eco-green);
+  color: var(--eco-green);
+  border-radius: 50%;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  z-index: 5;
+  animation: truckPathAnimation 20s ease-in-out infinite alternate;
 }
 
-.map-stat-subcard strong {
-  font-size: 1.15rem;
-  font-weight: 900;
-  color: var(--municipal-blue);
+@keyframes truckPathAnimation {
+  0% { left: 6.6%; top: 75%; }
+  33% { left: 45%; top: 40%; }
+  66% { left: 70%; top: 55%; }
+  100% { left: 86.6%; top: 21.6%; }
 }
 
-.map-stat-subcard span {
+/* SaaS Floating Overlays on Map */
+.map-overlay-box {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
   font-size: 0.75rem;
-  color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--municipal-blue);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-/* --- SECTIONS SPACING & HEADERS --- */
+.map-overlay-box svg {
+  color: var(--eco-green);
+}
+
+.map-overlay-top-left { top: 12px; left: 12px; }
+.map-overlay-top-right { top: 12px; right: 12px; }
+.map-overlay-bottom-left { bottom: 12px; left: 12px; }
+.map-overlay-bottom-right { bottom: 12px; right: 12px; }
+
+/* --- SECTION CARTES PROFILES (BENTO STYLE) --- */
 .muni-profiles-section {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 60px 24px 120px;
+  padding: 30px 24px 80px;
   width: 100%;
   box-sizing: border-box;
 }
 
-/* --- PROFILE SELECTOR CARDS --- */
 .profiles-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  gap: 32px;
 }
 
 .profile-card {
   background-color: var(--white);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 48px 36px;
+  padding: 40px 30px;
   text-decoration: none;
   color: inherit;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  box-shadow: var(--shadow-md);
+  align-items: flex-start;
+  text-align: left;
+  box-shadow: var(--shadow-md); /* Plus douce */
   transition: var(--transition-smooth);
   position: relative;
   overflow: hidden;
@@ -604,68 +584,54 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 6px;
+  height: 4px; /* Plus fin */
   transition: var(--transition-smooth);
 }
 
-/* Card custom icons vectoriels / images */
 .profile-card-icon-wrapper {
-  width: 180px;
-  height: 180px;
+  width: 56px;
+  height: 56px;
   border-radius: var(--radius-md);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   position: relative;
   transition: var(--transition-smooth);
 }
 
-.profile-card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: var(--transition-smooth);
-}
-
-.profile-card:hover .profile-card-img {
-  transform: scale(1.08);
-}
-
 .profile-card h3 {
-  font-size: 1.7rem;
-  font-weight: 900;
+  font-size: 1.35rem;
+  font-weight: 800;
   color: var(--municipal-blue);
-  margin: 0 0 16px 0;
-  transition: var(--transition-smooth);
-  letter-spacing: -0.5px;
+  margin: 0 0 10px 0;
+  letter-spacing: -0.3px;
 }
 
 .profile-card p {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
-  line-height: 1.6;
-  margin: 0 0 36px 0;
+  line-height: 1.5;
+  margin: 0 0 28px 0;
   flex-grow: 1;
 }
 
 .profile-card-btn {
   width: 100%;
-  padding: 16px;
+  padding: 12px;
   border-radius: var(--radius-sm);
-  font-weight: 800;
-  font-size: 1.05rem;
+  font-weight: 700;
+  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   transition: var(--transition-smooth);
   cursor: pointer;
   border: none;
 }
 
-/* Variantes thématiques des cartes profil */
+/* Thématiques */
 .profile-card.citoyen::before { background-color: var(--eco-green); }
 .profile-card.citoyen .profile-card-icon-wrapper {
   background-color: var(--eco-green-light);
@@ -674,7 +640,6 @@
 .profile-card.citoyen .profile-card-btn {
   background-color: var(--eco-green-light);
   color: var(--eco-green-hover);
-  border: 1px solid rgba(16, 185, 129, 0.12);
 }
 
 .profile-card.admin::before { background-color: var(--municipal-blue); }
@@ -685,7 +650,6 @@
 .profile-card.admin .profile-card-btn {
   background-color: var(--municipal-blue-light);
   color: var(--municipal-blue);
-  border: 1px solid rgba(10, 37, 64, 0.1);
 }
 
 .profile-card.conducteur::before { background-color: #f2994a; }
@@ -696,178 +660,108 @@
 .profile-card.conducteur .profile-card-btn {
   background-color: #fffaf0;
   color: #c96b17;
-  border: 1px solid rgba(242, 153, 74, 0.12);
 }
 
-/* Hover des cartes de profil */
+/* Hovers sans bordures et avec élévation douce */
 .profile-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-lg);
-  border-color: rgba(10, 37, 64, 0.12);
+  border-color: rgba(10, 37, 64, 0.1);
 }
 
-.profile-card.citoyen:hover {
-  border-color: rgba(16, 185, 129, 0.2);
-}
 .profile-card.citoyen:hover .profile-card-icon-wrapper {
   background-color: var(--eco-green);
   color: var(--white);
-  transform: scale(1.05);
 }
 .profile-card.citoyen:hover .profile-card-btn {
   background-color: var(--eco-green);
   color: var(--white);
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
 }
 
-.profile-card.admin:hover {
-  border-color: rgba(10, 37, 64, 0.2);
-}
 .profile-card.admin:hover .profile-card-icon-wrapper {
   background-color: var(--municipal-blue);
   color: var(--white);
-  transform: scale(1.05);
 }
 .profile-card.admin:hover .profile-card-btn {
   background-color: var(--municipal-blue);
   color: var(--white);
-  box-shadow: 0 8px 20px rgba(10, 37, 64, 0.2);
 }
 
-.profile-card.conducteur:hover {
-  border-color: rgba(242, 153, 74, 0.2);
-}
 .profile-card.conducteur:hover .profile-card-icon-wrapper {
   background-color: #f2994a;
   color: var(--white);
-  transform: scale(1.05);
 }
 .profile-card.conducteur:hover .profile-card-btn {
   background-color: #f2994a;
   color: var(--white);
-  box-shadow: 0 8px 20px rgba(242, 153, 74, 0.2);
 }
 
-/* --- BANNIÈRE STATISTIQUES --- */
-.muni-stats {
-  background-color: var(--white);
-  border-top: 1px solid var(--border-color);
-  border-bottom: 1px solid var(--border-color);
-  padding: 80px 24px;
-}
-
-.muni-stats-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-  text-align: center;
-}
-
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 20px;
-}
-
-.stat-number {
-  font-size: 3.8rem;
-  font-weight: 900;
-  color: var(--municipal-blue);
-  line-height: 1;
-  margin-bottom: 16px;
-  letter-spacing: -1px;
-}
-
-.stat-number.green {
-  color: var(--eco-green);
-}
-
-.stat-label {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--text-dark);
-  margin-bottom: 10px;
-}
-
-.stat-desc {
-  font-size: 1rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  max-width: 300px;
-}
-
-/* --- SECTION EXPLICATIONS COMMENT CA MARCHE --- */
+/* --- SECTION COMMENT ÇA MARCHE (ELEVATIONS DOUCES) --- */
 .muni-explain {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 120px 24px;
+  padding: 60px 24px 100px;
   width: 100%;
   box-sizing: border-box;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 70px;
+  margin-bottom: 50px;
 }
 
 .section-header h2 {
-  font-size: 2.5rem;
-  font-weight: 900;
+  font-size: 2.2rem;
+  font-weight: 850;
   color: var(--municipal-blue);
-  margin: 0 0 16px 0;
-  letter-spacing: -0.5px;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.4px;
 }
 
 .section-header p {
   color: var(--text-muted);
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   line-height: 1.5;
 }
 
 .steps-flow {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 44px;
-  position: relative;
+  gap: 32px;
 }
 
 .step-card {
   background: var(--white);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 44px 36px;
+  padding: 36px 30px;
   box-shadow: var(--shadow-md);
   position: relative;
   transition: var(--transition-smooth);
 }
 
 .step-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
-  border-color: rgba(10, 37, 64, 0.1);
 }
 
 .step-badge {
   position: absolute;
-  top: -22px;
-  left: 36px;
+  top: -18px;
+  left: 30px;
   background-color: var(--municipal-blue);
   color: var(--white);
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
-  font-size: 1.15rem;
-  border: 4px solid var(--bg-primary);
-  box-shadow: var(--shadow-sm);
+  font-weight: 800;
+  font-size: 1rem;
+  border: 3px solid var(--bg-primary);
 }
 
 .step-card.green .step-badge {
@@ -875,25 +769,24 @@
 }
 
 .step-card h4 {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 800;
   color: var(--text-dark);
-  margin: 10px 0 16px 0;
-  letter-spacing: -0.3px;
+  margin: 8px 0 12px 0;
 }
 
 .step-card p {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0;
 }
 
-/* --- FOOTER MUNICIPAL --- */
+/* --- FOOTER SAAS --- */
 .muni-footer {
   background-color: var(--white);
   border-top: 1px solid var(--border-color);
-  padding: 60px 24px;
+  padding: 40px 24px;
   margin-top: auto;
 }
 
@@ -904,36 +797,36 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 32px;
+  gap: 24px;
 }
 
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 .footer-logo-img {
-  height: 48px;
+  height: 32px;
   width: auto;
 }
 
 .footer-info {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .footer-links {
   display: flex;
-  gap: 32px;
+  gap: 24px;
 }
 
 .footer-link {
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 600;
   transition: var(--transition-smooth);
 }
 
@@ -941,11 +834,11 @@
   color: var(--eco-green);
 }
 
-/* --- RESPONSIVE DESIGN --- */
+/* --- RESPONSIVE --- */
 @media (max-width: 990px) {
   .muni-hero-grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
     text-align: center;
   }
   
@@ -955,7 +848,7 @@
   }
   
   .muni-hero h2 {
-    font-size: 3rem;
+    font-size: 2.6rem;
   }
   
   .muni-hero-actions {
@@ -964,42 +857,26 @@
   
   .profiles-grid {
     grid-template-columns: 1fr;
-    max-width: 500px;
+    max-width: 480px;
     margin: 0 auto;
-    gap: 32px;
+    gap: 24px;
   }
   
   .steps-flow {
     grid-template-columns: 1fr;
-    gap: 40px;
-  }
-  
-  .muni-stats-inner {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .stat-item {
-    border-bottom: 1px solid var(--border-color-light);
-    padding-bottom: 24px;
-  }
-  
-  .stat-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+    gap: 28px;
   }
 }
 
 @media (max-width: 600px) {
   .muni-header-inner {
     flex-direction: column;
-    gap: 20px;
-    text-align: center;
+    gap: 16px;
   }
   
   .muni-nav {
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
     width: 100%;
   }
 
@@ -1016,15 +893,5 @@
   .btn-hero-primary, .btn-hero-secondary {
     width: 100%;
     justify-content: center;
-  }
-  
-  .muni-footer-inner {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .footer-links {
-    flex-direction: column;
-    gap: 16px;
   }
 }

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { 
   ArrowRight, Shield, Leaf, Clock, MapPin, 
   CheckCircle2, AlertTriangle, Phone, FileText, Info,
-  Truck, User, ArrowDown
+  Truck, User, ArrowDown, Check
 } from 'lucide-react';
 import './encombrants.css';
 
@@ -29,7 +29,6 @@ export default function EncombrantsPage() {
       <div className="muni-bg-decor">
         <div className="muni-blob muni-blob-1"></div>
         <div className="muni-blob muni-blob-2"></div>
-        <div className="muni-blob muni-blob-3"></div>
       </div>
       
       {/* ═══ HEADER MUNICIPAL ═══ */}
@@ -39,36 +38,36 @@ export default function EncombrantsPage() {
             <img src="/encombrant-logo.png" alt="Choisy le Roi Logo" className="muni-logo-img" />
             <div className="muni-title">
               <h1>Choisy-le-Roi</h1>
-              <span>Gestion des Encombrants</span>
+              <span>Logistique Urbaine</span>
             </div>
           </a>
           
           <nav className="muni-nav">
             <a href="#fonctionnement" className="muni-nav-link">Comment ça marche ?</a>
             <a href="tel:3927" className="btn-emergency">
-              <Phone size={16} />
+              <Phone size={14} />
               Allô Propreté : 3927
             </a>
           </nav>
         </div>
       </header>
 
-      {/* ═══ HERO SECTION ═══ */}
+      {/* ═══ HERO SECTION COMPACTE ═══ */}
       <section className="muni-hero">
         <div className="muni-hero-grid">
           
           {/* Colonne Gauche : Contenu principal */}
           <div className="muni-hero-content">
             <div className="muni-hero-badge">
-              <Leaf size={16} />
-              <span>Service public écocitoyen engagé pour la propreté</span>
+              <Leaf size={14} />
+              <span>Plateforme logistique connectée de gestion urbaine</span>
             </div>
             <h2>
-              Un environnement propre, <br />
-              <span className="muni-hero-gradient-text">ensemble pour Choisy-le-Roi.</span>
+              Optimisation <br />
+              des collectes d'encombrants
             </h2>
             <p className="muni-hero-desc">
-              Planifiez vos collectes à domicile, signalez les dépôts sauvages et facilitez le travail des agents municipaux grâce à notre plateforme connectée et intelligente.
+              Planifiez vos collectes à domicile, signalez les incidents sur la voie publique et optimisez les feuilles de route des agents en temps réel.
             </p>
             <div className="muni-hero-actions">
               <button 
@@ -80,19 +79,18 @@ export default function EncombrantsPage() {
               </button>
               <a href="#fonctionnement" className="btn-hero-secondary">
                 En savoir plus
-                <ArrowDown size={16} />
               </a>
             </div>
           </div>
           
-          {/* Colonne Droite : Carte Interactive Simulée */}
+          {/* Colonne Droite : Carte Logistique Agrandie */}
           <div className="muni-hero-visual">
             <div className="hero-map-card">
               
-              <div className="map-card-header" style={{ borderBottom: 'none', paddingBottom: 0 }}>
+              <div className="map-card-header">
                 <div className="map-card-title-block">
-                  <h4>Suivi des tournées</h4>
-                  <span>Choisy-le-Roi · Secteur Centre</span>
+                  <h4>Réseau de Collecte Choisy-Est</h4>
+                  <span>Secteur Centre-Est · Session Active</span>
                 </div>
                 <div className="live-indicator">
                   <div className="live-pulse"></div>
@@ -100,17 +98,35 @@ export default function EncombrantsPage() {
                 </div>
               </div>
               
-              <div className="map-canvas-simulated" style={{ height: '280px' }}>
+              <div className="map-canvas-simulated">
                 <div className="map-grid-bg"></div>
                 
+                {/* Overlays flottants style SaaS */}
+                <div className="map-overlay-box map-overlay-top-left">
+                  <MapPin size={12} />
+                  <span>Tournée #402</span>
+                </div>
+                <div className="map-overlay-box map-overlay-top-right">
+                  <Clock size={12} />
+                  <span>ETA: 10h45</span>
+                </div>
+                <div className="map-overlay-box map-overlay-bottom-left">
+                  <Truck size={12} />
+                  <span>12 / 16 Arrêts</span>
+                </div>
+                <div className="map-overlay-box map-overlay-bottom-right">
+                  <Check size={12} style={{ color: 'var(--eco-green)' }} />
+                  <span>Itinéraire optimisé</span>
+                </div>
+
                 {/* Tracés de rues stylisés */}
-                <svg className="map-streets-svg" viewBox="0 0 300 240">
+                <svg className="map-streets-svg" viewBox="0 0 300 240" preserveAspectRatio="none">
                   <line x1="20" y1="180" x2="135" y2="96" className="street-line" />
                   <line x1="135" y1="96" x2="210" y2="132" className="street-line" />
                   <line x1="210" y1="132" x2="260" y2="52" className="street-line" />
                   
-                  <line x1="10" y1="60" x2="290" y2="60" className="street-line-active" style={{ opacity: 0.15 }} />
-                  <line x1="150" y1="10" x2="150" y2="230" className="street-line-active" style={{ opacity: 0.15 }} />
+                  <line x1="10" y1="60" x2="290" y2="60" className="street-line-active" style={{ opacity: 0.08 }} />
+                  <line x1="150" y1="10" x2="150" y2="230" className="street-line-active" style={{ opacity: 0.08 }} />
                   
                   {/* Tracé de la tournée active */}
                   <path 
@@ -119,30 +135,30 @@ export default function EncombrantsPage() {
                   />
                 </svg>
                 
-                {/* Points de collecte (Pins) */}
+                {/* Points de collecte (Pins avec numéros de tournée) */}
                 <div className="map-marker success" style={{ left: '6.6%', top: '75%' }}>
-                  <div className="map-marker-pin"></div>
+                  <div className="map-marker-pin">1</div>
                   <div className="map-tooltip">✓ Collecté (Rue de la Paix)</div>
                 </div>
                 
                 <div className="map-marker pending" style={{ left: '45%', top: '40%' }}>
-                  <div className="map-marker-pin"></div>
+                  <div className="map-marker-pin">2</div>
                   <div className="map-tooltip">En cours (Av. G. Péri)</div>
                 </div>
                 
                 <div className="map-marker incident" style={{ left: '70%', top: '55%' }}>
-                  <div className="map-marker-pin"></div>
-                  <div className="map-tooltip">⚠️ Incident (Vol. excessif)</div>
+                  <div className="map-marker-pin">3</div>
+                  <div className="map-tooltip">⚠️ Incident (Volume excessif)</div>
                 </div>
 
                 <div className="map-marker pending" style={{ left: '86.6%', top: '21.6%' }}>
-                  <div className="map-marker-pin"></div>
+                  <div className="map-marker-pin">4</div>
                   <div className="map-tooltip">Planifié (Rue du Port)</div>
                 </div>
 
-                {/* Camion poubelle animé qui parcourt la ligne */}
+                {/* Camion poubelle animé */}
                 <div className="animated-truck-marker">
-                  <Truck size={18} />
+                  <Truck size={16} />
                 </div>
 
               </div>
@@ -164,15 +180,15 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <img src="/btn-citoyen.png" alt="Espace Citoyen" className="profile-card-img" />
+              <User size={28} />
             </div>
             <h3>Espace Citoyen</h3>
             <p>
-              Prenez rendez-vous pour un enlèvement devant chez vous, signalez un dépôt sauvage sur la voie publique en 1 clic et suivez le statut de votre demande.
+              Prenez rendez-vous, déclarez vos encombrants, signalez un dépôt sauvage et suivez l'avancement de votre demande.
             </p>
             <button className="profile-card-btn">
-              Accéder à l'espace
-              <ArrowRight size={16} />
+              Prendre rendez-vous
+              <ArrowRight size={14} />
             </button>
           </div>
 
@@ -183,15 +199,15 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <img src="/btn-admin.png" alt="Espace Administration" className="profile-card-img" />
+              <Shield size={28} />
             </div>
-            <h3>Espace Administration</h3>
+            <h3>Console d'Administration</h3>
             <p>
-              Supervisez les demandes des résidents, planifiez et optimisez les tournées de collecte quotidienne, et gérez les rapports et statistiques du service.
+              Supervisez les demandes d'enlèvement, planifiez et optimisez les tournées et gérez les rapports d'intervention.
             </p>
             <button className="profile-card-btn">
-              Console d'administration
-              <ArrowRight size={16} />
+              Ouvrir la console
+              <ArrowRight size={14} />
             </button>
           </div>
 
@@ -202,15 +218,15 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <img src="/btn-conducteur.png" alt="Espace Conducteur" className="profile-card-img" />
+              <Truck size={28} />
             </div>
             <h3>Espace Conducteur</h3>
             <p>
-              Consultez votre feuille de route optimisée en temps réel, déclarez le passage de la benne et signalez les incidents sur le terrain.
+              Consultez votre feuille de route optimisée, déclarez vos passages et signalez les incidents sur le terrain.
             </p>
             <button className="profile-card-btn">
               Démarrer la tournée
-              <ArrowRight size={16} />
+              <ArrowRight size={14} />
             </button>
           </div>
 
@@ -221,24 +237,24 @@ export default function EncombrantsPage() {
       <section id="fonctionnement" className="muni-explain" style={{ paddingTop: 0 }}>
         <div className="section-header">
           <h2>Comment ça fonctionne ?</h2>
-          <p>La gestion des encombrants à Choisy-le-Roi est simplifiée en 3 étapes clefs.</p>
+          <p>La gestion intelligente des collectes résumée en 3 étapes clés.</p>
         </div>
         
         <div className="steps-flow">
           <div className="step-card">
             <span className="step-badge">1</span>
-            <h4>Signalement ou Demande</h4>
-            <p>Le citoyen remplit un formulaire de demande d'enlèvement ou signale un dépôt sauvage en téléversant une photo et une géolocalisation.</p>
+            <h4>Signalement</h4>
+            <p>Le citoyen effectue sa demande de retrait en ligne avec la liste des objets et sa géolocalisation précise.</p>
           </div>
           <div className="step-card">
             <span className="step-badge">2</span>
-            <h4>Validation & Planification</h4>
-            <p>Les administrateurs municipaux qualifient la demande, valident sa conformité et l'affectent à la feuille de route du conducteur approprié.</p>
+            <h4>Optimisation</h4>
+            <p>L'administration valide la demande et l'insère automatiquement dans l'itinéraire le plus optimal.</p>
           </div>
           <div className="step-card green">
             <span className="step-badge">3</span>
-            <h4>Enlèvement & Tri</h4>
-            <p>L'équipe de collecte se rend sur place le jour convenu pour charger les objets et les acheminer vers les filières de recyclage adaptées.</p>
+            <h4>Collecte</h4>
+            <p>Le conducteur suit sa feuille de route en direct et déclare le ramassage pour recyclage.</p>
           </div>
         </div>
       </section>

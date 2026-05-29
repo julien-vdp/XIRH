@@ -458,7 +458,9 @@ export default function CitoyenPage() {
                   {/* Catégorie 1 : Mobilier */}
                   <div className="category-block">
                     <div className="category-header">
-                      <img src="/family-mobilier.png" alt="Mobilier" className="category-img" />
+                      <div className="category-icon-badge citoyen">
+                        <Sofa size={32} />
+                      </div>
                       <div className="category-title-info">
                         <h3>Mobilier</h3>
                         <span>Matelas, armoires, lits, tables, fauteuils...</span>
@@ -497,7 +499,9 @@ export default function CitoyenPage() {
                   {/* Catégorie 2 : Électroménager */}
                   <div className="category-block">
                     <div className="category-header">
-                      <img src="/family-electro.png" alt="Électroménager" className="category-img" />
+                      <div className="category-icon-badge electro">
+                        <Tv size={32} />
+                      </div>
                       <div className="category-title-info">
                         <h3>Électroménager</h3>
                         <span>Frigos, machines à laver, fours, télévisions...</span>
@@ -536,7 +540,9 @@ export default function CitoyenPage() {
                   {/* Catégorie 3 : Jardin & Loisirs */}
                   <div className="category-block">
                     <div className="category-header">
-                      <img src="/family-loisirs.png" alt="Jardin & Loisirs" className="category-img" />
+                      <div className="category-icon-badge loisirs">
+                        <Bike size={32} />
+                      </div>
                       <div className="category-title-info">
                         <h3>Jardin & Loisirs</h3>
                         <span>Vélos, mobilier de jardin, outillage non motorisé...</span>
@@ -575,7 +581,9 @@ export default function CitoyenPage() {
                   {/* Catégorie 4 : Divers */}
                   <div className="category-block">
                     <div className="category-header">
-                      <img src="/family-divers.png" alt="Divers & Cartons" className="category-img" />
+                      <div className="category-icon-badge divers">
+                        <Package size={32} />
+                      </div>
                       <div className="category-title-info">
                         <h3>Divers & Bois</h3>
                         <span>Cartons pliés, palettes, ferrailles, planches...</span>
