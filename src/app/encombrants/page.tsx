@@ -180,7 +180,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <User size={28} />
+              <img src="/btn-citoyen-saas.png" alt="Espace Citoyen" className="profile-card-img" />
             </div>
             <h3>Espace Citoyen</h3>
             <p>
@@ -199,7 +199,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <Shield size={28} />
+              <img src="/btn-admin-saas.png" alt="Espace Administration" className="profile-card-img" />
             </div>
             <h3>Console d'Administration</h3>
             <p>
@@ -218,7 +218,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <Truck size={28} />
+              <img src="/btn-conducteur-saas.png" alt="Espace Conducteur" className="profile-card-img" />
             </div>
             <h3>Espace Conducteur</h3>
             <p>

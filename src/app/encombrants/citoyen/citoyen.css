@@ -214,35 +214,16 @@
   margin-bottom: 32px;
 }
 
-/* Icon badges categories */
-.category-icon-badge {
+/* Illustrations de categories */
+.category-img {
   width: 64px;
   height: 64px;
   border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  background-color: var(--white);
   transition: var(--transition-smooth);
-}
-
-.category-icon-badge.citoyen {
-  background-color: var(--eco-green-light);
-  color: var(--eco-green-hover);
-}
-
-.category-icon-badge.electro {
-  background-color: var(--municipal-blue-light);
-  color: var(--municipal-blue);
-}
-
-.category-icon-badge.loisirs {
-  background-color: #fffaf0;
-  color: #f2994a;
-}
-
-.category-icon-badge.divers {
-  background-color: #f3f0ff;
-  color: #7048e8;
 }
 
 .category-title-info h3 {

@@ -587,17 +587,28 @@
   height: 4px; /* Plus fin */
   transition: var(--transition-smooth);
 }
-
 .profile-card-icon-wrapper {
-  width: 56px;
-  height: 56px;
+  width: 140px;
+  height: 140px;
   border-radius: var(--radius-md);
   margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   position: relative;
   transition: var(--transition-smooth);
+}
+
+.profile-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-smooth);
+}
+
+.profile-card:hover .profile-card-img {
+  transform: scale(1.06);
 }
 
 .profile-card h3 {
