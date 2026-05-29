@@ -608,22 +608,29 @@
   transition: var(--transition-smooth);
 }
 
-/* Card custom icons vectoriels */
+/* Card custom icons vectoriels / images */
 .profile-card-icon-wrapper {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
+  width: 180px;
+  height: 180px;
+  border-radius: var(--radius-md);
   margin-bottom: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
   position: relative;
   transition: var(--transition-smooth);
 }
 
-.profile-card-icon-wrapper svg {
-  z-index: 2;
+.profile-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: var(--transition-smooth);
+}
+
+.profile-card:hover .profile-card-img {
+  transform: scale(1.08);
 }
 
 .profile-card h3 {

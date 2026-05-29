@@ -45,7 +45,6 @@ export default function EncombrantsPage() {
           
           <nav className="muni-nav">
             <a href="#fonctionnement" className="muni-nav-link">Comment ça marche ?</a>
-            <a href="#statistiques" className="muni-nav-link">Statistiques</a>
             <a href="tel:3927" className="btn-emergency">
               <Phone size={16} />
               Allô Propreté : 3927
@@ -90,7 +89,7 @@ export default function EncombrantsPage() {
           <div className="muni-hero-visual">
             <div className="hero-map-card">
               
-              <div className="map-card-header">
+              <div className="map-card-header" style={{ borderBottom: 'none', paddingBottom: 0 }}>
                 <div className="map-card-title-block">
                   <h4>Suivi des tournées</h4>
                   <span>Choisy-le-Roi · Secteur Centre</span>
@@ -101,7 +100,7 @@ export default function EncombrantsPage() {
                 </div>
               </div>
               
-              <div className="map-canvas-simulated">
+              <div className="map-canvas-simulated" style={{ height: '280px' }}>
                 <div className="map-grid-bg"></div>
                 
                 {/* Tracés de rues stylisés */}
@@ -147,21 +146,6 @@ export default function EncombrantsPage() {
                 </div>
 
               </div>
-              
-              <div className="map-card-stats">
-                <div className="map-stat-subcard">
-                  <strong>12 / 16</strong>
-                  <span>Collectes validées</span>
-                </div>
-                <div className="map-stat-subcard">
-                  <strong>88%</strong>
-                  <span>Tri & Recyclage</span>
-                </div>
-                <div className="map-stat-subcard">
-                  <strong>1.2 tonnes</strong>
-                  <span>Poids récolté</span>
-                </div>
-              </div>
 
             </div>
           </div>
@@ -180,7 +164,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <User size={40} />
+              <img src="/btn-citoyen.png" alt="Espace Citoyen" className="profile-card-img" />
             </div>
             <h3>Espace Citoyen</h3>
             <p>
@@ -199,7 +183,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <Shield size={40} />
+              <img src="/btn-admin.png" alt="Espace Administration" className="profile-card-img" />
             </div>
             <h3>Espace Administration</h3>
             <p>
@@ -218,7 +202,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <Truck size={40} />
+              <img src="/btn-conducteur.png" alt="Espace Conducteur" className="profile-card-img" />
             </div>
             <h3>Espace Conducteur</h3>
             <p>
@@ -233,29 +217,8 @@ export default function EncombrantsPage() {
         </div>
       </section>
 
-      {/* ═══ STATS BANNER ═══ */}
-      <section id="statistiques" className="muni-stats">
-        <div className="muni-stats-inner">
-          <div className="stat-item">
-            <span className="stat-number">24h</span>
-            <span className="stat-label">Délai moyen d'intervention</span>
-            <span className="stat-desc">Après validation du signalement citoyen</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number green">88%</span>
-            <span className="stat-label">Valorisation & Recyclage</span>
-            <span className="stat-desc">Des objets acheminés en recyclerie</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number">12 400+</span>
-            <span className="stat-label">Collectes par an</span>
-            <span className="stat-desc">Effectuées sur l'ensemble de la commune</span>
-          </div>
-        </div>
-      </section>
-
       {/* ═══ COMMENT ÇA MARCHE ═══ */}
-      <section id="fonctionnement" className="muni-explain">
+      <section id="fonctionnement" className="muni-explain" style={{ paddingTop: 0 }}>
         <div className="section-header">
           <h2>Comment ça fonctionne ?</h2>
           <p>La gestion des encombrants à Choisy-le-Roi est simplifiée en 3 étapes clefs.</p>
@@ -284,12 +247,12 @@ export default function EncombrantsPage() {
       <footer className="muni-footer">
         <div className="muni-footer-inner">
           <div className="footer-logo">
-            <img src="/encombrant-logo.png" alt="Choisy" className="footer-logo-img" />
+            <img src="/logo.png" alt="XIRH" className="footer-logo-img" />
             <div className="footer-info">
               <strong>Mairie de Choisy-le-Roi</strong><br />
               Place Gabriel Péri, 94600 Choisy-le-Roi<br />
               <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                Fait par <strong>XIRH</strong>, avec love in Choisy-le-Roi
+                Fait avec ❤️ à Choisy-le-Roi
               </span>
             </div>
           </div>

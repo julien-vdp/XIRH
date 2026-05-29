@@ -461,12 +461,12 @@ export default function ConducteurPage() {
       <footer className="muni-footer">
         <div className="muni-footer-inner">
           <div className="footer-logo">
-            <img src="/encombrant-logo.png" alt="Choisy" className="footer-logo-img" />
+            <img src="/logo.png" alt="XIRH" className="footer-logo-img" />
             <div className="footer-info">
               <strong>Mairie de Choisy-le-Roi</strong><br />
               Place Gabriel Péri, 94600 Choisy-le-Roi<br />
-              <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                Fait par <strong>XIRH</strong>, with love in Choisy-le-Roi
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                Fait avec ❤️ à Choisy-le-Roi
               </span>
             </div>
           </div>
