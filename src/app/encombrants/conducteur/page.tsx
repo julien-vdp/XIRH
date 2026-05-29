@@ -327,10 +327,10 @@ export default function ConducteurPage() {
                   </div>
 
                   {/* Items list */}
-                  <div className="dossier-items-list" style={{ background: 'rgba(0,0,0,0.01)', border: '1px solid var(--border-color)', margin: '12px 0' }}>
-                    <h5 style={{ fontSize: '0.8rem', margin: '0 0 8px 0', paddingBottom: '4px' }}>Encombrants déclarés</h5>
+                  <div className="dossier-items-list">
+                    <h5>Encombrants déclarés</h5>
                     {itemsList.map((item, idx) => (
-                      <div key={idx} className="dossier-item-row" style={{ padding: '4px 0' }}>
+                      <div key={idx} className="dossier-item-row">
                         <span>{item.name}</span>
                         <strong>x{item.qty}</strong>
                       </div>

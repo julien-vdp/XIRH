@@ -4,7 +4,8 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   ArrowRight, Shield, Leaf, Clock, MapPin, 
-  CheckCircle2, AlertTriangle, Phone, FileText, Info
+  CheckCircle2, AlertTriangle, Phone, FileText, Info,
+  Truck, User, ArrowDown
 } from 'lucide-react';
 import './encombrants.css';
 
@@ -46,7 +47,7 @@ export default function EncombrantsPage() {
             <a href="#fonctionnement" className="muni-nav-link">Comment ça marche ?</a>
             <a href="#statistiques" className="muni-nav-link">Statistiques</a>
             <a href="tel:3927" className="btn-emergency">
-              <Phone size={14} style={{ marginRight: '6px', verticalAlign: 'middle', display: 'inline' }} />
+              <Phone size={16} />
               Allô Propreté : 3927
             </a>
           </nav>
@@ -55,17 +56,117 @@ export default function EncombrantsPage() {
 
       {/* ═══ HERO SECTION ═══ */}
       <section className="muni-hero">
-        <div className="muni-hero-badge">
-          <Leaf size={16} />
-          <span>Service public écocitoyen engagé pour la propreté</span>
+        <div className="muni-hero-grid">
+          
+          {/* Colonne Gauche : Contenu principal */}
+          <div className="muni-hero-content">
+            <div className="muni-hero-badge">
+              <Leaf size={16} />
+              <span>Service public écocitoyen engagé pour la propreté</span>
+            </div>
+            <h2>
+              Un environnement propre, <br />
+              <span className="muni-hero-gradient-text">ensemble pour Choisy-le-Roi.</span>
+            </h2>
+            <p className="muni-hero-desc">
+              Planifiez vos collectes à domicile, signalez les dépôts sauvages et facilitez le travail des agents municipaux grâce à notre plateforme connectée et intelligente.
+            </p>
+            <div className="muni-hero-actions">
+              <button 
+                onClick={() => router.push('/encombrants/citoyen')} 
+                className="btn-hero-primary"
+              >
+                Prendre rendez-vous
+                <ArrowRight size={18} />
+              </button>
+              <a href="#fonctionnement" className="btn-hero-secondary">
+                En savoir plus
+                <ArrowDown size={16} />
+              </a>
+            </div>
+          </div>
+          
+          {/* Colonne Droite : Carte Interactive Simulée */}
+          <div className="muni-hero-visual">
+            <div className="hero-map-card">
+              
+              <div className="map-card-header">
+                <div className="map-card-title-block">
+                  <h4>Suivi des tournées</h4>
+                  <span>Choisy-le-Roi · Secteur Centre</span>
+                </div>
+                <div className="live-indicator">
+                  <div className="live-pulse"></div>
+                  <span>LIVE</span>
+                </div>
+              </div>
+              
+              <div className="map-canvas-simulated">
+                <div className="map-grid-bg"></div>
+                
+                {/* Tracés de rues stylisés */}
+                <svg className="map-streets-svg" viewBox="0 0 300 240">
+                  <line x1="20" y1="180" x2="135" y2="96" className="street-line" />
+                  <line x1="135" y1="96" x2="210" y2="132" className="street-line" />
+                  <line x1="210" y1="132" x2="260" y2="52" className="street-line" />
+                  
+                  <line x1="10" y1="60" x2="290" y2="60" className="street-line-active" style={{ opacity: 0.15 }} />
+                  <line x1="150" y1="10" x2="150" y2="230" className="street-line-active" style={{ opacity: 0.15 }} />
+                  
+                  {/* Tracé de la tournée active */}
+                  <path 
+                    d="M 20,180 L 135,96 L 210,132 L 260,52" 
+                    className="route-path-highlight" 
+                  />
+                </svg>
+                
+                {/* Points de collecte (Pins) */}
+                <div className="map-marker success" style={{ left: '6.6%', top: '75%' }}>
+                  <div className="map-marker-pin"></div>
+                  <div className="map-tooltip">✓ Collecté (Rue de la Paix)</div>
+                </div>
+                
+                <div className="map-marker pending" style={{ left: '45%', top: '40%' }}>
+                  <div className="map-marker-pin"></div>
+                  <div className="map-tooltip">En cours (Av. G. Péri)</div>
+                </div>
+                
+                <div className="map-marker incident" style={{ left: '70%', top: '55%' }}>
+                  <div className="map-marker-pin"></div>
+                  <div className="map-tooltip">⚠️ Incident (Vol. excessif)</div>
+                </div>
+
+                <div className="map-marker pending" style={{ left: '86.6%', top: '21.6%' }}>
+                  <div className="map-marker-pin"></div>
+                  <div className="map-tooltip">Planifié (Rue du Port)</div>
+                </div>
+
+                {/* Camion poubelle animé qui parcourt la ligne */}
+                <div className="animated-truck-marker">
+                  <Truck size={18} />
+                </div>
+
+              </div>
+              
+              <div className="map-card-stats">
+                <div className="map-stat-subcard">
+                  <strong>12 / 16</strong>
+                  <span>Collectes validées</span>
+                </div>
+                <div className="map-stat-subcard">
+                  <strong>88%</strong>
+                  <span>Tri & Recyclage</span>
+                </div>
+                <div className="map-stat-subcard">
+                  <strong>1.2 tonnes</strong>
+                  <span>Poids récolté</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
         </div>
-        <h2>
-          Un environnement propre, <br />
-          <span className="muni-hero-gradient-text">ensemble pour Choisy-le-Roi.</span>
-        </h2>
-        <p className="muni-hero-desc">
-          Planifiez vos collectes à domicile, signalez les dépôts sauvages et facilitez le travail des agents municipaux grâce à notre plateforme connectée et intelligente.
-        </p>
       </section>
 
       {/* ═══ PROFILE SELECTOR ═══ */}
@@ -79,7 +180,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <img src="/btn-citoyen.png" alt="Espace Citoyen" className="profile-card-img" />
+              <User size={40} />
             </div>
             <h3>Espace Citoyen</h3>
             <p>
@@ -98,7 +199,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <img src="/btn-admin.png" alt="Espace Administration" className="profile-card-img" />
+              <Shield size={40} />
             </div>
             <h3>Espace Administration</h3>
             <p>
@@ -117,7 +218,7 @@ export default function EncombrantsPage() {
             style={{ cursor: 'pointer' }}
           >
             <div className="profile-card-icon-wrapper">
-              <img src="/btn-conducteur.png" alt="Espace Conducteur" className="profile-card-img" />
+              <Truck size={40} />
             </div>
             <h3>Espace Conducteur</h3>
             <p>
@@ -188,7 +289,7 @@ export default function EncombrantsPage() {
               <strong>Mairie de Choisy-le-Roi</strong><br />
               Place Gabriel Péri, 94600 Choisy-le-Roi<br />
               <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                Fait par <strong>XIRH</strong>, with love in Choisy-le-Roi
+                Fait par <strong>XIRH</strong>, avec love in Choisy-le-Roi
               </span>
             </div>
           </div>
