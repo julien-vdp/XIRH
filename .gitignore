@@ -40,7 +40,6 @@ build
 .esbuild/
 
 # Project Custom Ignores
-moodle/
 *.zip
 *.csv
 Monocle Vaporeux/
