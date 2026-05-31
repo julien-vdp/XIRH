@@ -20,8 +20,18 @@ $CFG->dboptions = array(
     'dbcollation' => 'utf8_bin',
 );
 
-// Public Root URL (must contain the subpath /learning)
-$CFG->wwwroot   = getenv('MOODLE_WWWROOT') ?: 'https://www.xirh.fr/learning';
+// Public Root URL (dynamically detected to support Coolify test environments, local dev, and production)
+if (isset($_SERVER['HTTP_HOST'])) {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+    // Check X-Forwarded-Proto header sent by Coolify/Traefik reverse proxy
+    if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+        $protocol = "https://";
+    }
+    $CFG->wwwroot = $protocol . $_SERVER['HTTP_HOST'] . '/learning';
+} else {
+    // Fallback for CLI scripts or environment variables
+    $CFG->wwwroot = getenv('MOODLE_WWWROOT') ?: 'https://www.xirh.fr/learning';
+}
 
 // Location of user-uploaded files (must be writeable by web server, outside public web directory)
 $CFG->dataroot  = '/var/moodledata';
@@ -34,7 +44,7 @@ $CFG->directorypermissions = 02777;
 
 // Reverse Proxy and SSL Configuration (MANDATORY for Coolify/Traefik)
 $CFG->reverseproxy = false;
-$CFG->sslproxy = true;
+$CFG->sslproxy = (strpos($CFG->wwwroot, 'https://') === 0);
 $CFG->slasharguments = false;
 
 // Force SSL for login and pages
