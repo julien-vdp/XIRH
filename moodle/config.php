@@ -33,7 +33,7 @@ $CFG->admin     = 'admin';
 $CFG->directorypermissions = 02777;
 
 // Reverse Proxy and SSL Configuration (MANDATORY for Coolify/Traefik)
-$CFG->reverseproxy = true;
+$CFG->reverseproxy = false;
 $CFG->sslproxy = true;
 
 // Force SSL for login and pages
