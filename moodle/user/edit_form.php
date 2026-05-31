@@ -139,8 +139,10 @@ class user_edit_form extends moodleform {
             } else {
                 $imagevalue = get_string('none');
             }
-            $imageelement = $mform->getElement('currentpicture');
-            $imageelement->setValue($imagevalue);
+            if ($mform->elementExists('currentpicture')) {
+                $imageelement = $mform->getElement('currentpicture');
+                $imageelement->setValue($imagevalue);
+            }
 
             if ($mform->elementExists('deletepicture') && !$hasuploadedpicture) {
                 $mform->removeElement('deletepicture');
