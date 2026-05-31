@@ -40,5 +40,11 @@ $CFG->slasharguments = false;
 // Force SSL for login and pages
 $CFG->forcetimezone = 'UTC';
 
+// Enable Developer Debugging
+@error_reporting(E_ALL | E_STRICT);
+@ini_set('display_errors', '1');
+$CFG->debug = 32767; // DEVELOPER
+$CFG->debugdisplay = true;
+
 // Load Moodle Setup
 require_once(__DIR__ . '/lib/setup.php');
