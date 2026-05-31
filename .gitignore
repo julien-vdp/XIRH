@@ -19,7 +19,7 @@ out/
 next-env.d.ts
 
 # Production
-build
+/build
 
 # Env files
 .env
