@@ -27,6 +27,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
+# Expose environment variables to PHP
+RUN echo "PassEnv MOODLE_DB_HOST MOODLE_DB_NAME MOODLE_DB_USER MOODLE_DB_PASS MOODLE_DB_PORT MOODLE_WWWROOT" >> /etc/apache2/apache2.conf
+
 # Copy custom php.ini configuration
 COPY php.ini /usr/local/etc/php/php.ini
 
