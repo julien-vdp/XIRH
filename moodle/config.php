@@ -45,7 +45,7 @@ $CFG->directorypermissions = 02777;
 // Reverse Proxy and SSL Configuration (MANDATORY for Coolify/Traefik)
 $CFG->reverseproxy = false;
 $CFG->sslproxy = (strpos($CFG->wwwroot, 'https://') === 0);
-$CFG->slasharguments = false;
+$CFG->slasharguments = true;
 
 // Force SSL for login and pages
 $CFG->forcetimezone = 'UTC';
