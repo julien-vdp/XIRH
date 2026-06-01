@@ -48085,7 +48085,23 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
   box-shadow: none !important;
   border: none !important;
   padding: 0 !important;
-  margin-top: 1rem !important;
+  margin-top: 0 !important;
+}
+@media (min-width: 768px) {
+  .path-site #page.drawers,
+  .pagelayout-frontpage #page.drawers,
+  #page-site-index #page.drawers,
+  .format-site #page.drawers {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .path-site #page.drawers div[role=main],
+  .pagelayout-frontpage #page.drawers div[role=main],
+  #page-site-index #page.drawers div[role=main],
+  .format-site #page.drawers div[role=main] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }
 .path-site #region-main-box,
 .path-site #region-main,
@@ -48134,7 +48150,10 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
   border: 1px solid #E2E8F0 !important;
   border-radius: 1rem !important;
   padding: 0.75rem 1.5rem !important;
-  margin-bottom: 2rem !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0 !important;
+  margin-left: 3rem !important;
+  margin-right: 3rem !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
 }
 .path-site .secondary-navigation .moremenu,
@@ -48185,12 +48204,11 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
   background-size: cover;
   background-position: center;
   color: #FFFFFF;
-  padding: 6rem 4rem;
+  padding: 7rem 0;
   margin-bottom: 3rem;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border-radius: 1.5rem;
+  border-radius: 0;
   width: 100%;
 }
 .xirh-hero::before {
@@ -48206,8 +48224,8 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
 .xirh-hero .container {
   position: relative;
   z-index: 2;
-  padding-left: 0;
-  padding-right: 0;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 .xirh-hero .xirh-hero-card {
   background: rgba(255, 255, 255, 0.96);

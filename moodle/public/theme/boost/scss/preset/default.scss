@@ -328,9 +328,22 @@ body .navbar.fixed-top {
         box-shadow: none !important;
         border: none !important;
         padding: 0 !important;
-        margin-top: 1rem !important;
+        margin-top: 0 !important;
     }
-    
+
+    // Remove page-level horizontal padding so hero can reach screen edges
+    @media (min-width: 768px) {
+        #page.drawers {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        #page.drawers div[role=main] {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+    }
+
     // Remove padding from region main and its container card
     #region-main-box,
     #region-main {
@@ -339,7 +352,7 @@ body .navbar.fixed-top {
         box-shadow: none !important;
         padding: 0 !important;
         margin: 0 !important;
-        
+
         .card {
             background-color: transparent !important;
             border: none !important;
@@ -347,7 +360,7 @@ body .navbar.fixed-top {
             --bs-card-bg: transparent !important;
             --bs-card-border-width: 0 !important;
             --bs-card-box-shadow: none !important;
-            
+
             .card-body {
                 padding: 0 !important;
             }
@@ -360,7 +373,10 @@ body .navbar.fixed-top {
         border: 1px solid #E2E8F0 !important;
         border-radius: 1rem !important;
         padding: 0.75rem 1.5rem !important;
-        margin-bottom: 2rem !important;
+        margin-top: 1.5rem !important;
+        margin-bottom: 0 !important;
+        margin-left: 3rem !important;
+        margin-right: 3rem !important;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
         
         .moremenu {
@@ -403,13 +419,12 @@ body .navbar.fixed-top {
     background-size: cover;
     background-position: center;
     color: #FFFFFF;
-    padding: 6rem 4rem;
+    padding: 7rem 0;
     margin-bottom: 3rem;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    border-radius: 1.5rem; // Rounded corners for clean floating card look
-    width: 100%; // Fit perfectly in region main
+    border-radius: 0;
+    width: 100%;
     
     &::before {
         content: "";
