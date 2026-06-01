@@ -48496,6 +48496,7 @@ input[type=button].btn-block {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 .navbar {
@@ -48680,18 +48681,24 @@ body .navbar.fixed-top.bg-white .nav-link:hover, body .navbar.fixed-top.bg-white
   color: rgba(255, 255, 255, 0.8) !important;
 }
 
+.path-site .section h3.sectionname,
+.path-site .section-title,
+.path-site .sectionname,
+.path-site .section-navigation,
 #page-site-index .section h3.sectionname,
 #page-site-index .section-title,
 #page-site-index .sectionname,
 #page-site-index .section-navigation {
   display: none !important;
 }
+.path-site #region-main,
 #page-site-index #region-main {
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
 }
+.path-site #region-main .card-body,
 #page-site-index #region-main .card-body {
   padding: 0 !important;
 }
