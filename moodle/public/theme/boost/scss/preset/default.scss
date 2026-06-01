@@ -309,25 +309,90 @@ body .navbar.fixed-top {
 // --- Home Page Clean Full-Width Container & Title Hiding ---
 .path-site,
 .pagelayout-frontpage,
-#page-site-index {
+#page-site-index,
+.format-site {
+    
+    // Hide standard headers, titles and activity headers on the frontpage
+    #page-header,
     .section h3.sectionname,
     .section-title,
     .sectionname,
-    .section-navigation {
+    .section-navigation,
+    .activity-header {
         display: none !important;
     }
     
+    // Make the main inner wrapper transparent and padding-less
+    #page.drawers .main-inner {
+        background-color: transparent !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin-top: 1rem !important;
+    }
+    
+    // Remove padding from region main and its container card
+    #region-main-box,
     #region-main {
         background-color: transparent !important;
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
-        --bs-card-bg: transparent !important;
-        --bs-card-border-width: 0 !important;
-        --bs-card-box-shadow: none !important;
+        margin: 0 !important;
         
-        .card-body {
-            padding: 0 !important;
+        .card {
+            background-color: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            --bs-card-bg: transparent !important;
+            --bs-card-border-width: 0 !important;
+            --bs-card-box-shadow: none !important;
+            
+            .card-body {
+                padding: 0 !important;
+            }
+        }
+    }
+
+    // Style the tabs navigation bar as a floating pill-menu card
+    .secondary-navigation {
+        background-color: #FFFFFF !important;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 1rem !important;
+        padding: 0.75rem 1.5rem !important;
+        margin-bottom: 2rem !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+        
+        .moremenu {
+            border: none !important;
+            margin: 0 !important;
+            background-color: transparent !important;
+            
+            .nav-tabs {
+                border-bottom: none !important;
+                
+                .nav-link {
+                    border: none !important;
+                    background-color: transparent !important;
+                    font-weight: 600;
+                    color: #4A5568 !important;
+                    padding: 0.5rem 1rem !important;
+                    border-radius: 0.5rem !important;
+                    margin-right: 0.5rem !important;
+                    transition: all 0.2s ease !important;
+                    
+                    &:hover {
+                        color: #35B4E7 !important;
+                        background-color: #F8FAFC !important;
+                    }
+                    
+                    &.active {
+                        color: #FFFFFF !important;
+                        background-color: #303B4D !important;
+                        box-shadow: 0 4px 10px rgba(48, 59, 77, 0.15) !important;
+                    }
+                }
+            }
         }
     }
 }
