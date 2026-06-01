@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
 //
 // Bootstrap variables
 //
@@ -5,6 +7,9 @@
 // Import Moodle Design System tokens.
 // Must be imported before Bootstrap so that the design system tokens can be used to override Bootstrap variables.
 @import "design-system";
+
+// Override font-family with Outfit
+$font-family-sans-serif: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 
 // Prefix for all CSS variables
 $prefix: bs- !default;
@@ -22,7 +27,7 @@ $gray-800: $mds-color-gray-800 !default;
 $gray-900: $mds-color-gray-900 !default;
 $black:    $mds-color-gray-black !default;
 
-$blue:    $mds-color-blue-500 !default;
+$blue:    #35B4E7 !default; // XIRH bright sky blue
 $indigo:  $mds-color-indigo-500 !default;
 $purple:  $mds-color-purple-500 !default;
 $pink:    $mds-color-pink-500 !default;
@@ -31,16 +36,16 @@ $orange:  $mds-color-orange-500 !default;
 $yellow:  $mds-color-yellow-500 !default;
 $green:   $mds-color-green-500 !default;
 $teal:    $mds-color-teal-500 !default;
-$cyan:    $mds-color-cyan-500 !default;
+$cyan:    #35B4E7 !default;
 
-$primary:       $blue !default;
-$secondary:     $gray-400 !default;
+$primary:       #303B4D !default; // XIRH Dark Slate
+$secondary:     $gray-500 !default;
 $success:       $green !default;
-$info:          $cyan !default;
+$info:          #35B4E7 !default; // XIRH Sky Blue
 $warning:       $yellow !default;
 $danger:        $red !default;
-$light:         $gray-100 !default;
-$dark:          $gray-900 !default;
+$light:         #F4F7FA !default;
+$dark:          #1A202C !default;
 
 // stylelint-disable
 $theme-colors: () !default;
@@ -151,4 +156,401 @@ $warning-outline: #a6670e;
 
 .btn-outline-warning {
     @include button-outline-variant($warning-outline);
+}
+
+// ==========================================================================
+// XIRH Academy Custom Style Customizations (Klassroom Style)
+// ==========================================================================
+
+// --- Globals & Fonts ---
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: #F4F7FA;
+    color: #1A202C;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    color: #303B4D;
+}
+
+// --- Custom Header / Navigation ---
+.navbar {
+    background-color: #303B4D !important;
+    border-bottom: 2px solid #35B4E7;
+    
+    .navbar-brand {
+        font-weight: 700;
+        color: #FFFFFF !important;
+        font-size: 1.4rem;
+        letter-spacing: -0.5px;
+        
+        &::after {
+            content: " Academy";
+            color: #35B4E7;
+            font-weight: 400;
+        }
+    }
+    
+    .nav-link {
+        color: rgba(255, 255, 255, 0.85) !important;
+        font-weight: 500;
+        transition: color 0.2s ease;
+        
+        &:hover, &.active {
+            color: #35B4E7 !important;
+        }
+    }
+}
+
+// --- Modern Glassmorphism Login Page ---
+#page-login-index {
+    background: linear-gradient(135deg, #303B4D 0%, #1A202C 50%, #203A43 100%) !important;
+    position: relative;
+    
+    &::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: radial-gradient(circle at 80% 20%, rgba(53, 180, 231, 0.15) 0%, transparent 50%);
+        pointer-events: none;
+    }
+    
+    #page {
+        margin-top: 0 !important;
+    }
+    
+    .login-container {
+        background: rgba(255, 255, 255, 0.08) !important;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 1.25rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+        padding: 2.5rem !important;
+        max-width: 450px !important;
+        margin: 4rem auto !important;
+        color: #FFFFFF !important;
+        
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            
+            img {
+                max-width: 180px;
+                height: auto;
+                filter: brightness(0) invert(1); // Force logo white for dark theme
+            }
+        }
+        
+        h2, h3, label {
+            color: #FFFFFF !important;
+        }
+        
+        .form-control {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            color: #FFFFFF !important;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.2s ease;
+            
+            &:focus {
+                background: rgba(255, 255, 255, 0.15) !important;
+                border-color: #35B4E7 !important;
+                box-shadow: 0 0 0 3px rgba(53, 180, 231, 0.25) !important;
+            }
+        }
+        
+        .btn-primary {
+            background-color: #35B4E7 !important;
+            border-color: #35B4E7 !important;
+            border-radius: 0.75rem !important;
+            padding: 0.75rem !important;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            
+            &:hover {
+                background-color: #1FA0D3 !important;
+                border-color: #1FA0D3 !important;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(53, 180, 231, 0.3) !important;
+            }
+        }
+        
+        a {
+            color: #35B4E7 !important;
+            &:hover {
+                color: #FFFFFF !important;
+            }
+        }
+    }
+    
+    // Hide default header and footer on login page
+    header, footer {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+        
+        a {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+    }
+}
+
+// --- Premium Landing Page Custom Classes ---
+.xirh-hero {
+    background: linear-gradient(135deg, #303B4D 0%, #1A202C 100%);
+    border-radius: 1.5rem;
+    color: #FFFFFF;
+    padding: 4rem 3rem;
+    margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(48, 59, 77, 0.15);
+    
+    &::after {
+        content: "";
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(53, 180, 231, 0.15) 0%, transparent 70%);
+        right: -50px;
+        bottom: -50px;
+        pointer-events: none;
+    }
+    
+    .xirh-hero-title {
+        font-size: 2.75rem;
+        font-weight: 800;
+        line-height: 1.2;
+        color: #FFFFFF;
+        margin-bottom: 1.5rem;
+        
+        span {
+            color: #35B4E7;
+        }
+    }
+    
+    .xirh-hero-subtitle {
+        font-size: 1.15rem;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 2rem;
+        max-width: 600px;
+    }
+    
+    .xirh-hero-btn {
+        background-color: #35B4E7;
+        color: #FFFFFF;
+        font-weight: 600;
+        padding: 0.85rem 2rem;
+        border-radius: 0.75rem;
+        display: inline-block;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 15px rgba(53, 180, 231, 0.3);
+        text-decoration: none;
+        
+        &:hover {
+            background-color: #1FA0D3;
+            color: #FFFFFF;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(53, 180, 231, 0.4);
+        }
+    }
+    
+    .xirh-hero-img-container {
+        text-align: center;
+        img {
+            max-width: 100%;
+            height: auto;
+            max-height: 280px;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.25));
+            animation: float 6s ease-in-out infinite;
+        }
+    }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.xirh-section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 1rem;
+    
+    &::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 4px;
+        background-color: #35B4E7;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+    }
+}
+
+.xirh-card {
+    background: #FFFFFF;
+    border: none;
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(48, 59, 77, 0.1);
+        
+        .xirh-card-img img {
+            transform: scale(1.05);
+        }
+    }
+    
+    .xirh-card-img {
+        padding: 2rem;
+        background-color: #F8FAFC;
+        text-align: center;
+        overflow: hidden;
+        
+        img {
+            max-height: 160px;
+            width: auto;
+            max-width: 100%;
+            transition: transform 0.3s ease;
+        }
+    }
+    
+    .xirh-card-body {
+        padding: 2rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        
+        h3 {
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+            color: #303B4D;
+        }
+        
+        p {
+            color: #718096;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .xirh-card-link {
+            margin-top: auto;
+            color: #35B4E7;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.2s ease;
+            
+            &:hover {
+                color: #1FA0D3;
+                gap: 0.75rem;
+            }
+        }
+    }
+}
+
+.xirh-value-box {
+    display: flex;
+    gap: 1.5rem;
+    background: #FFFFFF;
+    padding: 2rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    height: 100%;
+    
+    .xirh-value-icon {
+        background-color: rgba(53, 180, 231, 0.1);
+        color: #35B4E7;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .xirh-value-content {
+        h4 {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            color: #303B4D;
+        }
+        p {
+            color: #718096;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+    }
+}
+
+// --- Sleek Moodle Internals (Dashboard, Blocks, Cards) ---
+.card {
+    border: none !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.block {
+    background-color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 1rem !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+    margin-bottom: 1.5rem !important;
+    
+    .card-title {
+        color: #303B4D !important;
+        font-weight: 600 !important;
+        border-bottom: 2px solid #F4F7FA;
+        padding-bottom: 0.75rem;
+    }
+}
+
+#nav-drawer {
+    background-color: #FFFFFF !important;
+    border-right: 1px solid #E2E8F0 !important;
+    
+    .list-group-item {
+        border: none !important;
+        border-radius: 0.5rem !important;
+        margin: 0.25rem 0.5rem !important;
+        font-weight: 500;
+        color: #4A5568 !important;
+        
+        &:hover {
+            background-color: #F4F7FA !important;
+            color: #35B4E7 !important;
+        }
+        
+        &.active {
+            background-color: rgba(53, 180, 231, 0.1) !important;
+            color: #35B4E7 !important;
+            font-weight: 600;
+        }
+    }
 }
