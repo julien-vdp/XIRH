@@ -48680,80 +48680,84 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 }
 
 .xirh-hero {
-  background: linear-gradient(135deg, #303B4D 0%, #1A202C 100%);
+  background-image: url("/learning/pix/xirh/hero_bg.png");
+  background-size: cover;
+  background-position: center;
   border-radius: 1.5rem;
   color: #FFFFFF;
-  padding: 4rem 3rem;
+  padding: 6rem 4rem;
   margin-bottom: 3rem;
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(48, 59, 77, 0.15);
+  display: flex;
+  align-items: center;
 }
-.xirh-hero::after {
+.xirh-hero::before {
   content: "";
   position: absolute;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(53, 180, 231, 0.15) 0%, transparent 70%);
-  right: -50px;
-  bottom: -50px;
-  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(48, 59, 77, 0.65);
+  z-index: 1;
 }
-.xirh-hero .xirh-hero-title {
-  font-size: 2.75rem;
+.xirh-hero .row {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+.xirh-hero .xirh-hero-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 3rem;
+  color: #303B4D;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  max-width: 550px;
+}
+.xirh-hero .xirh-hero-card .xirh-hero-title {
+  font-size: 2.5rem;
   font-weight: 800;
   line-height: 1.2;
-  color: #FFFFFF;
-  margin-bottom: 1.5rem;
+  color: #303B4D;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
 }
-.xirh-hero .xirh-hero-title span {
-  color: #35B4E7;
-}
-.xirh-hero .xirh-hero-subtitle {
-  font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 2rem;
-  max-width: 600px;
-}
-.xirh-hero .xirh-hero-btn {
+.xirh-hero .xirh-hero-card .xirh-hero-divider {
+  width: 50px;
+  height: 4px;
   background-color: #35B4E7;
+  margin-bottom: 1.5rem;
+  border-radius: 2px;
+}
+.xirh-hero .xirh-hero-card .xirh-hero-subtitle {
+  font-size: 1.1rem;
+  color: #4A5568;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+.xirh-hero .xirh-hero-card .xirh-hero-btn {
+  background-color: #303B4D;
   color: #FFFFFF;
   font-weight: 600;
   padding: 0.85rem 2rem;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   display: inline-block;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(53, 180, 231, 0.3);
   text-decoration: none;
+  box-shadow: 0 4px 12px rgba(48, 59, 77, 0.25);
 }
-.xirh-hero .xirh-hero-btn:hover {
-  background-color: #1FA0D3;
+.xirh-hero .xirh-hero-card .xirh-hero-btn:hover {
+  background-color: #35B4E7;
   color: #FFFFFF;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(53, 180, 231, 0.4);
-}
-.xirh-hero .xirh-hero-img-container {
-  text-align: center;
-}
-.xirh-hero .xirh-hero-img-container img {
-  max-width: 100%;
-  height: auto;
-  max-height: 280px;
-  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.25));
-  animation: float 6s ease-in-out infinite;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(53, 180, 231, 0.3);
 }
 
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
 .xirh-section-title {
   text-align: center;
   margin-bottom: 3rem;
@@ -48774,9 +48778,9 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 
 .xirh-card {
   background: #FFFFFF;
-  border: none;
-  border-radius: 1.25rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid #E2E8F0;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
   height: 100%;
@@ -48784,20 +48788,18 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   flex-direction: column;
 }
 .xirh-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(48, 59, 77, 0.1);
-}
-.xirh-card:hover .xirh-card-img img {
-  transform: scale(1.05);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(48, 59, 77, 0.08);
+  border-color: #35B4E7;
 }
 .xirh-card .xirh-card-img {
-  padding: 2rem;
+  padding: 2.5rem;
   background-color: #F8FAFC;
   text-align: center;
-  overflow: hidden;
+  border-bottom: 1px solid #F1F5F9;
 }
 .xirh-card .xirh-card-img img {
-  max-height: 160px;
+  max-height: 120px;
   width: auto;
   max-width: 100%;
   transition: transform 0.3s ease;
@@ -48865,6 +48867,96 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   font-size: 0.9rem;
   line-height: 1.5;
   margin-bottom: 0;
+}
+
+.course_category_tree {
+  margin-top: 2rem;
+}
+.course_category_tree .category {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  transition: all 0.2s ease !important;
+  overflow: hidden;
+}
+.course_category_tree .category:hover {
+  box-shadow: 0 4px 12px rgba(48, 59, 77, 0.05) !important;
+  border-color: #35B4E7 !important;
+}
+.course_category_tree .category .info {
+  display: flex !important;
+  align-items: center !important;
+  padding: 1rem 1.25rem !important;
+  background: #FFFFFF !important;
+  margin: 0 !important;
+}
+.course_category_tree .category .info .categoryname {
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
+  color: #303B4D !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 1rem !important;
+}
+.course_category_tree .category .info .categoryname a {
+  color: #303B4D !important;
+  text-decoration: none !important;
+}
+.course_category_tree .category .info .categoryname a:hover {
+  color: #35B4E7 !important;
+}
+.course_category_tree .category .info .categoryname::before {
+  content: "\f067";
+  font-family: "FontAwesome";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #35B4E7;
+  color: #FFFFFF;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 900;
+  transition: all 0.2s ease;
+}
+.course_category_tree .category.expanded {
+  border-color: #303B4D !important;
+}
+.course_category_tree .category.expanded .info .categoryname::before {
+  content: "\f068";
+  background-color: #303B4D;
+}
+.course_category_tree .category .content {
+  padding: 1.25rem 1.5rem !important;
+  border-top: 1px solid #F1F5F9 !important;
+  background-color: #F8FAFC !important;
+}
+.course_category_tree .category .content .courses {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+.course_category_tree .category .content .courses .coursebox {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+  transition: all 0.2s ease !important;
+}
+.course_category_tree .category .content .courses .coursebox:hover {
+  border-color: #35B4E7 !important;
+  background-color: #FFFFFF !important;
+}
+.course_category_tree .category .content .courses .coursebox .coursename a {
+  color: #303B4D !important;
+  font-weight: 500 !important;
+  font-size: 1rem !important;
+}
+.course_category_tree .category .content .courses .coursebox .coursename a:hover {
+  color: #35B4E7 !important;
 }
 
 .card {
