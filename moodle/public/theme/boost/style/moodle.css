@@ -48571,28 +48571,28 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   color: #303B4D;
 }
 
-body .navbar.fixed-top.bg-white {
+body .navbar.fixed-top {
   background-color: #FFFFFF !important;
   border-bottom: 2px solid #35B4E7 !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
 }
-body .navbar.fixed-top.bg-white .navbar-brand {
+body .navbar.fixed-top .navbar-brand {
   font-weight: 700;
   color: #303B4D !important;
   font-size: 1.4rem;
   letter-spacing: -0.5px;
 }
-body .navbar.fixed-top.bg-white .navbar-brand::after {
+body .navbar.fixed-top .navbar-brand::after {
   content: " Academy";
   color: #35B4E7;
   font-weight: 400;
 }
-body .navbar.fixed-top.bg-white .nav-link {
+body .navbar.fixed-top .nav-link {
   color: #4A5568 !important;
   font-weight: 500;
   transition: color 0.2s ease;
 }
-body .navbar.fixed-top.bg-white .nav-link:hover, body .navbar.fixed-top.bg-white .nav-link.active {
+body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active {
   color: #35B4E7 !important;
 }
 
@@ -48685,6 +48685,10 @@ body .navbar.fixed-top.bg-white .nav-link:hover, body .navbar.fixed-top.bg-white
 .path-site .section-title,
 .path-site .sectionname,
 .path-site .section-navigation,
+.pagelayout-frontpage .section h3.sectionname,
+.pagelayout-frontpage .section-title,
+.pagelayout-frontpage .sectionname,
+.pagelayout-frontpage .section-navigation,
 #page-site-index .section h3.sectionname,
 #page-site-index .section-title,
 #page-site-index .sectionname,
@@ -48692,13 +48696,18 @@ body .navbar.fixed-top.bg-white .nav-link:hover, body .navbar.fixed-top.bg-white
   display: none !important;
 }
 .path-site #region-main,
+.pagelayout-frontpage #region-main,
 #page-site-index #region-main {
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
+  --bs-card-bg: transparent !important;
+  --bs-card-border-width: 0 !important;
+  --bs-card-box-shadow: none !important;
 }
 .path-site #region-main .card-body,
+.pagelayout-frontpage #region-main .card-body,
 #page-site-index #region-main .card-body {
   padding: 0 !important;
 }
@@ -48708,17 +48717,13 @@ body .navbar.fixed-top.bg-white .nav-link:hover, body .navbar.fixed-top.bg-white
   background-size: cover;
   background-position: center;
   color: #FFFFFF;
-  padding: 7rem 0;
+  padding: 6rem 4rem;
   margin-bottom: 3rem;
   position: relative;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  width: 100vw;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  border-radius: 0;
+  border-radius: 1.5rem;
+  width: 100%;
 }
 .xirh-hero::before {
   content: "";
@@ -48733,6 +48738,8 @@ body .navbar.fixed-top.bg-white .nav-link:hover, body .navbar.fixed-top.bg-white
 .xirh-hero .container {
   position: relative;
   z-index: 2;
+  padding-left: 0;
+  padding-right: 0;
 }
 .xirh-hero .xirh-hero-card {
   background: rgba(255, 255, 255, 0.96);
