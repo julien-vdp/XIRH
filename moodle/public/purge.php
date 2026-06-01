@@ -11,7 +11,7 @@ if (!is_siteadmin()) {
 
 echo "<html><head><title>Purge Caches</title></head><body style='font-family: sans-serif; padding: 2rem;'>";
 echo "<h2>Moodle Cache Purge Utility</h2>";
-echo "<p>Purging all Moodle caches to apply the new <code>slasharguments</code> settings...</p>";
+echo "<p>Purging all Moodle caches to apply the new settings and compile SCSS...</p>";
 flush();
 
 purge_all_caches();
