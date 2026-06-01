@@ -56,5 +56,8 @@ $CFG->forcetimezone = 'UTC';
 $CFG->debug = 32767; // DEVELOPER
 $CFG->debugdisplay = true;
 
+// Force router configured to bypass Traefik/Coolify container loopback curl warning
+$CFG->routerconfigured = true;
+
 // Load Moodle Setup
 require_once(__DIR__ . '/lib/setup.php');

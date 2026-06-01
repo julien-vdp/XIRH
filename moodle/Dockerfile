@@ -24,7 +24,8 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         opcache \
         pgsql \
         pdo_pgsql \
-        sodium
+        sodium \
+        exif
 
 # Enable Apache rewrite module
 RUN a2enmod rewrite
