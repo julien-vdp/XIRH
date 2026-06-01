@@ -61,5 +61,11 @@ RUN composer install --no-dev --no-interaction --no-progress --optimize-autoload
 # Set proper permissions on Moodle directory
 RUN chown -R www-data:www-data /var/www/html/learning
 
+# Custom entrypoint: purges Moodle theme cache on every startup so CSS changes apply
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Expose port 80
 EXPOSE 80
+
+ENTRYPOINT ["docker-entrypoint.sh"]
