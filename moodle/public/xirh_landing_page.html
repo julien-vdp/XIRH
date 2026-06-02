@@ -37,124 +37,48 @@
       100% { transform: translate(-1.5%, 2.5%) scale(0.97); opacity: 0.45; }
     }
 
-    /* --- Airy spacing and styling updates --- */
-    .xirh-airy-section {
-      padding-top: 5.5rem !important;
-      padding-bottom: 5.5rem !important;
+    /* --- Hero Height Reduction Customizations --- */
+    body.pagelayout-frontpage .xirh-hero {
+      padding: 4.5rem 0 !important;
     }
     
-    .xirh-section-title {
-      font-size: 2.25rem !important;
-      font-weight: 700 !important;
-      color: #303B4D !important;
+    body.pagelayout-frontpage .xirh-hero-card {
+      padding: 2.5rem !important;
+      border-radius: 1.25rem !important;
+      max-width: 500px !important;
+    }
+    
+    body.pagelayout-frontpage .xirh-hero-title {
+      font-size: 2.2rem !important;
+    }
+    
+    body.pagelayout-frontpage .xirh-hero-divider {
+      margin-bottom: 1.25rem !important;
+    }
+    
+    body.pagelayout-frontpage .xirh-hero-subtitle {
+      font-size: 1.05rem !important;
       margin-bottom: 1.5rem !important;
     }
 
-    .xirh-section-subtitle {
-      max-width: 750px;
-      margin: 0 auto 3.5rem auto;
-      font-size: 1.05rem;
-      line-height: 1.6;
-      color: #718096;
-      text-align: center;
+    /* --- Airy spacing and card adjustments --- */
+    .xirh-airy-section {
+      padding-top: 3.5rem !important;
+      padding-bottom: 3.5rem !important;
     }
-
-    /* Make cards lighter and more airy */
-    .xirh-card {
-      border: none !important;
-      border-radius: 1.5rem !important;
-      box-shadow: 0 10px 30px rgba(48, 59, 77, 0.02) !important;
+    
+    .xirh-carousel-card {
       background-color: #ffffff !important;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-      overflow: hidden;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .xirh-card:hover {
-      transform: translateY(-8px) !important;
-      box-shadow: 0 20px 40px rgba(48, 59, 77, 0.07) !important;
-      border-color: #35b4e7 !important;
-    }
-
-    .xirh-card-img {
-      background-color: #f8fafc !important;
-      padding: 3.5rem !important;
-      border-top-left-radius: 1.5rem !important;
-      border-top-right-radius: 1.5rem !important;
-      border-bottom: 1px solid #f1f5f9 !important;
-      text-align: center;
-    }
-
-    .xirh-card-img img {
-      max-height: 80px !important;
-      width: auto !important;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-
-    .xirh-card:hover .xirh-card-img img {
-      transform: scale(1.06);
-    }
-
-    .xirh-value-box {
       border-radius: 1.5rem !important;
-      box-shadow: 0 10px 30px rgba(48, 59, 77, 0.02) !important;
       border: 1px solid rgba(226, 232, 240, 0.7) !important;
+      box-shadow: 0 10px 30px rgba(48, 59, 77, 0.02) !important;
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
-      background-color: #ffffff !important;
-      padding: 2.25rem !important;
     }
 
-    .xirh-value-box:hover {
+    .xirh-carousel-card:hover {
       transform: translateY(-5px) !important;
       box-shadow: 0 15px 35px rgba(48, 59, 77, 0.05) !important;
       border-color: rgba(53, 180, 231, 0.35) !important;
-    }
-
-    .xirh-value-icon {
-      background-color: rgba(53, 180, 231, 0.07) !important;
-      border-radius: 1.25rem !important;
-      width: 4rem !important;
-      height: 4rem !important;
-    }
-
-    /* --- Partners Styling --- */
-    .xirh-partners-section {
-      border-top: 1px solid rgba(226, 232, 240, 0.8);
-      margin-top: 2rem;
-    }
-
-    .xirh-partner-card {
-      background-color: #ffffff;
-      border-radius: 1.25rem;
-      padding: 1.75rem 1.25rem;
-      box-shadow: 0 8px 24px rgba(48, 59, 77, 0.02);
-      border: 1px solid rgba(226, 232, 240, 0.7);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100px;
-    }
-
-    .xirh-partner-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 32px rgba(48, 59, 77, 0.05);
-      border-color: rgba(53, 180, 231, 0.25);
-    }
-
-    .xirh-partner-logo {
-      max-height: 48px;
-      max-width: 85%;
-      width: auto;
-      filter: grayscale(1) contrast(1.1) opacity(0.8);
-      transition: all 0.3s ease;
-      object-fit: contain;
-    }
-
-    .xirh-partner-card:hover .xirh-partner-logo {
-      filter: grayscale(0) contrast(1) opacity(1);
     }
   </style>
   
@@ -191,117 +115,97 @@
     </div>
   </div>
 
-  <!-- Nos Domaines / Categories Section -->
+  <!-- Condensed Two-Column Section (Competencies and Partners) -->
   <div class="container xirh-airy-section" id="courses">
-    <h2 class="xirh-section-title">Mes Domaines de Formation</h2>
-    <div class="xirh-section-subtitle">Développez des compétences clés et concrètes à travers trois parcours spécialisés conçus pour répondre aux besoins actuels des directions des ressources humaines.</div>
     <div class="row">
-      <!-- SIRH Column -->
-      <div class="col-md-4 mb-4">
-        <div class="xirh-card">
-          <div class="xirh-card-img">
-            <img src="/learning/pix/xirh/sirh.png" alt="SIRH / HRIS">
+      
+      <!-- Column 1: Core Competencies -->
+      <div class="col-md-6 mb-4">
+        <h2 class="xirh-column-title" style="font-size: 1.45rem; font-weight: 700; color: #303B4D; margin-bottom: 1.5rem;">Mes Domaines de Formation</h2>
+        
+        <div id="skillsCarousel" class="carousel slide xirh-carousel-card" data-bs-ride="carousel" data-bs-interval="4500" style="overflow: hidden; height: 300px;">
+          <div class="carousel-inner" style="height: 100%;">
+            
+            <!-- Slide 1: SIRH -->
+            <div class="carousel-item active" style="height: 100%; padding: 2.25rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+              <div class="xirh-slide-icon-wrapper" style="background-color: rgba(53, 180, 231, 0.07); border-radius: 1.25rem; width: 4.5rem; height: 4.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+                <img src="/learning/pix/xirh/sirh.png" alt="SIRH / HRIS" style="height: 2.5rem; width: auto; object-fit: contain;">
+              </div>
+              <h3 style="font-size: 1.2rem; font-weight: 600; color: #303B4D; margin-bottom: 0.5rem;">Management du SIRH</h3>
+              <p style="color: #718096; font-size: 0.9rem; line-height: 1.5; max-width: 400px; margin-bottom: 0;">Optimisez la gestion de vos ressources humaines en maîtrisant les outils de digitalisation des processus RH, de la paie à la gestion des talents.</p>
+            </div>
+            
+            <!-- Slide 2: Data Analytics -->
+            <div class="carousel-item" style="height: 100%; padding: 2.25rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+              <div class="xirh-slide-icon-wrapper" style="background-color: rgba(53, 180, 231, 0.07); border-radius: 1.25rem; width: 4.5rem; height: 4.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+                <img src="/learning/pix/xirh/analytics.png" alt="Data Analytics" style="height: 2.5rem; width: auto; object-fit: contain;">
+              </div>
+              <h3 style="font-size: 1.2rem; font-weight: 600; color: #303B4D; margin-bottom: 0.5rem;">Analyse de Données RH</h3>
+              <p style="color: #718096; font-size: 0.9rem; line-height: 1.5; max-width: 400px; margin-bottom: 0;">Prenez des décisions éclairées. Apprenez à collecter, analyser et visualiser les données de vos collaborateurs grâce aux indicateurs clés (KPIs).</p>
+            </div>
+            
+            <!-- Slide 3: IA & RH -->
+            <div class="carousel-item" style="height: 100%; padding: 2.25rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+              <div class="xirh-slide-icon-wrapper" style="background-color: rgba(53, 180, 231, 0.07); border-radius: 1.25rem; width: 4.5rem; height: 4.5rem; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+                <img src="/learning/pix/xirh/ai.png" alt="Intelligence Artificielle" style="height: 2.5rem; width: auto; object-fit: contain;">
+              </div>
+              <h3 style="font-size: 1.2rem; font-weight: 600; color: #303B4D; margin-bottom: 0.5rem;">IA & Ressources Humaines</h3>
+              <p style="color: #718096; font-size: 0.9rem; line-height: 1.5; max-width: 400px; margin-bottom: 0;">Anticipez le futur du travail. Explorez l'impact de l'IA générative et prédictive sur le recrutement, l'onboarding et les compétences.</p>
+            </div>
+            
           </div>
-          <div class="xirh-card-body">
-            <h3>Management du SIRH</h3>
-            <p>Optimisez la gestion de vos ressources humaines en maîtrisant les outils de digitalisation des processus RH, de la paie à la gestion des talents.</p>
-            <a href="#" class="xirh-card-link">En savoir plus <i class="fa fa-chevron-right"></i></a>
-          </div>
+          <!-- Controls -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#skillsCarousel" data-bs-slide="prev" style="filter: invert(1); width: 8%;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#skillsCarousel" data-bs-slide="next" style="filter: invert(1); width: 8%;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
         </div>
       </div>
-      <!-- Data Analytics Column -->
-      <div class="col-md-4 mb-4">
-        <div class="xirh-card">
-          <div class="xirh-card-img">
-            <img src="/learning/pix/xirh/analytics.png" alt="Analyse de données">
+      
+      <!-- Column 2: Partner Schools -->
+      <div class="col-md-6 mb-4">
+        <h2 class="xirh-column-title" style="font-size: 1.45rem; font-weight: 700; color: #303B4D; margin-bottom: 1.5rem;">Mes Écoles Partenaires</h2>
+        
+        <div id="partnersCarousel" class="carousel slide xirh-carousel-card" data-bs-ride="carousel" data-bs-interval="4500" style="overflow: hidden; height: 300px;">
+          <div class="carousel-inner" style="height: 100%;">
+            
+            <!-- Slide 1: Audencia -->
+            <div class="carousel-item active" style="height: 100%; padding: 2.25rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+              <p style="color: #718096; font-size: 0.9rem; line-height: 1.5; max-width: 400px; margin-bottom: 1.75rem;">Ce portail de formation exclusif sert de support d'apprentissage pratique pour les étudiants de l'école <strong>Audencia Business School</strong>.</p>
+              <div style="height: 75px; display: flex; align-items: center; justify-content: center; width: 100%;">
+                <img src="/learning/pix/xirh/logo_audencia.png" alt="Audencia" style="height: 35px !important; max-width: 90% !important; object-fit: contain; width: auto;">
+              </div>
+            </div>
+            
+            <!-- Slide 2: SUP des RH -->
+            <div class="carousel-item" style="height: 100%; padding: 2.25rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+              <p style="color: #718096; font-size: 0.9rem; line-height: 1.5; max-width: 400px; margin-bottom: 1.25rem;">Ce portail de formation exclusif sert de support d'apprentissage pratique pour les étudiants de l'école <strong>SUP des RH</strong>.</p>
+              <div style="height: 75px; display: flex; align-items: center; justify-content: center; width: 100%;">
+                <img src="/learning/pix/xirh/logo_supdesrh.png" alt="SUP des RH" style="height: 65px !important; max-width: 90% !important; object-fit: contain; width: auto;">
+              </div>
+            </div>
+            
+            <!-- Slide 3: IGENSIA -->
+            <div class="carousel-item" style="height: 100%; padding: 2.25rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+              <p style="color: #718096; font-size: 0.9rem; line-height: 1.5; max-width: 400px; margin-bottom: 1.75rem;">Ce portail de formation exclusif sert de support d'apprentissage pratique pour les étudiants du groupe <strong>IGENSIA Education</strong>.</p>
+              <div style="height: 75px; display: flex; align-items: center; justify-content: center; width: 100%;">
+                <img src="/learning/pix/xirh/logo_igensia.png" alt="IGENSIA Education" style="height: 38px !important; max-width: 90% !important; object-fit: contain; width: auto;">
+              </div>
+            </div>
+            
           </div>
-          <div class="xirh-card-body">
-            <h3>Analyse de Données RH</h3>
-            <p>Prenez des décisions éclairées. Apprenez à collecter, analyser et visualiser les données de vos collaborateurs grâce aux indicateurs clés (KPIs).</p>
-            <a href="#" class="xirh-card-link">En savoir plus <i class="fa fa-chevron-right"></i></a>
-          </div>
+          <!-- Controls -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#partnersCarousel" data-bs-slide="prev" style="filter: invert(1); width: 8%;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#partnersCarousel" data-bs-slide="next" style="filter: invert(1); width: 8%;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
         </div>
       </div>
-      <!-- IA Column -->
-      <div class="col-md-4 mb-4">
-        <div class="xirh-card">
-          <div class="xirh-card-img">
-            <img src="/learning/pix/xirh/ai.png" alt="Intelligence Artificielle">
-          </div>
-          <div class="xirh-card-body">
-            <h3>Intelligence Artificielle & RH</h3>
-            <p>Anticipez le futur du travail. Explorez l'impact de l'IA générative et prédictive sur le recrutement, l'onboarding et le développement des compétences.</p>
-            <a href="#" class="xirh-card-link">En savoir plus <i class="fa fa-chevron-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Pourquoi Choisir Section -->
-  <div class="container xirh-airy-section">
-    <h2 class="xirh-section-title">Pourquoi se former à mes côtés ?</h2>
-    <div class="xirh-section-subtitle">Un accompagnement pédagogique axé sur l'excellence opérationnelle, le sur-mesure et l'immersion pratique dans des cas d'usage réels du marché.</div>
-    <div class="row">
-      <!-- Advantage 1 -->
-      <div class="col-md-4 mb-4">
-        <div class="xirh-value-box">
-          <div class="xirh-value-icon">
-            <img src="/learning/pix/xirh/value_tailored.png" alt="Formations Sur-Mesure" style="width: 2.2rem; height: 2.2rem; object-fit: contain;">
-          </div>
-          <div class="xirh-value-content">
-            <h4>Formations Sur-Mesure</h4>
-            <p>Profitez de parcours adaptés à votre rythme et à vos objectifs professionnels, conçus pour répondre directement à vos besoins terrain.</p>
-          </div>
-        </div>
-      </div>
-      <!-- Advantage 2 -->
-      <div class="col-md-4 mb-4">
-        <div class="xirh-value-box">
-          <div class="xirh-value-icon">
-            <img src="/learning/pix/xirh/value_practice.png" alt="Apprentissage Pratique" style="width: 2.2rem; height: 2.2rem; object-fit: contain;">
-          </div>
-          <div class="xirh-value-content">
-            <h4>Apprentissage Pratique</h4>
-            <p>Mettez en pratique vos acquis grâce à des ateliers réels basés sur des cas d'usage concrets de gestion et d'analyse de données.</p>
-          </div>
-        </div>
-      </div>
-      <!-- Advantage 3 -->
-      <div class="col-md-4 mb-4">
-        <div class="xirh-value-box">
-          <div class="xirh-value-icon">
-            <img src="/learning/pix/xirh/value_dedicated.png" alt="Accompagnement Dédié" style="width: 2.2rem; height: 2.2rem; object-fit: contain;">
-          </div>
-          <div class="xirh-value-content">
-            <h4>Accompagnement Dédié</h4>
-            <p>Bénéficiez d'un suivi individuel et direct avec moi à chaque étape de votre apprentissage, pour lever rapidement tous vos points de blocage.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Partenaires Écoles Section -->
-  <div class="container xirh-airy-section xirh-partners-section" style="border-top: 1px solid rgba(226, 232, 240, 0.8); margin-top: 2rem;">
-    <h2 class="xirh-section-title" style="text-align: center;">Mes Écoles Partenaires</h2>
-    <div class="xirh-section-subtitle" style="text-align: center; max-width: 750px; margin: 0 auto 3.5rem auto; font-size: 1.05rem; line-height: 1.6; color: #718096;">Ce portail de formation exclusif sert de support d'apprentissage pratique pour les étudiants de nos prestigieux établissements partenaires.</div>
-    <div class="row align-items-center justify-content-center">
-      <div class="col-6 col-md-4 mb-4">
-        <div class="xirh-partner-card" style="background-color: #ffffff; border-radius: 1.25rem; padding: 1rem; box-shadow: 0 8px 24px rgba(48, 59, 77, 0.02); border: 1px solid rgba(226, 232, 240, 0.7); display: flex; align-items: center; justify-content: center; height: 130px;">
-          <img src="/learning/pix/xirh/logo_audencia.png" alt="Audencia" style="height: 38px !important; max-width: 90% !important; object-fit: contain !important; width: auto !important;" class="xirh-partner-logo">
-        </div>
-      </div>
-      <div class="col-6 col-md-4 mb-4">
-        <div class="xirh-partner-card" style="background-color: #ffffff; border-radius: 1.25rem; padding: 1rem; box-shadow: 0 8px 24px rgba(48, 59, 77, 0.02); border: 1px solid rgba(226, 232, 240, 0.7); display: flex; align-items: center; justify-content: center; height: 130px;">
-          <img src="/learning/pix/xirh/logo_supdesrh.png" alt="SUP des RH" style="height: 75px !important; max-width: 90% !important; object-fit: contain !important; width: auto !important;" class="xirh-partner-logo">
-        </div>
-      </div>
-      <div class="col-6 col-md-4 mb-4">
-        <div class="xirh-partner-card" style="background-color: #ffffff; border-radius: 1.25rem; padding: 1rem; box-shadow: 0 8px 24px rgba(48, 59, 77, 0.02); border: 1px solid rgba(226, 232, 240, 0.7); display: flex; align-items: center; justify-content: center; height: 130px;">
-          <img src="/learning/pix/xirh/logo_igensia.png" alt="IGENSIA Education" style="height: 42px !important; max-width: 90% !important; object-fit: contain !important; width: auto !important;" class="xirh-partner-logo">
-        </div>
-      </div>
+      
     </div>
   </div>
 
