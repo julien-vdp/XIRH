@@ -29,22 +29,27 @@
 
   /* --- Soft Background animation on all Moodle pages --- */
   body {
-    padding-top: 170px !important; /* Push Moodle down: 60px (navbar) + 110px (banner) */
+    padding-top: 60px !important; /* Keep standard body padding for navbar */
     background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 50%, #f5f7fa 100%) !important;
     background-size: 400% 400% !important;
     animation: xirhGradientBG 30s ease infinite !important;
     font-family: 'Outfit', sans-serif !important;
   }
 
-  /* Push Moodle fixed navbar below our top banner */
+  /* Reset fixed navbar to top 0 */
   .fixed-top {
-    top: 110px !important;
+    top: 0 !important;
+  }
+
+  /* Shift Moodle page content down below the 160px banner */
+  #page, #page.drawers {
+    margin-top: 160px !important;
   }
 
   /* Push left/right drawers down so they don't cover the banner/navbar */
   .drawer {
-    top: 170px !important;
-    height: calc(100vh - 170px) !important;
+    top: 220px !important; /* 60px (navbar) + 160px (banner) */
+    height: calc(100vh - 220px) !important;
   }
 
   @keyframes xirhGradientBG {
@@ -75,17 +80,17 @@
     100% { transform: translate(-1%, 2%) scale(0.98); opacity: 0.5; }
   }
 
-  /* --- Global Header Visual Strip (Sliding Carousel) --- */
+  /* --- Global Header Visual Strip (Sliding Carousel below Navbar) --- */
   .xirh-top-banner {
     position: absolute;
-    top: 0;
+    top: 60px; /* Sits exactly below standard Moodle navbar (60px) */
     left: 0;
     width: 100%;
-    height: 110px; /* Narrow visual strip at the top */
+    height: 160px; /* Wider visual strip */
     overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-    background-color: #303B4D;
-    z-index: 1040; /* Sit above the fixed navbar (1030) */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    background: transparent; /* Transparent to let gradient show through */
+    z-index: 1000; /* Sits below navbar (1030) so it scrolls under it */
   }
   
   .xirh-top-carousel {
@@ -113,11 +118,11 @@
   }
   
   .xirh-carousel-item-global.active {
-    opacity: 1;
+    opacity: 0.78; /* Soft transparency to let the page background show through */
     z-index: 2;
   }
   
-  /* Semi-transparent dark overlay mask for the strip */
+  /* Semi-transparent overlay mask to make images soft */
   .xirh-top-banner::before {
     content: "";
     position: absolute;
@@ -125,7 +130,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(48, 59, 77, 0.25); /* Light overlay just to blend */
+    background: rgba(244, 247, 250, 0.15); /* Soft light overlay */
     z-index: 3;
     pointer-events: none;
   }
@@ -286,10 +291,10 @@
 <!-- =======================================================================
   2. WHEN BODY IS OPENED (additionalhtmltopofbody)
 ======================================================================= -->
-<!-- Global Header Banner (Sliding Carousel Visual Strip) -->
+<!-- Global Header Banner (Sliding Carousel Visual Strip below Navbar) -->
 <div class="xirh-top-banner">
   <div id="xirhTopCarousel" class="xirh-top-carousel">
-    <div class="xirh-carousel-item-global active" style="background-image: url('/learning/pix/xirh/xirh_carousel_sirh.png'); opacity: 1; z-index: 2;"></div>
+    <div class="xirh-carousel-item-global active" style="background-image: url('/learning/pix/xirh/xirh_carousel_sirh.png'); opacity: 0.78; z-index: 2;"></div>
     <div class="xirh-carousel-item-global" style="background-image: url('/learning/pix/xirh/xirh_carousel_analytics.png'); opacity: 0; z-index: 1;"></div>
     <div class="xirh-carousel-item-global" style="background-image: url('/learning/pix/xirh/xirh_carousel_ai.png'); opacity: 0; z-index: 1;"></div>
   </div>
@@ -366,7 +371,7 @@
       
       const nextItem = items[nextIndex];
       nextItem.classList.add('active');
-      nextItem.style.opacity = '1';
+      nextItem.style.opacity = '0.78';
       nextItem.style.zIndex = '2';
     }
 
