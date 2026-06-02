@@ -87,9 +87,11 @@ overflow-x: hidden;
 #region-main-box .card, #region-main .card { background: transparent !important; ... }
 ```
 
-### 1.5 Hero full-bleed (`.xirh-hero`)
+### 1.5 Hero full-bleed and background carousel (`.xirh-hero`)
 
 **Why:** Even after removing all wrappers' padding, the hero is still constrained by intermediate containers. The CSS full-bleed technique breaks out of ALL parent containers regardless of nesting depth.
+
+The hero uses an absolute-positioned Bootstrap 5 carousel (`.xirh-hero-carousel`) as its background. The carousel items slide/fade under a semi-transparent dark blue overlay mask (`::before` styled with `z-index: 2`), keeping the overlay text card (`.container` styled with `z-index: 3`) fully legible.
 
 ```scss
 .xirh-hero {
@@ -102,7 +104,36 @@ overflow-x: hidden;
     overflow: hidden;
     border-radius: 0;
     padding: 7rem 0;
-    // background-image, background-size, background-position, overlay ::before ...
+    
+    &::before {
+        z-index: 2; // Above carousel, below text container
+    }
+    
+    .xirh-hero-carousel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        
+        .carousel-inner,
+        .carousel-item,
+        .xirh-carousel-img {
+            height: 100%;
+            width: 100%;
+        }
+        
+        .xirh-carousel-img {
+            background-size: cover;
+            background-position: center;
+        }
+    }
+    
+    .container {
+        position: relative;
+        z-index: 3;
+    }
 }
 ```
 
