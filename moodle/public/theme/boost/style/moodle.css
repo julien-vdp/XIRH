@@ -48057,7 +48057,6 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
 .format-site {
   overflow-x: hidden;
 }
-
 .path-site #page-header,
 .path-site .section h3.sectionname,
 .path-site .section-title,
@@ -48251,13 +48250,32 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
   width: 100%;
   height: 100%;
   background: rgba(48, 59, 77, 0.55);
+  z-index: 2;
+}
+.xirh-hero .xirh-hero-carousel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
+}
+.xirh-hero .xirh-hero-carousel .carousel-inner,
+.xirh-hero .xirh-hero-carousel .carousel-item,
+.xirh-hero .xirh-hero-carousel .xirh-carousel-img {
+  height: 100%;
+  width: 100%;
+}
+.xirh-hero .xirh-hero-carousel .xirh-carousel-img {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 .xirh-hero .container {
   position: relative;
-  z-index: 2;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  z-index: 3;
+  padding-left: 0;
+  padding-right: 0;
 }
 .xirh-hero .xirh-hero-card {
   background: rgba(255, 255, 255, 0.96);

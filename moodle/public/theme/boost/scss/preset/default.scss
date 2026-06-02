@@ -456,12 +456,34 @@ body .navbar.fixed-top {
         width: 100%;
         height: 100%;
         background: rgba(48, 59, 77, 0.55); // Semi-transparent overlay
+        z-index: 2; // Sits above the background carousel but below container
+    }
+    
+    .xirh-hero-carousel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         z-index: 1;
+        
+        .carousel-inner,
+        .carousel-item,
+        .xirh-carousel-img {
+            height: 100%;
+            width: 100%;
+        }
+        
+        .xirh-carousel-img {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
     }
     
     .container {
         position: relative;
-        z-index: 2;
+        z-index: 3; // Sits above the semi-transparent overlay
         padding-left: 0;
         padding-right: 0;
     }
