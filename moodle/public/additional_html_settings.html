@@ -190,11 +190,140 @@
     margin-right: 0.75rem;
     color: #35B4E7;
   }
+
+  /* --- Hero Top Banner (Injected in Body Top) --- */
+  body.pagelayout-frontpage .xirh-hero-top {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
+    padding: 1.5rem 0 !important; /* Shorter padding for narrow height */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    background-color: #303B4D;
+  }
+  
+  /* On Windows, ensure we don't overflow the html/body viewport */
+  html, body {
+    overflow-x: hidden !important;
+  }
+  
+  /* Hide on other pages */
+  body:not(.pagelayout-frontpage) .xirh-hero-top {
+    display: none !important;
+  }
+  
+  .xirh-hero-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .xirh-carousel-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out !important;
+    z-index: 1;
+  }
+  
+  .xirh-carousel-item.active {
+    opacity: 1;
+    z-index: 2;
+  }
+  
+  /* Semi-transparent dark overlay mask */
+  .xirh-hero-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(48, 59, 77, 0.55); /* Soft overlay for text legibility */
+    z-index: 3;
+  }
+  
+  .xirh-hero-container {
+    position: relative;
+    z-index: 4;
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  .xirh-hero-card-top {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 1rem;
+    padding: 1.25rem 2rem; /* Tight padding */
+    max-width: 480px;
+    color: #303B4D;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  }
+  
+  .xirh-hero-title-top {
+    font-size: 1.6rem !important; /* Shorter title */
+    font-weight: 700 !important;
+    margin: 0 0 0.25rem 0 !important;
+    color: #303B4D !important;
+  }
+  
+  .xirh-hero-divider-top {
+    width: 40px;
+    height: 3px;
+    background-color: #35B4E7;
+    margin-bottom: 0.5rem;
+    border-radius: 2px;
+  }
+  
+  .xirh-hero-subtitle-top {
+    font-size: 0.9rem !important; /* Shorter subtitle */
+    color: #4A5568 !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+  }
 </style>
 
 
 <!-- =======================================================================
-  2. BEFORE BODY IS CLOSED (additionalhtmlfooter)
+  2. WHEN BODY IS OPENED (additionalhtmltopofbody)
+======================================================================= -->
+<div class="xirh-hero-top">
+  <!-- Ambient Background Carousel (Native Fade effect) -->
+  <div id="xirhHeroCarousel" class="xirh-hero-carousel">
+    <div class="xirh-carousel-item active" style="background-image: url('/learning/pix/xirh/xirh_carousel_sirh.png'); opacity: 1; z-index: 2;"></div>
+    <div class="xirh-carousel-item" style="background-image: url('/learning/pix/xirh/xirh_carousel_analytics.png'); opacity: 0; z-index: 1;"></div>
+    <div class="xirh-carousel-item" style="background-image: url('/learning/pix/xirh/xirh_carousel_ai.png'); opacity: 0; z-index: 1;"></div>
+  </div>
+  
+  <div class="xirh-hero-container">
+    <div class="xirh-hero-card-top">
+      <h1 class="xirh-hero-title-top">XIRH Academy</h1>
+      <div class="xirh-hero-divider-top"></div>
+      <p class="xirh-hero-subtitle-top">Mon portail de formation dédié au SIRH, à l'Analyse de Données RH et à l'Intelligence Artificielle. Apprenez par la pratique.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- =======================================================================
+  3. BEFORE BODY IS CLOSED (additionalhtmlfooter)
 ======================================================================= -->
 <div id="xirh-companion-container">
   
@@ -290,10 +419,42 @@
         chatText.style.opacity = '1';
       }, 200);
     });
-
     // Close button click listener inside course anchor
     document.getElementById('xirh-btn-courses').addEventListener('click', function() {
       panel.classList.remove('active');
     });
+
+    // --- Hero Carousel Native Loop (Fading transitions) ---
+    function moveHeroCarousel() {
+      const carousel = document.getElementById('xirhHeroCarousel');
+      if (!carousel) return;
+      const items = carousel.getElementsByClassName('xirh-carousel-item');
+      if (items.length === 0) return;
+      
+      let activeIndex = -1;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].classList.contains('active')) {
+          activeIndex = i;
+          break;
+        }
+      }
+      if (activeIndex === -1) activeIndex = 0;
+      
+      const currentItem = items[activeIndex];
+      currentItem.classList.remove('active');
+      currentItem.style.opacity = '0';
+      currentItem.style.zIndex = '1';
+      
+      let nextIndex = activeIndex + 1;
+      if (nextIndex >= items.length) nextIndex = 0;
+      
+      const nextItem = items[nextIndex];
+      nextItem.classList.add('active');
+      nextItem.style.opacity = '1';
+      nextItem.style.zIndex = '2';
+    }
+
+    if (window.xirhHeroInterval) clearInterval(window.xirhHeroInterval);
+    window.xirhHeroInterval = setInterval(moveHeroCarousel, 4000);
   })();
 </script>
