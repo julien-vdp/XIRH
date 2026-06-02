@@ -311,7 +311,8 @@ body .navbar.fixed-top {
 .pagelayout-frontpage,
 #page-site-index,
 .format-site {
-    
+    overflow-x: hidden; // Prevent horizontal scrollbar from full-bleed hero
+
     // Hide standard headers, titles and activity headers on the frontpage
     #page-header,
     .section h3.sectionname,
@@ -322,22 +323,37 @@ body .navbar.fixed-top {
         display: none !important;
     }
     
-    // Make the main inner wrapper transparent and padding-less
+    // Make the main inner wrapper transparent, padding-less, and full-width
+    // (override both the base rule AND the body.limitedwidth max-width: 830px rule)
     #page.drawers .main-inner {
         background-color: transparent !important;
         box-shadow: none !important;
         border: none !important;
         padding: 0 !important;
         margin-top: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
     }
 
-    // Remove page-level horizontal padding so hero can reach screen edges
+    // Remove page-level horizontal padding and limitedwidth max-width at all breakpoints
+    @media (min-width: 576px) {
+        #page.drawers .main-inner {
+            max-width: 100% !important;
+        }
+    }
+
     @media (min-width: 768px) {
         #page.drawers {
             padding-left: 0 !important;
             padding-right: 0 !important;
         }
 
+        #page.drawers .main-inner {
+            max-width: 100% !important;
+            padding: 0 !important;
+        }
+
+        #page.drawers span[role=main],
         #page.drawers div[role=main] {
             padding-left: 0 !important;
             padding-right: 0 !important;
@@ -421,10 +437,16 @@ body .navbar.fixed-top {
     color: #FFFFFF;
     padding: 7rem 0;
     margin-bottom: 3rem;
-    position: relative;
-    overflow: hidden;
     border-radius: 0;
-    width: 100%;
+
+    // Full-bleed trick: breaks out of ALL parent containers regardless of nesting depth
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    overflow: hidden;
     
     &::before {
         content: "";

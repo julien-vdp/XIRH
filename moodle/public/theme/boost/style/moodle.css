@@ -48051,6 +48051,13 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
   color: rgba(255, 255, 255, 0.8) !important;
 }
 
+.path-site,
+.pagelayout-frontpage,
+#page-site-index,
+.format-site {
+  overflow-x: hidden;
+}
+
 .path-site #page-header,
 .path-site .section h3.sectionname,
 .path-site .section-title,
@@ -48086,6 +48093,16 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
   border: none !important;
   padding: 0 !important;
   margin-top: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+@media (min-width: 576px) {
+  .path-site #page.drawers .main-inner,
+  .pagelayout-frontpage #page.drawers .main-inner,
+  #page-site-index #page.drawers .main-inner,
+  .format-site #page.drawers .main-inner {
+    max-width: 100% !important;
+  }
 }
 @media (min-width: 768px) {
   .path-site #page.drawers,
@@ -48095,9 +48112,20 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+  .path-site #page.drawers .main-inner,
+  .pagelayout-frontpage #page.drawers .main-inner,
+  #page-site-index #page.drawers .main-inner,
+  .format-site #page.drawers .main-inner {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .path-site #page.drawers span[role=main],
   .path-site #page.drawers div[role=main],
+  .pagelayout-frontpage #page.drawers span[role=main],
   .pagelayout-frontpage #page.drawers div[role=main],
+  #page-site-index #page.drawers span[role=main],
   #page-site-index #page.drawers div[role=main],
+  .format-site #page.drawers span[role=main],
   .format-site #page.drawers div[role=main] {
     padding-left: 0 !important;
     padding-right: 0 !important;
@@ -48206,10 +48234,14 @@ body .navbar.fixed-top .nav-link:hover, body .navbar.fixed-top .nav-link.active 
   color: #FFFFFF;
   padding: 7rem 0;
   margin-bottom: 3rem;
-  position: relative;
-  overflow: hidden;
   border-radius: 0;
-  width: 100%;
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
 }
 .xirh-hero::before {
   content: "";
