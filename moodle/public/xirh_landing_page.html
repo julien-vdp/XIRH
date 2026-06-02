@@ -1,6 +1,163 @@
 <!-- XIRH Academy Landing Page (Klassroom Style) -->
 <div class="container-fluid px-0">
   
+  <style>
+    /* --- Background animation for the landing page --- */
+    body.pagelayout-frontpage {
+      background: linear-gradient(135deg, #f4f7fa 0%, #e9f0f6 50%, #f4f7fa 100%) !important;
+      background-size: 400% 400% !important;
+      animation: xirhGradientBG 25s ease infinite !important;
+    }
+
+    @keyframes xirhGradientBG {
+      0% { background-position: 0% 50% !important; }
+      50% { background-position: 100% 50% !important; }
+      100% { background-position: 0% 50% !important; }
+    }
+
+    /* Faint glowing dots representing gold orange and sky blue */
+    body.pagelayout-frontpage::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      background: radial-gradient(circle at 12% 18%, rgba(53, 180, 231, 0.035) 0%, transparent 35%),
+                  radial-gradient(circle at 88% 72%, rgba(245, 158, 11, 0.015) 0%, transparent 22%), /* Rare golden/orange glow */
+                  radial-gradient(circle at 45% 42%, rgba(48, 59, 77, 0.015) 0%, transparent 30%);
+      animation: xirhFaintGlow 40s ease-in-out infinite alternate;
+    }
+
+    @keyframes xirhFaintGlow {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+      50% { transform: translate(2.5%, -1.5%) scale(1.05); opacity: 0.85; }
+      100% { transform: translate(-1.5%, 2.5%) scale(0.97); opacity: 0.45; }
+    }
+
+    /* --- Airy spacing and styling updates --- */
+    .xirh-airy-section {
+      padding-top: 5.5rem !important;
+      padding-bottom: 5.5rem !important;
+    }
+    
+    .xirh-section-title {
+      font-size: 2.25rem !important;
+      font-weight: 700 !important;
+      color: #303B4D !important;
+      margin-bottom: 1.5rem !important;
+    }
+
+    .xirh-section-subtitle {
+      max-width: 750px;
+      margin: 0 auto 3.5rem auto;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #718096;
+      text-align: center;
+    }
+
+    /* Make cards lighter and more airy */
+    .xirh-card {
+      border: none !important;
+      border-radius: 1.5rem !important;
+      box-shadow: 0 10px 30px rgba(48, 59, 77, 0.02) !important;
+      background-color: #ffffff !important;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      overflow: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .xirh-card:hover {
+      transform: translateY(-8px) !important;
+      box-shadow: 0 20px 40px rgba(48, 59, 77, 0.07) !important;
+      border-color: #35b4e7 !important;
+    }
+
+    .xirh-card-img {
+      background-color: #f8fafc !important;
+      padding: 3.5rem !important;
+      border-top-left-radius: 1.5rem !important;
+      border-top-right-radius: 1.5rem !important;
+      border-bottom: 1px solid #f1f5f9 !important;
+      text-align: center;
+    }
+
+    .xirh-card-img img {
+      max-height: 80px !important;
+      width: auto !important;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .xirh-card:hover .xirh-card-img img {
+      transform: scale(1.06);
+    }
+
+    .xirh-value-box {
+      border-radius: 1.5rem !important;
+      box-shadow: 0 10px 30px rgba(48, 59, 77, 0.02) !important;
+      border: 1px solid rgba(226, 232, 240, 0.7) !important;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      background-color: #ffffff !important;
+      padding: 2.25rem !important;
+    }
+
+    .xirh-value-box:hover {
+      transform: translateY(-5px) !important;
+      box-shadow: 0 15px 35px rgba(48, 59, 77, 0.05) !important;
+      border-color: rgba(53, 180, 231, 0.35) !important;
+    }
+
+    .xirh-value-icon {
+      background-color: rgba(53, 180, 231, 0.07) !important;
+      border-radius: 1.25rem !important;
+      width: 4rem !important;
+      height: 4rem !important;
+    }
+
+    /* --- Partners Styling --- */
+    .xirh-partners-section {
+      border-top: 1px solid rgba(226, 232, 240, 0.8);
+      margin-top: 2rem;
+    }
+
+    .xirh-partner-card {
+      background-color: #ffffff;
+      border-radius: 1.25rem;
+      padding: 1.75rem 1.25rem;
+      box-shadow: 0 8px 24px rgba(48, 59, 77, 0.02);
+      border: 1px solid rgba(226, 232, 240, 0.7);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100px;
+    }
+
+    .xirh-partner-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 32px rgba(48, 59, 77, 0.05);
+      border-color: rgba(53, 180, 231, 0.25);
+    }
+
+    .xirh-partner-logo {
+      max-height: 48px;
+      max-width: 85%;
+      width: auto;
+      filter: grayscale(1) contrast(1.1) opacity(0.8);
+      transition: all 0.3s ease;
+      object-fit: contain;
+    }
+
+    .xirh-partner-card:hover .xirh-partner-logo {
+      filter: grayscale(0) contrast(1) opacity(1);
+    }
+  </style>
+  
   <!-- Hero Section with Background Carousel (Klassroom Style) -->
   <div class="xirh-hero">
     
@@ -20,7 +177,7 @@
     </div>
 
     <!-- Overlay Content Card -->
-    <div class="container">
+    <div class="container py-0">
       <div class="row">
         <div class="col-lg-7">
           <div class="xirh-hero-card">
@@ -35,8 +192,9 @@
   </div>
 
   <!-- Nos Domaines / Categories Section -->
-  <div class="container py-5 px-0" id="courses">
+  <div class="container xirh-airy-section" id="courses">
     <h2 class="xirh-section-title">Mes Domaines de Formation</h2>
+    <div class="xirh-section-subtitle">Développez des compétences clés et concrètes à travers trois parcours spécialisés conçus pour répondre aux besoins actuels des directions des ressources humaines.</div>
     <div class="row">
       <!-- SIRH Column -->
       <div class="col-md-4 mb-4">
@@ -81,8 +239,9 @@
   </div>
 
   <!-- Pourquoi Choisir Section -->
-  <div class="container py-5 px-0">
+  <div class="container xirh-airy-section">
     <h2 class="xirh-section-title">Pourquoi se former à mes côtés ?</h2>
+    <div class="xirh-section-subtitle">Un accompagnement pédagogique axé sur l'excellence opérationnelle, le sur-mesure et l'immersion pratique dans des cas d'usage réels du marché.</div>
     <div class="row">
       <!-- Advantage 1 -->
       <div class="col-md-4 mb-4">
@@ -118,6 +277,29 @@
             <h4>Accompagnement Dédié</h4>
             <p>Bénéficiez d'un suivi individuel et direct avec moi à chaque étape de votre apprentissage, pour lever rapidement tous vos points de blocage.</p>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Partenaires Écoles Section -->
+  <div class="container xirh-airy-section xirh-partners-section">
+    <h2 class="xirh-section-title">Mes Écoles Partenaires</h2>
+    <div class="xirh-section-subtitle">Ce portail de formation exclusif sert de support d'apprentissage pratique pour les étudiants de nos prestigieux établissements partenaires.</div>
+    <div class="row align-items-center justify-content-center">
+      <div class="col-6 col-md-4 mb-4">
+        <div class="xirh-partner-card">
+          <img src="/learning/pix/xirh/logo_audencia.png" alt="Audencia" class="img-fluid xirh-partner-logo">
+        </div>
+      </div>
+      <div class="col-6 col-md-4 mb-4">
+        <div class="xirh-partner-card">
+          <img src="/learning/pix/xirh/logo_supdesrh.png" alt="SUP des RH" class="img-fluid xirh-partner-logo">
+        </div>
+      </div>
+      <div class="col-6 col-md-4 mb-4">
+        <div class="xirh-partner-card">
+          <img src="/learning/pix/xirh/logo_igensia.png" alt="IGENSIA Education" class="img-fluid xirh-partner-logo">
         </div>
       </div>
     </div>
