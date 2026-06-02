@@ -1,4 +1,4 @@
-<!-- XIRH Academy Landing Page (Static Two-Column Layout) -->
+<!-- XIRH Academy Landing Page (Self-contained Narrow Hero + Static Grid) -->
 <div class="container-fluid px-0">
   
   <style>
@@ -47,9 +47,96 @@
       100% { transform: translate(-1.5%, 2.5%) scale(0.97); opacity: 0.45; }
     }
 
+    /* --- Narrow Hero Custom Styles (Self-contained) --- */
+    .xirh-hero-self {
+      position: relative;
+      width: 100%;
+      padding: 3rem 0 !important; /* Shorter padding for narrow height */
+      margin-bottom: 2rem;
+      border-radius: 1.5rem !important; /* Rounded corners to match cards */
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(48, 59, 77, 0.05);
+      background-color: #303B4D;
+    }
+    
+    .xirh-hero-self::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(48, 59, 77, 0.55);
+      z-index: 3;
+    }
+    
+    .xirh-hero-carousel-self {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .xirh-carousel-item-self {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out !important;
+      z-index: 1;
+    }
+    
+    .xirh-carousel-item-self.active {
+      opacity: 1;
+      z-index: 2;
+    }
+    
+    .xirh-hero-card-self {
+      position: relative;
+      z-index: 4;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border-radius: 1rem;
+      padding: 1.5rem 2rem; /* Compact padding */
+      margin-left: 2.5rem;
+      max-width: 480px;
+      color: #303B4D;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .xirh-hero-title-self {
+      font-size: 1.6rem !important;
+      font-weight: 700 !important;
+      margin: 0 0 0.25rem 0 !important;
+      color: #303B4D !important;
+    }
+    
+    .xirh-hero-divider-self {
+      width: 45px;
+      height: 3px;
+      background-color: #35B4E7;
+      margin-bottom: 0.5rem;
+      border-radius: 1.5px;
+    }
+    
+    .xirh-hero-subtitle-self {
+      font-size: 0.9rem !important;
+      color: #4A5568 !important;
+      margin: 0 !important;
+      line-height: 1.4 !important;
+    }
+
     /* --- Spacing adjustments --- */
     .xirh-airy-section {
-      padding-top: 2rem !important;
+      padding-top: 1rem !important;
       padding-bottom: 2rem !important;
       max-width: 1140px !important;
       margin: 0 auto !important;
@@ -65,6 +152,22 @@
       box-shadow: 0 8px 25px rgba(48, 59, 77, 0.04) !important;
     }
   </style>
+
+  <!-- Narrow Hero Carousel (Self-contained) -->
+  <div class="xirh-hero-self">
+    <!-- Ambient Background Carousel (Native Fade effect) -->
+    <div id="xirhHeroCarouselSelf" class="xirh-hero-carousel-self">
+      <div class="xirh-carousel-item-self active" style="background-image: url('/learning/pix/xirh/xirh_carousel_sirh.png'); opacity: 1; z-index: 2;"></div>
+      <div class="xirh-carousel-item-self" style="background-image: url('/learning/pix/xirh/xirh_carousel_analytics.png'); opacity: 0; z-index: 1;"></div>
+      <div class="xirh-carousel-item-self" style="background-image: url('/learning/pix/xirh/xirh_carousel_ai.png'); opacity: 0; z-index: 1;"></div>
+    </div>
+    
+    <div class="xirh-hero-card-self">
+      <h1 class="xirh-hero-title-self">XIRH Academy</h1>
+      <div class="xirh-hero-divider-self"></div>
+      <p class="xirh-hero-subtitle-self">Mon portail de formation dédié au SIRH, à l'Analyse de Données RH et à l'Intelligence Artificielle. Apprenez par la pratique.</p>
+    </div>
+  </div>
   
   <!-- Condensed Static Two-Column Section (Competencies and Partners) -->
   <div class="container xirh-airy-section" id="courses">
@@ -155,3 +258,40 @@
   </div>
 
 </div>
+
+<!-- Script to handle background carousel fading natively -->
+<script>
+  (function() {
+    function moveHeroCarouselSelf() {
+      const carousel = document.getElementById('xirhHeroCarouselSelf');
+      if (!carousel) return;
+      const items = carousel.getElementsByClassName('xirh-carousel-item-self');
+      if (items.length === 0) return;
+      
+      let activeIndex = -1;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].classList.contains('active')) {
+          activeIndex = i;
+          break;
+        }
+      }
+      if (activeIndex === -1) activeIndex = 0;
+      
+      const currentItem = items[activeIndex];
+      currentItem.classList.remove('active');
+      currentItem.style.opacity = '0';
+      currentItem.style.zIndex = '1';
+      
+      let nextIndex = activeIndex + 1;
+      if (nextIndex >= items.length) nextIndex = 0;
+      
+      const nextItem = items[nextIndex];
+      nextItem.classList.add('active');
+      nextItem.style.opacity = '1';
+      nextItem.style.zIndex = '2';
+    }
+
+    if (window.xirhHeroSelfInterval) clearInterval(window.xirhHeroSelfInterval);
+    window.xirhHeroSelfInterval = setInterval(moveHeroCarouselSelf, 4000);
+  })();
+</script>
