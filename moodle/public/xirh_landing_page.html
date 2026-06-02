@@ -1,4 +1,4 @@
-<!-- XIRH Academy Landing Page (Self-contained Narrow Hero + Static Grid) -->
+<!-- XIRH Academy Landing Page (Static Marketing Layout) -->
 <div class="container-fluid px-0">
   
   <style>
@@ -12,132 +12,10 @@
       margin-right: 0 !important;
     }
 
-    /* --- Background animation for the landing page --- */
-    body.pagelayout-frontpage {
-      background: linear-gradient(135deg, #f4f7fa 0%, #e9f0f6 50%, #f4f7fa 100%) !important;
-      background-size: 400% 400% !important;
-      animation: xirhGradientBG 25s ease infinite !important;
-    }
-
-    @keyframes xirhGradientBG {
-      0% { background-position: 0% 50% !important; }
-      50% { background-position: 100% 50% !important; }
-      100% { background-position: 0% 50% !important; }
-    }
-
-    /* Faint glowing dots representing gold orange and sky blue */
-    body.pagelayout-frontpage::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-      background: radial-gradient(circle at 12% 18%, rgba(53, 180, 231, 0.035) 0%, transparent 35%),
-                  radial-gradient(circle at 88% 72%, rgba(245, 158, 11, 0.015) 0%, transparent 22%), /* Rare golden/orange glow */
-                  radial-gradient(circle at 45% 42%, rgba(48, 59, 77, 0.015) 0%, transparent 30%);
-      animation: xirhFaintGlow 40s ease-in-out infinite alternate;
-    }
-
-    @keyframes xirhFaintGlow {
-      0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-      50% { transform: translate(2.5%, -1.5%) scale(1.05); opacity: 0.85; }
-      100% { transform: translate(-1.5%, 2.5%) scale(0.97); opacity: 0.45; }
-    }
-
-    /* --- Narrow Hero Custom Styles (Self-contained) --- */
-    .xirh-hero-self {
-      position: relative;
-      width: 100%;
-      padding: 3rem 0 !important; /* Shorter padding for narrow height */
-      margin-bottom: 2rem;
-      border-radius: 1.5rem !important; /* Rounded corners to match cards */
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(48, 59, 77, 0.05);
-      background-color: #303B4D;
-    }
-    
-    .xirh-hero-self::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(48, 59, 77, 0.55);
-      z-index: 3;
-    }
-    
-    .xirh-hero-carousel-self {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-    
-    .xirh-carousel-item-self {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0;
-      transition: opacity 1.5s ease-in-out !important;
-      z-index: 1;
-    }
-    
-    .xirh-carousel-item-self.active {
-      opacity: 1;
-      z-index: 2;
-    }
-    
-    .xirh-hero-card-self {
-      position: relative;
-      z-index: 4;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border-radius: 1rem;
-      padding: 1.5rem 2rem; /* Compact padding */
-      margin-left: 2.5rem;
-      max-width: 480px;
-      color: #303B4D;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    }
-    
-    .xirh-hero-title-self {
-      font-size: 1.6rem !important;
-      font-weight: 700 !important;
-      margin: 0 0 0.25rem 0 !important;
-      color: #303B4D !important;
-    }
-    
-    .xirh-hero-divider-self {
-      width: 45px;
-      height: 3px;
-      background-color: #35B4E7;
-      margin-bottom: 0.5rem;
-      border-radius: 1.5px;
-    }
-    
-    .xirh-hero-subtitle-self {
-      font-size: 0.9rem !important;
-      color: #4A5568 !important;
-      margin: 0 !important;
-      line-height: 1.4 !important;
-    }
-
     /* --- Spacing adjustments --- */
     .xirh-airy-section {
-      padding-top: 1rem !important;
-      padding-bottom: 2rem !important;
+      padding-top: 1.5rem !important;
+      padding-bottom: 1.5rem !important;
       max-width: 1140px !important;
       margin: 0 auto !important;
     }
@@ -153,20 +31,33 @@
     }
   </style>
 
-  <!-- Narrow Hero Carousel (Self-contained) -->
-  <div class="xirh-hero-self">
-    <!-- Ambient Background Carousel (Native Fade effect) -->
-    <div id="xirhHeroCarouselSelf" class="xirh-hero-carousel-self">
-      <div class="xirh-carousel-item-self active" style="background-image: url('/learning/pix/xirh/xirh_carousel_sirh.png'); opacity: 1; z-index: 2;"></div>
-      <div class="xirh-carousel-item-self" style="background-image: url('/learning/pix/xirh/xirh_carousel_analytics.png'); opacity: 0; z-index: 1;"></div>
-      <div class="xirh-carousel-item-self" style="background-image: url('/learning/pix/xirh/xirh_carousel_ai.png'); opacity: 0; z-index: 1;"></div>
-    </div>
-    
-    <div class="xirh-hero-card-self">
-      <h1 class="xirh-hero-title-self">XIRH Academy</h1>
-      <div class="xirh-hero-divider-self"></div>
-      <p class="xirh-hero-subtitle-self">Mon portail de formation dédié au SIRH, à l'Analyse de Données RH et à l'Intelligence Artificielle. Apprenez par la pratique.</p>
-    </div>
+  <!-- Title & Marketing Intro Section -->
+  <div class="container xirh-airy-section" style="padding-top: 2rem !important; padding-bottom: 1rem !important; text-align: center;">
+    <h1 style="
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #303B4D;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.5px;
+      font-family: 'Outfit', sans-serif;
+    ">XIRH Academy</h1>
+    <div style="
+      width: 50px;
+      height: 4px;
+      background-color: #35B4E7;
+      margin: 0 auto 1.5rem auto;
+      border-radius: 2px;
+    "></div>
+    <p style="
+      font-size: 1.15rem;
+      color: #4A5568;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+      font-family: 'Outfit', sans-serif;
+    ">
+      Mon ambition est d'accompagner les futurs professionnels des Ressources Humaines dans l'acquisition de compétences clés à l'ère numérique. À travers des formations pratiques, j'aide les étudiants à décoder les enjeux du SIRH, à exploiter les données collaborateur et à anticiper l'impact de l'Intelligence Artificielle sur les métiers RH.
+    </p>
   </div>
   
   <!-- Condensed Static Two-Column Section (Competencies and Partners) -->
@@ -175,40 +66,40 @@
       
       <!-- Column 1: Core Competencies (Static List) -->
       <div class="col-md-6 mb-4">
-        <h2 style="font-size: 1.35rem; font-weight: 700; color: #303B4D; margin-bottom: 1.25rem; font-family: 'Outfit', sans-serif;">Mes Domaines de Formation</h2>
+        <h2 style="font-size: 1.25rem; font-weight: 700; color: #303B4D; margin-bottom: 1.25rem; font-family: 'Outfit', sans-serif;">Mes Domaines de Formation</h2>
         
         <div class="xirh-static-container" style="display: flex; flex-direction: column; gap: 1rem;">
           
           <!-- Item 1: SIRH -->
-          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01);">
+          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01); height: 95px;">
             <div style="background-color: rgba(53, 180, 231, 0.07); border-radius: 0.75rem; width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
               <img src="/learning/pix/xirh/sirh.png" alt="SIRH" style="height: 2rem; width: auto; object-fit: contain;">
             </div>
             <div>
-              <h3 style="font-size: 1.05rem; font-weight: 600; color: #303B4D; margin: 0 0 0.25rem 0; font-family: 'Outfit', sans-serif;">Management du SIRH</h3>
-              <p style="color: #718096; font-size: 0.85rem; line-height: 1.4; margin: 0;">Optimisez la gestion de vos ressources humaines en maîtrisant les outils de digitalisation des processus RH, de la paie à la gestion des talents.</p>
+              <h3 style="font-size: 1.02rem; font-weight: 600; color: #303B4D; margin: 0 0 0.15rem 0; font-family: 'Outfit', sans-serif;">Management du SIRH</h3>
+              <p style="color: #718096; font-size: 0.82rem; line-height: 1.35; margin: 0;">Optimisez la gestion des ressources humaines en maîtrisant la digitalisation des processus, de la paie aux talents.</p>
             </div>
           </div>
           
           <!-- Item 2: Data Analytics -->
-          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01);">
+          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01); height: 95px;">
             <div style="background-color: rgba(53, 180, 231, 0.07); border-radius: 0.75rem; width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
               <img src="/learning/pix/xirh/analytics.png" alt="Analytics" style="height: 2rem; width: auto; object-fit: contain;">
             </div>
             <div>
-              <h3 style="font-size: 1.05rem; font-weight: 600; color: #303B4D; margin: 0 0 0.25rem 0; font-family: 'Outfit', sans-serif;">Analyse de Données RH</h3>
-              <p style="color: #718096; font-size: 0.85rem; line-height: 1.4; margin: 0;">Prenez des décisions éclairées. Apprenez à collecter, analyser et visualiser les données de vos collaborateurs grâce aux indicateurs clés (KPIs).</p>
+              <h3 style="font-size: 1.02rem; font-weight: 600; color: #303B4D; margin: 0 0 0.15rem 0; font-family: 'Outfit', sans-serif;">Analyse de Données RH</h3>
+              <p style="color: #718096; font-size: 0.82rem; line-height: 1.35; margin: 0;">Prenez des décisions éclairées. Apprenez à collecter, analyser et visualiser les données collaborateurs (KPIs).</p>
             </div>
           </div>
           
           <!-- Item 3: IA & RH -->
-          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01);">
+          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01); height: 95px;">
             <div style="background-color: rgba(53, 180, 231, 0.07); border-radius: 0.75rem; width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
               <img src="/learning/pix/xirh/ai.png" alt="IA" style="height: 2rem; width: auto; object-fit: contain;">
             </div>
             <div>
-              <h3 style="font-size: 1.05rem; font-weight: 600; color: #303B4D; margin: 0 0 0.25rem 0; font-family: 'Outfit', sans-serif;">IA & Ressources Humaines</h3>
-              <p style="color: #718096; font-size: 0.85rem; line-height: 1.4; margin: 0;">Anticipez le futur du travail. Explorez l'impact de l'IA générative et prédictive sur le recrutement, l'onboarding et les compétences.</p>
+              <h3 style="font-size: 1.02rem; font-weight: 600; color: #303B4D; margin: 0 0 0.15rem 0; font-family: 'Outfit', sans-serif;">IA & Ressources Humaines</h3>
+              <p style="color: #718096; font-size: 0.82rem; line-height: 1.35; margin: 0;">Anticipez le futur du travail. Explorez l'impact de l'IA générative et prédictive sur le recrutement et les compétences.</p>
             </div>
           </div>
           
@@ -217,37 +108,37 @@
       
       <!-- Column 2: Partner Schools (Static List) -->
       <div class="col-md-6 mb-4">
-        <h2 style="font-size: 1.35rem; font-weight: 700; color: #303B4D; margin-bottom: 1.25rem; font-family: 'Outfit', sans-serif;">Mes Écoles Partenaires</h2>
+        <h2 style="font-size: 1.25rem; font-weight: 700; color: #303B4D; margin-bottom: 1.25rem; font-family: 'Outfit', sans-serif;">Mes Écoles Partenaires</h2>
         
         <div class="xirh-static-container" style="display: flex; flex-direction: column; gap: 1rem;">
           
           <!-- Item 1: Audencia -->
-          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01); height: 86px;">
+          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01); height: 95px;">
             <div style="width: 7.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <img src="/learning/pix/xirh/logo_audencia.png" alt="Audencia" style="height: 22px !important; max-width: 100% !important; object-fit: contain; width: auto;">
+              <img src="/learning/pix/xirh/logo_audencia.png" alt="Audencia" style="height: 38px !important; max-width: 100% !important; object-fit: contain; width: auto;">
             </div>
             <div style="border-left: 1px solid #E2E8F0; padding-left: 1.25rem; flex-grow: 1;">
-              <p style="color: #718096; font-size: 0.82rem; line-height: 1.3; margin: 0;">Support d'apprentissage pratique pour les étudiants d'<strong>Audencia Business School</strong>.</p>
+              <p style="color: #718096; font-size: 0.82rem; line-height: 1.35; margin: 0;">Support d'apprentissage pratique pour les étudiants de l'école de management <strong>Audencia Business School</strong>.</p>
             </div>
           </div>
           
           <!-- Item 2: SUP des RH -->
-          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01); height: 86px;">
+          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01); height: 95px;">
             <div style="width: 7.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <img src="/learning/pix/xirh/logo_supdesrh.png" alt="SUP des RH" style="height: 42px !important; max-width: 100% !important; object-fit: contain; width: auto;">
+              <img src="/learning/pix/xirh/logo_supdesrh.png" alt="SUP des RH" style="height: 52px !important; max-width: 100% !important; object-fit: contain; width: auto;">
             </div>
             <div style="border-left: 1px solid #E2E8F0; padding-left: 1.25rem; flex-grow: 1;">
-              <p style="color: #718096; font-size: 0.82rem; line-height: 1.3; margin: 0;">Portail de formation pratique pour les étudiants de l'école <strong>SUP des RH</strong>.</p>
+              <p style="color: #718096; font-size: 0.82rem; line-height: 1.35; margin: 0;">Portail de formation et d'application pratique conçu pour les étudiants de l'école <strong>SUP des RH</strong>.</p>
             </div>
           </div>
           
           <!-- Item 3: IGENSIA -->
-          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01); height: 86px;">
+          <div class="xirh-static-item" style="display: flex; align-items: center; gap: 1.25rem; background: #ffffff; border: 1px solid rgba(226, 232, 240, 0.7); border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 15px rgba(48, 59, 77, 0.01); height: 95px;">
             <div style="width: 7.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <img src="/learning/pix/xirh/logo_igensia.png" alt="IGENSIA" style="height: 24px !important; max-width: 100% !important; object-fit: contain; width: auto;">
+              <img src="/learning/pix/xirh/logo_igensia.png" alt="IGENSIA" style="height: 35px !important; max-width: 100% !important; object-fit: contain; width: auto;">
             </div>
             <div style="border-left: 1px solid #E2E8F0; padding-left: 1.25rem; flex-grow: 1;">
-              <p style="color: #718096; font-size: 0.82rem; line-height: 1.3; margin: 0;">Ressource pédagogique pour les étudiants du groupe <strong>IGENSIA Education</strong>.</p>
+              <p style="color: #718096; font-size: 0.82rem; line-height: 1.35; margin: 0;">Ressource pédagogique numérique dédiée aux étudiants des écoles du groupe <strong>IGENSIA Education</strong>.</p>
             </div>
           </div>
           
@@ -258,40 +149,3 @@
   </div>
 
 </div>
-
-<!-- Script to handle background carousel fading natively -->
-<script>
-  (function() {
-    function moveHeroCarouselSelf() {
-      const carousel = document.getElementById('xirhHeroCarouselSelf');
-      if (!carousel) return;
-      const items = carousel.getElementsByClassName('xirh-carousel-item-self');
-      if (items.length === 0) return;
-      
-      let activeIndex = -1;
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].classList.contains('active')) {
-          activeIndex = i;
-          break;
-        }
-      }
-      if (activeIndex === -1) activeIndex = 0;
-      
-      const currentItem = items[activeIndex];
-      currentItem.classList.remove('active');
-      currentItem.style.opacity = '0';
-      currentItem.style.zIndex = '1';
-      
-      let nextIndex = activeIndex + 1;
-      if (nextIndex >= items.length) nextIndex = 0;
-      
-      const nextItem = items[nextIndex];
-      nextItem.classList.add('active');
-      nextItem.style.opacity = '1';
-      nextItem.style.zIndex = '2';
-    }
-
-    if (window.xirhHeroSelfInterval) clearInterval(window.xirhHeroSelfInterval);
-    window.xirhHeroSelfInterval = setInterval(moveHeroCarouselSelf, 4000);
-  })();
-</script>
