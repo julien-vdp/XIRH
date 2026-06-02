@@ -439,13 +439,14 @@ body .navbar.fixed-top {
     margin-bottom: 3rem;
     border-radius: 0;
 
-    // Full-bleed trick: breaks out of ALL parent containers regardless of nesting depth
+    // Prevent horizontal scrollbar on Windows by avoiding 100vw breakout,
+    // relying on the main-inner full width overrides instead.
     position: relative;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    width: 100%;
+    left: 0;
+    right: 0;
+    margin-left: 0;
+    margin-right: 0;
     overflow: hidden;
     
     &::before {
