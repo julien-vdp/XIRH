@@ -29,10 +29,22 @@
 
   /* --- Soft Background animation on all Moodle pages --- */
   body {
+    padding-top: 170px !important; /* Push Moodle down: 60px (navbar) + 110px (banner) */
     background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 50%, #f5f7fa 100%) !important;
     background-size: 400% 400% !important;
     animation: xirhGradientBG 30s ease infinite !important;
     font-family: 'Outfit', sans-serif !important;
+  }
+
+  /* Push Moodle fixed navbar below our top banner */
+  .fixed-top {
+    top: 110px !important;
+  }
+
+  /* Push left/right drawers down so they don't cover the banner/navbar */
+  .drawer {
+    top: 170px !important;
+    height: calc(100vh - 170px) !important;
   }
 
   @keyframes xirhGradientBG {
@@ -65,16 +77,15 @@
 
   /* --- Global Header Visual Strip (Sliding Carousel) --- */
   .xirh-top-banner {
-    position: relative;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 110px; /* Narrow visual strip at the top */
     overflow: hidden;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
     background-color: #303B4D;
+    z-index: 1040; /* Sit above the fixed navbar (1030) */
   }
   
   .xirh-top-carousel {
