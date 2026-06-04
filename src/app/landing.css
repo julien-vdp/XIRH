@@ -1566,58 +1566,24 @@
     }
 
     .academy-logo-box {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .academy-logo-composition {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-    }
-
-    .academy-logo-composition .academy-mascot {
-      height: 95px;
-      width: auto;
-      object-fit: contain;
-      z-index: 2;
-      animation: bounce-soft 3s ease-in-out infinite;
-    }
-
-    .academy-logo-composition .academy-logo-tag {
       background: #FFFFFF;
-      padding: 0.6rem 1.4rem;
-      border-radius: 14px;
+      padding: 1.25rem 2.5rem;
+      border-radius: 18px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-top: -12px;
-      z-index: 3;
-      border: 1px solid #E2E8F0;
+      justify-content: center;
       transition: transform 0.4s ease;
     }
 
-    .gateway-card:hover .academy-logo-tag {
+    .gateway-card:hover .academy-logo-box {
       transform: scale(1.05);
     }
 
-    .academy-logo-composition .academy-logo-tag-img {
-      height: 22px;
+    .academy-logo-box .academy-logo {
+      height: 48px;
       width: auto;
       object-fit: contain;
-    }
-
-    .academy-logo-composition .academy-logo-text {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #35B4E7;
-      letter-spacing: -0.5px;
     }
 
     .gateway-text-container {
@@ -1654,15 +1620,6 @@
     .gateway-card:hover .gateway-card-action {
       color: var(--white);
       gap: 12px;
-    }
-
-    @keyframes bounce-soft {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-8px);
-      }
     }
 
     @media (max-width: 768px) {

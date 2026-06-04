@@ -172,14 +172,7 @@ export default function Home() {
               <div className="gateway-card-inner">
                 <div className="gateway-logo-container">
                   <div className="academy-logo-box">
-                    {/* Composition with Mascot and Tag */}
-                    <div className="academy-logo-composition">
-                      <img src="/c_avatar.png" alt="Golden Retriever Mascot" className="academy-mascot" />
-                      <div className="academy-logo-tag">
-                        <img src="/logo.png" alt="XIRH Logo" className="academy-logo-tag-img" />
-                        <span className="academy-logo-text">Academy</span>
-                      </div>
-                    </div>
+                    <img src="/logo_academy.png" alt="XIRH Academy Logo" className="academy-logo" />
                   </div>
                 </div>
                 <div className="gateway-text-container">
