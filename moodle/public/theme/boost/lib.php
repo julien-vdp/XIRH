@@ -68,9 +68,9 @@ function theme_boost_get_extra_scss($theme) {
         // Set the default background position to center.
         $backgroundposition = 'background-position: center;';
     }
-    $content .= 'body.pagelayout-login #page .login-layout-left { ';
+    $content .= 'body.pagelayout-login { ';
     $content .= "background-image: url('$loginbackgroundimageurl'); ";
-    $content .= "background-size: cover; {$backgroundposition}";
+    $content .= "background-size: cover; background-repeat: no-repeat; background-attachment: fixed; {$backgroundposition}";
     $content .= ' }';
 
     // Add a watermark to indicate the image is AI generated, but only for the default image.
