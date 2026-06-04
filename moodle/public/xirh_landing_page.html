@@ -23,11 +23,35 @@
     /* --- Static Item styling --- */
     .xirh-static-item {
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      min-height: 95px !important;
+      height: auto !important;
     }
     .xirh-static-item:hover {
       transform: translateY(-2px) !important;
       border-color: rgba(53, 180, 231, 0.4) !important;
       box-shadow: 0 8px 25px rgba(48, 59, 77, 0.04) !important;
+    }
+
+    /* --- Responsive adjustments for static items on mobile --- */
+    @media (max-width: 576px) {
+      .xirh-static-item {
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding: 1.25rem !important;
+      }
+      .xirh-static-item > div:first-child {
+        margin-bottom: 0.75rem !important;
+        margin-right: 0 !important;
+      }
+      /* Remove left border from partner item text container and add top border */
+      .xirh-static-item div[style*="border-left"] {
+        border-left: none !important;
+        border-top: 1px solid #E2E8F0 !important;
+        padding-left: 0 !important;
+        padding-top: 0.75rem !important;
+        width: 100% !important;
+      }
     }
   </style>
 

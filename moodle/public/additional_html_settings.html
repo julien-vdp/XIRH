@@ -52,6 +52,20 @@
     height: calc(100vh - 220px) !important;
   }
 
+  /* --- Responsive Adjustments for Mobile & Tablets --- */
+  @media (max-width: 767.98px) {
+    .xirh-top-banner {
+      display: none !important; /* Hide banner on mobile to save vertical space */
+    }
+    #page, #page.drawers {
+      margin-top: 0 !important; /* Reset content shift */
+    }
+    .drawer {
+      top: 60px !important; /* Reset drawer position to below navbar */
+      height: calc(100vh - 60px) !important;
+    }
+  }
+
   @keyframes xirhGradientBG {
     0% { background-position: 0% 50% !important; }
     50% { background-position: 100% 50% !important; }
@@ -205,6 +219,13 @@
     pointer-events: none;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     overflow: hidden;
+  }
+
+  @media (max-width: 480px) {
+    #xirh-companion-panel {
+      width: calc(100vw - 50px) !important;
+      max-width: 320px !important;
+    }
   }
 
   #xirh-companion-panel.active {
