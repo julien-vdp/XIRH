@@ -263,55 +263,135 @@
     color: #35B4E7;
   }
 
-  .xirh-panel-body {
-    padding: 1.25rem;
+  .help-link, .fixed-bottom.text-right, .fixed-bottom.margin-right-2 {
+    display: none !important;
   }
 
-  .xirh-chat-bubble {
-    background-color: rgba(53, 180, 231, 0.08);
-    border-left: 3px solid #35B4E7;
-    padding: 0.85rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: #4A5568;
-    margin-bottom: 1.25rem;
-  }
-
-  .xirh-option-btn {
+  /* Chat history container */
+  .xirh-chat-history {
+    height: 220px;
+    overflow-y: auto;
+    padding: 1rem;
     display: flex;
-    align-items: center;
-    width: 100%;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: rgba(248, 250, 252, 0.6);
+  }
+
+  /* Individual message bubbles */
+  .xirh-msg {
+    max-width: 85%;
+    padding: 0.65rem 0.85rem;
+    border-radius: 1rem;
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .xirh-msg-bot {
     background-color: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
-    margin-bottom: 0.5rem;
+    border: 1px solid rgba(226, 232, 240, 0.8);
     color: #303B4D;
-    font-size: 0.85rem;
+    align-self: flex-start;
+    border-bottom-left-radius: 0.25rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  }
+
+  .xirh-msg-user {
+    background-color: #35B4E7;
+    color: #FFFFFF;
+    align-self: flex-end;
+    border-bottom-right-radius: 0.25rem;
+  }
+
+  /* Quick Suggestions */
+  .xirh-chat-suggestions {
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: #FFFFFF;
+    border-top: 1px solid rgba(226, 232, 240, 0.6);
+    flex-wrap: wrap;
+  }
+
+  .xirh-sugg-btn {
+    background: rgba(53, 180, 231, 0.08);
+    border: 1px solid rgba(53, 180, 231, 0.15);
+    color: #35B4E7;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
     font-weight: 600;
     cursor: pointer;
-    text-align: left;
     transition: all 0.2s ease;
     text-decoration: none !important;
   }
 
-  .xirh-option-btn:hover {
-    background-color: #F8FAFC;
-    border-color: #35B4E7;
-    color: #35B4E7;
-    transform: translateX(3px);
+  .xirh-sugg-btn:hover {
+    background: #35B4E7;
+    color: #FFFFFF;
   }
 
-  .xirh-option-btn i {
-    margin-right: 0.75rem;
+  /* Input bar styling */
+  .xirh-chat-input-bar {
+    display: flex;
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
+    background: #FFFFFF;
+  }
+
+  .xirh-chat-input-bar input {
+    flex: 1;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    outline: none;
+    color: #303B4D;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .xirh-chat-input-bar button {
+    background: none;
+    border: none;
     color: #35B4E7;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .xirh-chat-input-bar button:hover {
+    color: #1FA0D3;
+  }
+
+  /* Typing animation */
+  .xirh-typing-indicator {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .xirh-typing-dot {
+    width: 5px;
+    height: 5px;
+    background: #A0AEC0;
+    border-radius: 50%;
+    animation: xirhTyping 1.4s infinite ease-in-out both;
+  }
+
+  .xirh-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+  .xirh-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+  @keyframes xirhTyping {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
   }
 </style>
 
 <!-- =======================================================================
   2. WHEN BODY IS OPENED (additionalhtmltopofbody)
-======================================================================= -->
+ ======================================================================= -->
 <!-- Global Header Banner (Sliding Carousel Visual Strip below Navbar) -->
 <div class="xirh-top-banner">
   <div id="xirhTopCarousel" class="xirh-top-carousel">
@@ -323,7 +403,7 @@
 
 <!-- =======================================================================
   3. BEFORE BODY IS CLOSED (additionalhtmlfooter)
-======================================================================= -->
+ ======================================================================= -->
 <div id="xirh-companion-container">
   
   <!-- Companion Chat Panel -->
@@ -336,23 +416,29 @@
       </div>
     </div>
     
-    <div class="xirh-panel-body">
-      <div class="xirh-chat-bubble" id="xirh-chat-text">
+    <!-- Chat window history -->
+    <div class="xirh-chat-history" id="xirh-chat-history">
+      <div class="xirh-msg xirh-msg-bot">
         Bonjour ! Je suis XIRH, votre tuteur d'apprentissage. Prêt à optimiser vos processus RH et à chasser les fichiers Excel inutiles ? Woof !
       </div>
-      
-      <!-- Option buttons -->
-      <a href="/learning/#courses" class="xirh-option-btn" id="xirh-btn-courses">
-        🚀 Accéder à mes formations
-      </a>
-      
-      <button class="xirh-option-btn" id="xirh-btn-advice">
-        💡 Un conseil de tuteur (BPMN/SIRH)
+    </div>
+
+    <!-- Quick Suggestions -->
+    <div class="xirh-chat-suggestions">
+      <button class="xirh-sugg-btn" data-query="conseil">💡 Conseil</button>
+      <a href="/learning/#courses" class="xirh-sugg-btn" id="xirh-link-courses">🚀 Formations</a>
+      <a href="mailto:contact@xirh.fr" class="xirh-sugg-btn">📬 Contact</a>
+    </div>
+    
+    <!-- Chat input bar -->
+    <div class="xirh-chat-input-bar">
+      <input type="text" id="xirh-chat-input" placeholder="Posez une question (SIRH, BPMN, IA...)" autocomplete="off">
+      <button id="xirh-chat-send" aria-label="Envoyer">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
       </button>
-      
-      <a href="mailto:contact@xirh.fr" class="xirh-option-btn" id="xirh-btn-contact">
-        📬 Poser une question à Julien
-      </a>
     </div>
   </div>
 
@@ -403,10 +489,11 @@
     const trigger = document.getElementById('xirh-companion-button');
     const panel = document.getElementById('xirh-companion-panel');
     const badge = document.getElementById('xirh-companion-badge');
-    const adviceBtn = document.getElementById('xirh-btn-advice');
-    const chatText = document.getElementById('xirh-chat-text');
+    const history = document.getElementById('xirh-chat-history');
+    const input = document.getElementById('xirh-chat-input');
+    const sendBtn = document.getElementById('xirh-chat-send');
 
-    // List of humorous/serious HR & BPMN advices from the dog
+    // List of advices
     const advices = [
       "« Un processus chaotique numérisé reste un processus chaotique, mais il s'exécute juste plus vite. Modélisez d'abord ! »",
       "« Les losanges dans vos diagrammes sont des passerelles de décision. Si vous avez 5 validations pour 1 jour de congé, simplifiez ! »",
@@ -418,14 +505,83 @@
       "« Modéliser permet de calculer le ROI : comparez le temps passé avant et après l'automatisation. Les chiffres ne mentent pas ! »"
     ];
 
+    // Response dictionary
+    const responses = {
+      "bpmn": "Woof ! Le BPMN, c'est la vie : des rectangles pour les tâches, des losanges pour les choix, et pas de gribouillis ! Pensez à bien définir vos couloirs (swimlanes) pour montrer qui fait quoi.",
+      "sirh": "Le SIRH (Système d'Information RH) automatise la gestion des collaborateurs. Mais attention : sans formation ni conduite du changement, c'est comme donner une Formule 1 à un conducteur sans permis !",
+      "ia": "L'IA est là pour aider, pas pour vous remplacer ! Elle est super pour analyser les profils ou rédiger des brouillons, mais elle ne saura jamais ressentir l'esprit d'équipe. Gardons du flair humain !",
+      "excel": "Grrr... Excel est un outil fantastique, mais l'utiliser comme base de données RH pour 200 personnes, c'est courir vers l'enfer des doublons et des versions obsolètes. Passez au vrai SIRH !",
+      "julien": "Julien est le grand maître de XIRH Consulting. Il est expert SuccessFactors/Talentsoft, pédagogue hors pair et n'aime pas le gaspillage de temps RH. Écrivez-lui à contact@xirh.fr !",
+      "cours": "Nos formations vous apprennent à maîtriser la digitalisation RH, l'analyse de données et l'impact de l'IA. Allez voir notre catalogue de formations en cliquant sur 'Formations' !",
+      "formation": "Nos formations vous apprennent à maîtriser la digitalisation RH, l'analyse de données et l'impact de l'IA. Allez voir notre catalogue de formations en cliquant sur 'Formations' !",
+      "examen": "Pour l'examen, pas de panique ! Relisez bien vos notes sur la modélisation des processus et la structure des données RH. Et surtout, dormez bien la veille, c'est bon pour le cerveau (et le flair) !",
+      "note": "Pour avoir une bonne note, montrez que vous comprenez la différence entre numériser un document et repenser un processus complet. C'est ça, la vraie transformation numérique !"
+    };
+
+    function appendMessage(text, isUser = false) {
+      const msg = document.createElement('div');
+      msg.className = 'xirh-msg ' + (isUser ? 'xirh-msg-user' : 'xirh-msg-bot');
+      msg.innerText = text;
+      history.appendChild(msg);
+      history.scrollTop = history.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const indicator = document.createElement('div');
+      indicator.className = 'xirh-msg xirh-msg-bot xirh-typing-indicator';
+      indicator.id = 'xirh-typing';
+      indicator.innerHTML = '<span class="xirh-typing-dot"></span><span class="xirh-typing-dot"></span><span class="xirh-typing-dot"></span>';
+      history.appendChild(indicator);
+      history.scrollTop = history.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const indicator = document.getElementById('xirh-typing');
+      if (indicator) indicator.remove();
+    }
+
+    function handleBotReply(userText) {
+      showTypingIndicator();
+      
+      const cleanText = userText.toLowerCase().trim();
+      let reply = "Woof ! C'est une excellente question sur les Ressources Humaines ou le SIRH. N'hésitez pas à en discuter avec Julien (contact@xirh.fr) pour avoir son avis d'expert !";
+      
+      // Match keywords
+      for (const key in responses) {
+        if (cleanText.includes(key)) {
+          reply = responses[key];
+          break;
+        }
+      }
+
+      // If asking for advice
+      if (cleanText === 'conseil' || cleanText.includes('conseil') || cleanText.includes('conseils')) {
+        const randomIndex = Math.floor(Math.random() * advices.length);
+        reply = advices[randomIndex];
+      }
+
+      setTimeout(function() {
+        removeTypingIndicator();
+        appendMessage(reply);
+      }, 800 + Math.random() * 600);
+    }
+
+    function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      appendMessage(text, true);
+      handleBotReply(text);
+    }
+
     // Toggle Panel
     trigger.addEventListener('click', function(e) {
       e.stopPropagation();
-      panel.classList.toggle('active');
-      
-      // Hide badge on first open
-      if(badge) {
-        badge.style.display = 'none';
+      const isActive = panel.classList.toggle('active');
+      localStorage.setItem('xirh_companion_opened', 'true');
+      if(badge) badge.style.display = 'none';
+      if (isActive) {
+        setTimeout(() => input.focus(), 300);
       }
     });
 
@@ -436,25 +592,42 @@
       }
     });
 
-    // Get Advice Logic
-    adviceBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      
-      // Select random advice
-      const randomIndex = Math.floor(Math.random() * advices.length);
-      const advice = advices[randomIndex];
-      
-      // Animate text change
-      chatText.style.opacity = '0';
-      setTimeout(function() {
-        chatText.innerText = advice;
-        chatText.style.opacity = '1';
-      }, 200);
+    // Send button click
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Enter key press
+    input.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
     });
 
-    // Close button click listener inside course anchor
-    document.getElementById('xirh-btn-courses').addEventListener('click', function() {
-      panel.classList.remove('active');
+    // Suggestion button click
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('xirh-sugg-btn') && e.target.hasAttribute('data-query')) {
+        e.preventDefault();
+        e.stopPropagation();
+        const query = e.target.getAttribute('data-query');
+        appendMessage(query === 'conseil' ? '💡 Besoin d\'un conseil' : query, true);
+        handleBotReply(query);
+      }
     });
+
+    // Auto open popup on first visit after 3.5s
+    setTimeout(function() {
+      if (!panel.classList.contains('active') && !localStorage.getItem('xirh_companion_opened')) {
+        panel.classList.add('active');
+        if(badge) badge.style.display = 'none';
+      }
+    }, 3500);
+
+    // Close on courses link click
+    const coursesLink = document.getElementById('xirh-link-courses');
+    if (coursesLink) {
+      coursesLink.addEventListener('click', function() {
+        panel.classList.remove('active');
+      });
+    }
+
   })();
 </script>
