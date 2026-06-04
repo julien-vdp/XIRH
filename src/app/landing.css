@@ -1393,3 +1393,290 @@
         text-align: center;
       }
     }
+
+    /* ═══════════════════════════════════════════
+       GATEWAY / PORTAL SELECTION PAGE
+    ═══════════════════════════════════════════ */
+    .gateway-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .gateway-theme-toggle {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+    }
+
+    .gateway-theme-toggle .theme-btn {
+      background: none;
+      border: none;
+      color: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--glass-light);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .gateway-theme-toggle .theme-btn:hover {
+      background: var(--glass);
+      border-color: var(--cyan-400);
+      transform: scale(1.05);
+    }
+
+    .gateway-content {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .gateway-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .logo-main-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo-main-wrap .logo-main {
+      height: 50px;
+      border-radius: 8px;
+      mix-blend-mode: screen;
+      filter: brightness(1.1);
+    }
+
+    [data-theme="light"] .logo-main-wrap .logo-main {
+      mix-blend-mode: normal;
+      filter: none;
+    }
+
+    .gateway-title {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+
+    .gateway-subtitle {
+      font-size: 1.05rem;
+      color: var(--slate-400);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .gateway-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      width: 100%;
+    }
+
+    .gateway-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      text-decoration: none;
+      color: inherit;
+      height: 100%;
+    }
+
+    .gateway-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.05) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .gateway-card:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+      transform: translateY(-8px);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35), 0 0 40px rgba(6, 182, 212, 0.05) inset;
+    }
+
+    .gateway-card:hover::before {
+      opacity: 1;
+    }
+
+    .gateway-card-inner {
+      padding: 3.5rem 2.5rem 3rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      height: 100%;
+    }
+
+    .gateway-logo-container {
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      width: 100%;
+    }
+
+    .consulting-logo-box {
+      background: #FFFFFF;
+      padding: 1.25rem 2.5rem;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.4s ease;
+    }
+
+    .gateway-card:hover .consulting-logo-box {
+      transform: scale(1.05);
+    }
+
+    .consulting-logo-box .consulting-logo {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .academy-logo-box {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .academy-logo-composition {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .academy-logo-composition .academy-mascot {
+      height: 95px;
+      width: auto;
+      object-fit: contain;
+      z-index: 2;
+      animation: bounce-soft 3s ease-in-out infinite;
+    }
+
+    .academy-logo-composition .academy-logo-tag {
+      background: #FFFFFF;
+      padding: 0.6rem 1.4rem;
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: -12px;
+      z-index: 3;
+      border: 1px solid #E2E8F0;
+      transition: transform 0.4s ease;
+    }
+
+    .gateway-card:hover .academy-logo-tag {
+      transform: scale(1.05);
+    }
+
+    .academy-logo-composition .academy-logo-tag-img {
+      height: 22px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .academy-logo-composition .academy-logo-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #35B4E7;
+      letter-spacing: -0.5px;
+    }
+
+    .gateway-text-container {
+      flex-grow: 1;
+      margin-bottom: 2.5rem;
+    }
+
+    .gateway-text-container h3 {
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+    }
+
+    .gateway-text-container p {
+      font-size: 0.92rem;
+      color: var(--slate-400);
+      line-height: 1.65;
+    }
+
+    .gateway-card-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--cyan-400);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: all 0.3s ease;
+    }
+
+    .gateway-card:hover .gateway-card-action {
+      color: var(--white);
+      gap: 12px;
+    }
+
+    @keyframes bounce-soft {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .gateway-container {
+        padding: 3rem 1rem;
+      }
+      .gateway-header {
+        margin-bottom: 2.5rem;
+      }
+      .gateway-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .gateway-card-inner {
+        padding: 2.5rem 1.5rem 2rem 1.5rem;
+      }
+    }
