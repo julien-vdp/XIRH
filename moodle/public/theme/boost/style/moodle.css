@@ -48021,6 +48021,8 @@ body.pagelayout-login .login-layout-left .login-layout-left-content .login-layou
   width: 100% !important;
   max-width: 300px !important;
   height: auto !important;
+  max-height: none !important;
+  margin: 0 !important;
   filter: none !important;
 }
 body.pagelayout-login .login-layout-right {
