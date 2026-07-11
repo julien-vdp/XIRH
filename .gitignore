@@ -44,3 +44,40 @@ next-env.d.ts
 *.csv
 Monocle Vaporeux/
 
+# Local assistant config
+.claude/
+.agents/
+
+# Local TypeScript/Python caches
+tsconfig.tsbuildinfo
+__pycache__/
+*.pyc
+
+# E-learning generated artifacts kept outside Git
+H5P_GUIDE.md
+*.h5p
+h5p/
+h5p_libs_download/
+libraries/
+libraryRegistry.json
+lumi_extracted_asar/
+template_extracted/
+temp/
+scorm_bpmn/
+scorm_ia/
+illustrations/
+_learning-lab/packages/
+_learning-lab/library-downloads/
+_learning-lab/libraries/
+_learning-lab/templates/
+_learning-lab/temp/
+_learning-lab/runtime/
+_learning-lab/scorm/
+_learning-lab/illustrations/
+_learning-lab/legacy/
+
+# Local desktop utilities and packaged executables
+Nettoyeur/
+Nettoyeur_Comp/
+_local-lab/
+
