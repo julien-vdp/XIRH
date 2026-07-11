@@ -10,10 +10,18 @@ const COMP_SUGGESTIONS_KEY = 'xirh_comp_suggestions_v2';
 const COMP_STATUS_KEY = 'xirh_comp_status_v2';
 const EXPENSES_KEY = 'xirh_expenses_v1';
 const EXPENSE_WORKFLOW_KEY = 'xirh_expense_workflow_v1';
+const USE_REMOTE_API = false;
+
+const syncRequest = (...args) => {
+  if (!USE_REMOTE_API) return Promise.resolve(null);
+  return fetch(...args);
+};
 
 export const syncFromPostgres = async () => {
+  if (!USE_REMOTE_API) return false;
+
   try {
-    const res = await fetch('/api/sync');
+    const res = await syncRequest('/api/sync');
     const data = await res.json();
     if (data.error) throw new Error(data.error);
 
@@ -94,7 +102,7 @@ export const saveCompStatus = (campaignId, managerId, status) => {
   localStorage.setItem(COMP_STATUS_KEY, JSON.stringify(allStatuses));
 
   // Sync back to Postgres
-  fetch('/api/compensation', {
+  syncRequest('/api/compensation', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -125,7 +133,7 @@ export const addEmployee = (employee) => {
   localStorage.setItem(DB_KEY, JSON.stringify(employees));
 
   // Sync back to Postgres
-  fetch('/api/employees', {
+  syncRequest('/api/employees', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(employee)
@@ -142,7 +150,7 @@ export const updateEmployee = (id, updates) => {
     localStorage.setItem(DB_KEY, JSON.stringify(employees));
 
     // Sync back to Postgres
-    fetch('/api/employees', {
+    syncRequest('/api/employees', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(employees[index])
@@ -159,7 +167,7 @@ export const deleteEmployee = (id) => {
   localStorage.setItem(DB_KEY, JSON.stringify(employees));
 
   // Sync back to Postgres
-  fetch(`/api/employees?id=${id}`, {
+  syncRequest(`/api/employees?id=${id}`, {
     method: 'DELETE'
   }).catch(err => console.error('Failed to sync deleted employee:', err));
 };
@@ -226,7 +234,7 @@ export const importCSVData = (csvDataArray) => {
   localStorage.setItem(DB_KEY, JSON.stringify(employees));
 
   // Sync back to Postgres
-  fetch('/api/employees/import', {
+  syncRequest('/api/employees/import', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ employees: importedList })
@@ -257,7 +265,7 @@ export const resetDB = () => {
   initExpensesDB();
 
   // Sync back to Postgres
-  fetch('/api/db/reset', {
+  syncRequest('/api/db/reset', {
     method: 'POST'
   }).then(() => syncFromPostgres()).catch(err => console.error('Failed to sync db reset:', err));
 };
@@ -292,7 +300,7 @@ export const saveCampaign = (campaign) => {
   localStorage.setItem(CAMPAIGNS_DB_KEY, JSON.stringify(campaigns));
 
   // Sync back to Postgres
-  fetch('/api/campaigns', {
+  syncRequest('/api/campaigns', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(campaign)
@@ -327,7 +335,7 @@ export const addEmployeeToCampaign = (campaignId, employeeId) => {
     localStorage.setItem(EVALS_DB_KEY, JSON.stringify(evals));
 
     // Sync back to Postgres
-    fetch('/api/evaluations', {
+    syncRequest('/api/evaluations', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newEval)
@@ -341,7 +349,7 @@ export const removeEmployeeFromCampaign = (campaignId, employeeId) => {
   localStorage.setItem(EVALS_DB_KEY, JSON.stringify(evals));
 
   // Sync back to Postgres
-  fetch(`/api/evaluations?campaignId=${campaignId}&employeeId=${employeeId}`, {
+  syncRequest(`/api/evaluations?campaignId=${campaignId}&employeeId=${employeeId}`, {
     method: 'DELETE'
   }).catch(err => console.error('Failed to sync removed evaluation:', err));
 };
@@ -354,7 +362,7 @@ export const updateEvaluationFormTemplate = (evalId, newTemplateId) => {
     localStorage.setItem(EVALS_DB_KEY, JSON.stringify(evals));
 
     // Sync back to Postgres
-    fetch('/api/evaluations', {
+    syncRequest('/api/evaluations', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: evalId, formTemplateId: newTemplateId })
@@ -391,7 +399,7 @@ export const delegateEvaluation = (evalId, newEvaluatorId) => {
     localStorage.setItem(EVALS_DB_KEY, JSON.stringify(evals));
 
     // Sync back to Postgres
-    fetch('/api/evaluations', {
+    syncRequest('/api/evaluations', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: evalId, evaluatorId: newEvaluatorId })
@@ -442,7 +450,7 @@ export const saveForm = (form) => {
   localStorage.setItem(FORMS_DB_KEY, JSON.stringify(forms));
 
   // Sync back to Postgres
-  fetch('/api/forms', {
+  syncRequest('/api/forms', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(form)
@@ -457,7 +465,7 @@ export const deleteForm = (id) => {
   localStorage.setItem(FORMS_DB_KEY, JSON.stringify(forms));
 
   // Sync back to Postgres
-  fetch(`/api/forms?id=${id}`, {
+  syncRequest(`/api/forms?id=${id}`, {
     method: 'DELETE'
   }).catch(err => console.error('Failed to sync deleted form template:', err));
 };
@@ -470,7 +478,7 @@ export const saveEvaluationAnswers = (evalId, answers) => {
     localStorage.setItem(EVALS_DB_KEY, JSON.stringify(evals));
 
     // Sync back to Postgres
-    fetch('/api/evaluations', {
+    syncRequest('/api/evaluations', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: evalId, answers })
@@ -486,7 +494,7 @@ export const updateEvaluationStatus = (evalId, status) => {
     localStorage.setItem(EVALS_DB_KEY, JSON.stringify(evals));
 
     // Sync back to Postgres
-    fetch('/api/evaluations', {
+    syncRequest('/api/evaluations', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: evalId, status })
@@ -522,7 +530,7 @@ export const saveCompCampaign = (campaign) => {
   localStorage.setItem(COMP_CAMPAIGNS_KEY, JSON.stringify(campaigns));
 
   // Sync back to Postgres
-  fetch('/api/compensation', {
+  syncRequest('/api/compensation', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ type: 'campaign', data: campaign })
@@ -543,7 +551,7 @@ export const addEmployeeToCompCampaign = (campaignId, employeeId) => {
     localStorage.setItem(COMP_ENROLLMENTS_KEY, JSON.stringify(enrollments));
 
     // Sync back to Postgres
-    fetch('/api/compensation', {
+    syncRequest('/api/compensation', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type: 'enrollment', data: { campaignId, employeeId } })
@@ -556,7 +564,7 @@ export const removeEmployeeFromCompCampaign = (campaignId, employeeId) => {
   localStorage.setItem(COMP_ENROLLMENTS_KEY, JSON.stringify(enrollments));
 
   // Sync back to Postgres
-  fetch(`/api/compensation?type=enrollment&campaignId=${campaignId}&employeeId=${employeeId}`, {
+  syncRequest(`/api/compensation?type=enrollment&campaignId=${campaignId}&employeeId=${employeeId}`, {
     method: 'DELETE'
   }).catch(err => console.error('Failed to sync comp campaign deletion:', err));
 };
@@ -583,7 +591,7 @@ export const saveCompSuggestion = (campaignId, employeeId, suggestion) => {
   localStorage.setItem(COMP_SUGGESTIONS_KEY, JSON.stringify(allSuggestions));
 
   // Sync back to Postgres
-  fetch('/api/compensation', {
+  syncRequest('/api/compensation', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -606,7 +614,7 @@ export const saveExpenseWorkflowConfig = (config) => {
   localStorage.setItem(EXPENSE_WORKFLOW_KEY, JSON.stringify(config));
 
   // Sync back to Postgres
-  fetch('/api/expenses', {
+  syncRequest('/api/expenses', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ type: 'config', data: config })
@@ -708,7 +716,7 @@ export const saveExpense = (expense) => {
   localStorage.setItem(EXPENSES_KEY, JSON.stringify(expenses));
 
   // Sync back to Postgres
-  fetch('/api/expenses', {
+  syncRequest('/api/expenses', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ type: 'expense', data: expense })
@@ -729,7 +737,7 @@ export const updateExpenseStatus = (expenseId, newStatus, actionLabel) => {
     localStorage.setItem(EXPENSES_KEY, JSON.stringify(expenses));
 
     // Sync back to Postgres
-    fetch('/api/expenses', {
+    syncRequest('/api/expenses', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

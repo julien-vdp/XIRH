@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getEmployees, updateEmployee, addEmployee } from '../db/database';
-import { Search, Filter, Mail, Calendar, Briefcase, IndianRupee, Edit2, Check, X, User, UserPlus } from 'lucide-react';
+import { Search, Filter, Mail, Calendar, Briefcase, Euro, Edit2, Check, X, User, UserPlus } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
@@ -227,7 +227,7 @@ const Employees = () => {
                         <span>Embauché le {format(new Date(selectedEmp.hireDate), 'dd MMMM yyyy', { locale: fr })}</span>
                       </div>
                       <div className="flex items-center gap-3">
-                        <IndianRupee size={16} color="var(--primary)" />
+                        <Euro size={16} color="var(--primary)" />
                         <span>{selectedEmp.salary.toLocaleString('fr-FR')} € / an</span>
                       </div>
                     </div>

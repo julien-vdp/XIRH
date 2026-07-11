@@ -16,12 +16,13 @@ const Topbar = ({ currentView, currentUser, theme, setTheme }) => {
 
   return (
     <div className="topbar">
-      <div>
+      <div className="topbar-title">
         <h2 style={{ fontSize: '1.2rem', margin: 0, fontWeight: 500 }}>{titles[currentView] || 'XIRH'}</h2>
+        <span className="demo-pill topbar-demo-pill">Demo locale</span>
       </div>
       
-      <div className="flex items-center gap-4">
-        <div style={{ position: 'relative' }}>
+      <div className="topbar-actions flex items-center gap-4">
+        <div className="topbar-search" style={{ position: 'relative' }}>
           <Search size={18} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           <input 
             type="text" 
@@ -56,7 +57,7 @@ const Topbar = ({ currentView, currentUser, theme, setTheme }) => {
           {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
         </button>
         
-        <div className="flex items-center gap-2" style={{ borderLeft: '1px solid var(--panel-border)', paddingLeft: '1rem', marginLeft: '0.5rem' }}>
+        <div className="topbar-user flex items-center gap-2" style={{ borderLeft: '1px solid var(--panel-border)', paddingLeft: '1rem', marginLeft: '0.5rem' }}>
           <div style={{ width: '35px', height: '35px', borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
             {currentUser?.avatar ? <img src={currentUser.avatar} alt="Utilisateur" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : <User size={18} color="white" />}
           </div>
