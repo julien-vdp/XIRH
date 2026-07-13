@@ -80,6 +80,19 @@ const Dashboard = ({ setCurrentView }) => {
 
   return (
     <div className="flex-col gap-6" style={{ paddingBottom: '2rem' }}>
+      <section className="sirh-dashboard-hero glass-panel animate-fade-in">
+        <div className="sirh-dashboard-hero-copy">
+          <span className="demo-pill">Pilotage RH unifie</span>
+          <h1>Tableau de Pilotage</h1>
+          <p>Supervisez en un coup d'oeil l'ensemble de votre dispositif RH, des effectifs aux campagnes d'evaluation.</p>
+          <button className="btn btn-primary" onClick={() => setCurrentView('employees')}>
+            <UserPlus size={18} /> Gerer les salaries
+          </button>
+        </div>
+        <div className="sirh-dashboard-hero-media" aria-hidden="true">
+          <img src="/sirh-dashboard-hero.png" alt="" />
+        </div>
+      </section>
       
       {/* HEADER PEDAGOGIQUE */}
       <div className="glass-panel animate-fade-in" style={{ padding: '1.5rem', background: 'linear-gradient(to right, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05))', borderLeft: '4px solid var(--primary)' }}>
@@ -87,7 +100,7 @@ const Dashboard = ({ setCurrentView }) => {
          <p style={{ color: 'var(--text-main)', lineHeight: 1.6 }}>Cette plateforme est un démonstrateur de Système d'Information de Ressources Humaines (SIRH) conçu dans un cadre <b>pédagogique</b>. L'entièreté des données manipulées dans les modules de performance et de rémunération proviennent d'une base consolidée unique en mémoire (In-Memory). Chaque action simulée par un étudiant met directement à jour les statistiques de pilotage ci-dessous en temps réel, évitant ainsi le silotage des informations.</p>
       </div>
 
-      <div className="flex justify-between items-center mt-2">
+      <div className="flex justify-between items-center mt-2 dashboard-legacy-heading">
         <div>
           <h1>Tableau de Pilotage</h1>
           <p>Supervisez en un coup d'œil l'ensemble de votre dispositif RH.</p>

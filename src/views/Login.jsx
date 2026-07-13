@@ -42,6 +42,7 @@ const Login = ({ onLogin }) => {
         <div className="mesh-orb mesh-orb-2"></div>
         <div className="mesh-orb mesh-orb-3"></div>
       </div>
+      <img className="login-visual" src="/sirh-login-visual.png" alt="" aria-hidden="true" />
 
       <header className="login-header">
         <div className="login-mark">X</div>

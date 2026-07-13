@@ -32,6 +32,8 @@ model EmployeeHistory {
   label       String
   description String
   newValue    String
+
+  @@index([employeeId])
 }
 
 model Campaign {
@@ -54,6 +56,9 @@ model Evaluation {
   score          String?
   answers        Json?
   evaluatorId    String?
+
+  @@index([employeeId])
+  @@index([campaignId])
 }
 
 model FormTemplate {
@@ -110,6 +115,8 @@ model Expense {
   description String
   status      String @default("PENDING_N1") // PENDING_N1, PENDING_N2, PENDING_ADMIN, APPROVED, REJECTED
   history     Json
+
+  @@index([employeeId])
 }
 
 model ExpenseWorkflowConfig {

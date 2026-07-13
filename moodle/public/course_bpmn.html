@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cours complet : Processus RH et BPMN - XIRH Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy-deep: #0c1a35;
+      --navy-light: #122448;
+      --cyan: #35B4E7;
+      --cyan-light: rgba(53, 180, 231, 0.08);
+      --text-color: #303B4D;
+      --text-muted: #64748B;
+      --bg-color: #F8FAF C;
+      --white: #FFFFFF;
+      --success: #10B981;
+      --error: #EF4444;
+      --border-color: rgba(226, 232, 240, 0.9);
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      color: var(--text-color);
+      background-color: #F4F7FA;
+      line-height: 1.7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .course-header {
+      background-image: linear-gradient(rgba(12, 26, 53, 0.92), rgba(12, 26, 53, 0.92)), url('/learning/pix/xirh/hero_bg.png');
+      background-size: cover;
+      background-position: center;
+      color: var(--white);
+      padding: 3.5rem 3rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 15px 30px rgba(12, 26, 53, 0.1);
+      margin-bottom: 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course-header h1 {
+      margin: 0 0 1rem 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .course-header p {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 800px;
+      margin: 0 auto 1.5rem auto;
+    }
+
+    .divider {
+      width: 80px;
+      height: 4px;
+      background-color: var(--cyan);
+      border-radius: 2px;
+      margin: 0 auto;
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      background: var(--white);
+      padding: 0.75rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 140px;
+      padding: 0.85rem 1rem;
+      background: none;
+      border: none;
+      border-radius: 0.75rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .tab-btn:hover {
+      color: var(--navy-deep);
+      background-color: #F1F5F9;
+    }
+
+    .tab-btn.active {
+      color: var(--white);
+      background-color: var(--navy-deep);
+      box-shadow: 0 4px 12px rgba(12, 26, 53, 0.15);
+    }
+
+    /* Content Layout */
+    .course-card {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 1.5rem;
+      padding: 3rem;
+      box-shadow: 0 15px 35px rgba(48, 59, 77, 0.04);
+      margin-bottom: 2rem;
+      display: none;
+    }
+
+    .course-card.active {
+      display: block;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Typography inside content */
+    .course-card h2 {
+      font-size: 1.8rem;
+      color: var(--navy-deep);
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+
+    .course-card h3 {
+      font-size: 1.35rem;
+      color: var(--navy-light);
+      margin-top: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .course-card p {
+      font-size: 1.08rem;
+      color: #4A5568;
+      margin-bottom: 1.25rem;
+    }
+
+    .course-card ul, .course-card ol {
+      font-size: 1.08rem;
+      color: #4A5568;
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+    }
+
+    .course-card li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Visual Components */
+    .quote-box {
+      background-color: var(--cyan-light);
+      border-left: 4px solid var(--cyan);
+      padding: 1.5rem 2rem;
+      border-radius: 0.75rem;
+      font-style: italic;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--navy-deep);
+      margin: 2rem 0;
+    }
+
+    .illus-img {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      margin: 2rem auto;
+      border-radius: 1rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    .card-panel {
+      background: #F8FAFC;
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Interactive Quiz */
+    .quiz-container {
+      background-color: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+
+    .quiz-question {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: var(--navy-deep);
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .quiz-option {
+      background: var(--white);
+      border: 1px solid #CBD5E1;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 500;
+    }
+
+    .quiz-option:hover {
+      background-color: #F1F5F9;
+      border-color: var(--navy-light);
+    }
+
+    .quiz-option.selected {
+      border-color: var(--cyan);
+      background-color: rgba(53, 180, 231, 0.04);
+    }
+
+    .quiz-option.correct {
+      border-color: var(--success) !important;
+      background-color: rgba(16, 185, 129, 0.05) !important;
+      color: var(--success) !important;
+    }
+
+    .quiz-option.incorrect {
+      border-color: var(--error) !important;
+      background-color: rgba(239, 68, 68, 0.05) !important;
+      color: var(--error) !important;
+    }
+
+    .quiz-check-btn {
+      background-color: var(--navy-deep);
+      color: var(--white);
+      border: none;
+      padding: 0.85rem 2rem;
+      border-radius: 0.5rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.2s;
+    }
+
+    .quiz-check-btn:hover {
+      background-color: var(--navy-light);
+    }
+
+    .feedback-message {
+      margin-top: 1rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    /* Flashcards */
+    .flashcards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .flashcard {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .flashcard:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.05);
+    }
+
+    .flashcard summary {
+      font-weight: 600;
+      color: var(--navy-deep);
+      font-size: 1.15rem;
+      cursor: pointer;
+      outline: none;
+      user-select: none;
+      padding-bottom: 0.5rem;
+    }
+
+    .flashcard p {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #EDF2F7;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Table styling */
+    .rh-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+    }
+
+    .rh-table th {
+      background-color: var(--navy-deep);
+      color: var(--white);
+      padding: 1rem;
+      text-align: left;
+      border: 1px solid var(--navy-light);
+    }
+
+    .rh-table td {
+      padding: 1rem;
+      border: 1px solid #E2E8F0;
+    }
+
+    .rh-table tr:nth-child(even) {
+      background-color: #F8FAFC;
+    }
+
+    @media (max-width: 768px) {
+      .course-card {
+        padding: 1.5rem;
+      }
+      .course-header {
+        padding: 2rem 1.5rem;
+      }
+      .course-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Course Header -->
+    <div class="course-header">
+      <h1>Comprendre, analyser et modéliser les processus RH avec BPMN</h1>
+      <p>Un cours interactif et concret pour appréhender la digitalisation RH, concevoir vos parcours cibles et modéliser en BPMN 2.0.</p>
+      <div class="divider"></div>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab(event, 'intro')">Introduction</button>
+      <button class="tab-btn" onclick="switchTab(event, 'mod1')">M1 : Processus</button>
+      <button class="tab-btn" onclick="switchTab(event, 'mod2')">M2 : Silos & Flux</button>
+      <button class="tab-btn" onclick="switchTab(event, 'mod3')">M3 : Analyse SIRH</button>
+      <button class="tab-btn" onclick="switchTab(event, 'mod4')">M4 : BPMN</button>
+      <button class="tab-btn" onclick="switchTab(event, 'mod5')">M5 : Cas Pratique</button>
+      <button class="tab-btn" onclick="switchTab(event, 'flash')">Glossaire & Révision</button>
+      <button class="tab-btn" onclick="switchTab(event, 'eval')">Évaluation</button>
+    </div>
+
+    <!-- Introduction Tab -->
+    <div id="intro" class="course-card active">
+      <h2>Introduction du cours</h2>
+      <p>Ce cours interactif est conçu pour les étudiants en Master RH / SIRH et les professionnels des Ressources Humaines. L'objectif est de vous donner les clés de l'<strong>analyse de processus métier</strong> et de vous apprendre à les modéliser avec le standard international <strong>BPMN 2.0 (Business Process Model and Notation)</strong>.</p>
+      
+      <div class="quote-box">
+        « Un bon projet SIRH ne commence pas par une démo d'outil. Il commence par une question simple : comment le travail se fait-il vraiment aujourd'hui, et comment voulons-nous qu'il se fasse demain ? »
+      </div>
+
+      <img class="illus-img" src="/learning/pix/xirh/cover.png" alt="XIRH Cover - Magritte Golden Retriever">
+      
+      <h3>Objectifs d'apprentissage</h3>
+      <ul>
+        <li>Définir et cartographier les processus RH clés.</li>
+        <li>Analyser le AS-IS (existant) et concevoir le TO-BE (cible).</li>
+        <li>Expliquer pourquoi la modélisation précède tout projet SIRH.</li>
+        <li>Différencier l'approche ISO 9001 rigide de l'analyse opérationnelle SIRH.</li>
+        <li>Dessiner un diagramme BPMN 2.0 propre et lisible.</li>
+        <li>Identifier les goulots d'étranglement, ruptures de flux et double-saisies.</li>
+      </ul>
+    </div>
+
+    <!-- Module 1 Tab -->
+    <div id="mod1" class="course-card">
+      <h2>Module 1 — Comprendre ce qu'est un processus</h2>
+      <p>Un processus n'est pas une simple procédure administrative ou une liste de tâches désorganisées. C'est le flux vital de l'entreprise qui crée de la valeur.</p>
+      
+      <h3>1. Définition simple</h3>
+      <p>Un processus est un <strong>ensemble d'activités corrélées</strong> qui transforment un besoin initial (déclencheur) en un résultat final concret (la valeur attendue).</p>
+      
+      <div class="quote-box">
+        « Digitaliser un mauvais processus ne le rend pas meilleur : cela permet simplement de faire plus vite quelque chose de mal conçu. »
+      </div>
+
+      <img class="illus-img" src="/learning/pix/xirh/m1_lifecycle.png" alt="Collaborator Lifecycle">
+
+      <h3>2. Différences fondamentales</h3>
+      <ul>
+        <li><strong>Tâche</strong> : Action élémentaire et isolée (ex: "Saisir le numéro de sécurité sociale").</li>
+        <li><strong>Activité</strong> : Ensemble cohérent de tâches réalisées par un même acteur (ex: "Saisir les variables de paie").</li>
+        <li><strong>Procédure</strong> : Mode d'emploi rédigé décrivant comment exécuter une action.</li>
+        <li><strong>Processus</strong> : La chaîne globale de bout en bout qui traverse plusieurs rôles pour délivrer le résultat final (ex: "Embaucher un salarié").</li>
+        <li><strong>Workflow</strong> : Automatisation informatique de l'enchaînement des tâches dans un outil.</li>
+        <li><strong>Projet</strong> : Démarche temporaire unique avec un début et une fin (ex: "Déployer un module GTA").</li>
+      </ul>
+
+      <!-- Tri de cartes interactif -->
+      <div class="quiz-container" id="quiz-tri">
+        <div class="quiz-question">Activité : Quelle est la nature de "Recruter un nouveau collaborateur" ?</div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectOption(this, 'correct')">Un processus</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">Une tâche</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">Un projet</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">Une procédure</div>
+        </div>
+        <button class="quiz-check-btn" onclick="checkAnswers('quiz-tri')">Vérifier</button>
+        <div class="feedback-message" id="quiz-tri-feedback"></div>
+      </div>
+    </div>
+
+    <!-- Module 2 Tab -->
+    <div id="mod2" class="course-card">
+      <h2>Module 2 — Les processus RH et leurs interconnexions</h2>
+      <p>Les départements RH travaillent trop souvent en silos. En réalité, le cycle de vie du collaborateur est une suite continue d'informations et de données connectées.</p>
+      
+      <img class="illus-img" src="/learning/pix/xirh/m2_interconnections.png" alt="HR interconnections">
+
+      <h3>Le cycle de vie collaborateur :</h3>
+      <p><strong>Attraction ➔ Recrutement ➔ Embauche ➔ Onboarding ➔ Administration ➔ Temps/Absences ➔ Paie ➔ Formation ➔ Performance ➔ Mobilité ➔ Engagement ➔ Offboarding</strong></p>
+      
+      <div class="card-panel">
+        <strong>Exemple d'une promotion interne (effet domino) :</strong><br>
+        Une simple promotion déclenche une cascade de processus : 
+        <ul>
+          <li><strong>Mobilité</strong> : validation RH/manager de la mutation.</li>
+          <li><strong>Administration RH</strong> : rédaction et signature d'un avenant contractuel.</li>
+          <li><strong>Rémunération</strong> : mise à jour du salaire.</li>
+          <li><strong>Paie</strong> : impact sur le bulletin.</li>
+          <li><strong>GTA</strong> : changement de manager valideur des absences.</li>
+          <li><strong>Performance</strong> : mise à jour des objectifs.</li>
+        </ul>
+      </div>
+
+      <div class="quiz-container" id="quiz-mod2">
+        <div class="quiz-question">Quel processus RH est directement déclenché après le recrutement d'un candidat dans l'ATS ?</div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectOption(this, 'correct')">L'onboarding (intégration)</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">L'entretien annuel d'évaluation</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">La DSN (Déclaration Sociale Nominative)</div>
+        </div>
+        <button class="quiz-check-btn" onclick="checkAnswers('quiz-mod2')">Vérifier</button>
+        <div class="feedback-message" id="quiz-mod2-feedback"></div>
+      </div>
+    </div>
+
+    <!-- Module 3 Tab -->
+    <div id="mod3" class="course-card">
+      <h2>Module 3 — Pourquoi analyser un processus avant de digitaliser ?</h2>
+      <p>Choisir ou paramétrer un SIRH sans analyser les processus au préalable, c'est courir vers l'échec de la conduite du changement ou faire exploser les budgets en développements spécifiques.</p>
+
+      <div class="quote-box">
+        « Un SIRH n’est pas une baguette magique. C’est plutôt un amplificateur. Si le processus est clair, il peut l’accélérer. Si le processus est chaotique, il peut transformer le chaos artisanal en chaos industriel. »
+      </div>
+
+      <img class="illus-img" src="/learning/pix/xirh/m3_comparison.png" alt="AS-IS vs TO-BE">
+
+      <img class="illus-img" src="/learning/pix/xirh/m3_iso_vs_sirh.png" alt="ISO 9001 vs SIRH">
+
+      <h3>Tableau comparatif : Approche Qualité ISO 9001 vs Analyse Processus SIRH</h3>
+      <table class="rh-table">
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th>Approche ISO 9001 Classique</th>
+            <th>Analyse Processus Orientée SIRH</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Finalité</strong></td>
+            <td>Conformité aux normes, maîtrise, traçabilité documentaire.</td>
+            <td>Simplification, automatisation, expérience utilisateur.</td>
+          </tr>
+          <tr>
+            <td><strong>Livrables</strong></td>
+            <td>Procédures d'organisation écrites, fiches processus qualité.</td>
+            <td>Cartographies (BPMN), irritants, exigences fonctionnelles.</td>
+          </tr>
+          <tr>
+            <td><strong>Acteurs</strong></td>
+            <td>Direction qualité, auditeurs.</td>
+            <td>Opérationnels RH, managers, collaborateurs, DSI.</td>
+          </tr>
+          <tr>
+            <td><strong>Risque</strong></td>
+            <td>Documentation lourde et rigide déconnectée du terrain.</td>
+            <td>Analyse trop superficielle sans repenser l'existant.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="quiz-container" id="quiz-mod3">
+        <div class="quiz-question">Qu'est-ce qu'une exigence fonctionnelle (EF) ?</div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectOption(this, 'correct')">La description d'un service attendu d'un logiciel pour soutenir le processus RH</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">Le document décrivant la politique qualité ISO 9001</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">Le code informatique écrit par les développeurs</div>
+        </div>
+        <button class="quiz-check-btn" onclick="checkAnswers('quiz-mod3')">Vérifier</button>
+        <div class="feedback-message" id="quiz-mod3-feedback"></div>
+      </div>
+    </div>
+
+    <!-- Module 4 Tab -->
+    <div id="mod4" class="course-card">
+      <h2>Module 4 — Les diagrammes BPMN : principes généraux</h2>
+      <p>Le BPMN est le langage visuel universel de référence. Il permet aux RH, à la DSI et aux éditeurs de s'accorder sur un schéma de processus clair.</p>
+
+      <img class="illus-img" src="/learning/pix/xirh/m4_bpmn_demo.png" alt="Simple BPMN Diagram on Easel">
+
+      <h3>Les symboles clés à connaître :</h3>
+      <ul>
+        <li><strong>Cercle à trait fin</strong> : Événement de début (ex: "Demande formulée").</li>
+        <li><strong>Cercle à trait épais</strong> : Événement de fin (ex: "Demande archivée").</li>
+        <li><strong>Rectangle à bords arrondis</strong> : Activité / Tâche (ex: "Vérifier le solde").</li>
+        <li><strong>Losange</strong> : Passerelle de décision / Gateway (ex: "Solde suffisant ?").</li>
+        <li><strong>Couloirs (Lanes)</strong> : Lignes horizontales séparant les acteurs.</li>
+      </ul>
+
+      <img class="illus-img" src="/learning/pix/xirh/m4_bpmn_errors.png" alt="Common BPMN Errors">
+
+      <div class="quote-box">
+        « Un bon diagramme BPMN n'est pas celui qui utilise tous les symboles complexes. C'est celui qu'un manager et un technicien comprennent en 30 secondes sans explication orale. »
+      </div>
+
+      <div class="quiz-container" id="quiz-mod4">
+        <div class="quiz-question">Comment doit commencer le libellé d'une tâche/activité en BPMN ?</div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectOption(this, 'correct')">Un verbe d'action à l'infinitif (ex: Valider la demande)</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">Un nom commun (ex: Validation de la demande)</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">Le nom du logiciel utilisé (ex: SuccessFactors)</div>
+        </div>
+        <button class="quiz-check-btn" onclick="checkAnswers('quiz-mod4')">Vérifier</button>
+        <div class="feedback-message" id="quiz-mod4-feedback"></div>
+      </div>
+    </div>
+
+    <!-- Module 5 Tab -->
+    <div id="mod5" class="course-card">
+      <h2>Module 5 — Cas fil rouge : Novalia Services</h2>
+      <p>Novalia Services (850 salariés) fait face à un processus d'onboarding désorganisé : doublons de saisie, oublis de matériel IT, contrats signés en retard.</p>
+
+      <img class="illus-img" src="/learning/pix/xirh/m5_case_study.png" alt="Novalia Case Study">
+
+      <div class="card-panel" style="background-color: #F8FAFC;">
+        <h3>Le processus existant (AS-IS) :</h3>
+        <ol>
+          <li>Recrutement validé dans l'ATS.</li>
+          <li>Le recruteur envoie un e-mail au service RH.</li>
+          <li>Le RH recopie et crée le dossier dans le SIRH.</li>
+          <li>Le RH demande la date d'arrivée par mail au manager (qui répond tardivement).</li>
+          <li>Le RH saisit à nouveau les données dans un fichier Excel pour la Paie.</li>
+          <li>Le RH demande par mail les accès à l'IT (qui manque d'infos).</li>
+          <li>Le collaborateur arrive sans PC ni accès le jour J.</li>
+        </ol>
+      </div>
+
+      <h3>Correction & Recommandations cibles (TO-BE) :</h3>
+      <ul>
+        <li><strong>Intégration ATS/SIRH</strong> : Transfert automatique des données candidat lors de l'embauche.</li>
+        <li><strong>Checklist Manager</strong> : Envoi automatique d'un formulaire de commande matériel à J-15.</li>
+        <li><strong>Tableau de bord de suivi</strong> : Alertes visuelles automatiques si les accès IT ne sont pas activés à J-3.</li>
+      </ul>
+    </div>
+
+    <!-- Flashcards Tab -->
+    <div id="flash" class="course-card">
+      <h2>Glossaire & Flashcards de révision</h2>
+      <p>Cliquez sur les cartes pour révéler les définitions clés :</p>
+      
+      <div class="flashcards-grid">
+        <details class="flashcard">
+          <summary>Processus</summary>
+          <p>Chaîne d'activités corrélées qui transforme une entrée (besoin) en sortie (valeur ajoutée).</p>
+        </details>
+        
+        <details class="flashcard">
+          <summary>Workflow</summary>
+          <p>Automatisation logicielle du flux de tâches et validations.</p>
+        </details>
+        
+        <details class="flashcard">
+          <summary>BPMN</summary>
+          <p>Business Process Model and Notation. Norme graphique de modélisation.</p>
+        </details>
+
+        <details class="flashcard">
+          <summary>AS-IS / TO-BE</summary>
+          <p>AS-IS : processus existant réel. TO-BE : processus cible optimisé.</p>
+        </details>
+
+        <details class="flashcard">
+          <summary>Irritant (Pain Point)</summary>
+          <p>Lenteur, rupture ou double-saisie nuisant à l'efficacité.</p>
+        </details>
+
+        <details class="flashcard">
+          <summary>Lane (Couloir)</summary>
+          <p>Division graphique en BPMN montrant les responsabilités des acteurs.</p>
+        </details>
+      </div>
+    </div>
+
+    <!-- Evaluation Tab -->
+    <div id="eval" class="course-card">
+      <h2>Évaluation finale du cours</h2>
+      <p>Répondez au quiz final pour valider vos compétences :</p>
+
+      <div class="quiz-container" id="quiz-final-q1">
+        <div class="quiz-question">1. Quel symbole BPMN matérialise une passerelle de décision ?</div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectOption(this, 'correct')">Un losange (Gateway)</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">Un rectangle (Tâche)</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">Un cercle (Événement)</div>
+        </div>
+        <button class="quiz-check-btn" onclick="checkAnswers('quiz-final-q1')">Vérifier</button>
+        <div class="feedback-message" id="quiz-final-q1-feedback"></div>
+      </div>
+
+      <div class="quiz-container" id="quiz-final-q2" style="margin-top: 1.5rem;">
+        <div class="quiz-question">2. Quelle approche vise principalement la conformité à des normes documentées ?</div>
+        <div class="quiz-options">
+          <div class="quiz-option" onclick="selectOption(this, 'correct')">L'approche qualité ISO 9001</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">L'analyse processus SIRH</div>
+          <div class="quiz-option" onclick="selectOption(this, 'wrong')">La méthode agile de développement</div>
+        </div>
+        <button class="quiz-check-btn" onclick="checkAnswers('quiz-final-q2')">Vérifier</button>
+        <div class="feedback-message" id="quiz-final-q2-feedback"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchTab(event, tabId) {
+      // Deactivate all buttons
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      // Deactivate all cards
+      const cards = document.querySelectorAll('.course-card');
+      cards.forEach(card => card.classList.remove('active'));
+
+      // Activate clicked button
+      event.target.classList.add('active');
+
+      // Activate target card
+      const targetCard = document.getElementById(tabId);
+      if (targetCard) {
+        targetCard.classList.add('active');
+      }
+    }
+
+    function selectOption(element, state) {
+      // Find parent options container
+      const optionsContainer = element.parentNode;
+      
+      // Deactivate previous selections
+      const siblings = optionsContainer.querySelectorAll('.quiz-option');
+      siblings.forEach(sib => {
+        sib.classList.remove('selected', 'correct', 'incorrect');
+      });
+
+      // Select clicked option
+      element.classList.add('selected');
+      element.setAttribute('data-state', state);
+    }
+
+    function checkAnswers(quizId) {
+      const quiz = document.getElementById(quizId);
+      const selectedOption = quiz.querySelector('.quiz-option.selected');
+      const feedback = document.getElementById(quizId + '-feedback');
+
+      if (!selectedOption) {
+        feedback.innerText = "Veuillez sélectionner une réponse avant de vérifier.";
+        feedback.style.color = "var(--text-muted)";
+        return;
+      }
+
+      const state = selectedOption.getAttribute('data-state');
+      if (state === 'correct') {
+        selectedOption.classList.add('correct');
+        feedback.innerText = "Excellent ! C'est la bonne réponse.";
+        feedback.style.color = "var(--success)";
+      } else {
+        selectedOption.classList.add('incorrect');
+        feedback.innerText = "Mauvaise réponse. Veuillez réessayer.";
+        feedback.style.color = "var(--error)";
+      }
+    }
+  </script>
+</body>
+</html>

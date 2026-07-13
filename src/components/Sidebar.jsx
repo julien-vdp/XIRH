@@ -1,6 +1,5 @@
 import React from 'react';
 import { LayoutDashboard, Users, Network, HardDriveDownload, Settings, LogOut, Star, Coins, Database, BarChart2, Receipt } from 'lucide-react';
-import logo from '../assets/logo.png';
 
 const Sidebar = ({ currentView, setCurrentView, currentUser, setCurrentUser }) => {
   const isAdminOrHR = currentUser?.role === 'ADMIN' || currentUser?.role === 'HR';
@@ -21,7 +20,7 @@ const Sidebar = ({ currentView, setCurrentView, currentUser, setCurrentUser }) =
   return (
     <div className="sidebar">
       <div className="flex items-center gap-3" style={{ marginBottom: '3rem' }}>
-        <img src={logo} alt="XIRH Logo" style={{ width: '45px', height: 'auto', borderRadius: '8px' }} />
+        <img src="/logo.png" alt="XIRH Logo" style={{ width: '45px', height: 'auto', borderRadius: '8px' }} />
         <h2 style={{ margin: 0, fontSize: '1.4rem', letterSpacing: '1px', fontWeight: 700 }}>XIRH</h2>
       </div>
 
