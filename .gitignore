@@ -42,6 +42,10 @@ next-env.d.ts
 # Project Custom Ignores
 *.zip
 *.csv
+
+# Private SAP Time Off regression fixtures and generated reports
+/tests/fixtures/private-time-off/
+/outputs/time-off-report/
 Monocle Vaporeux/
 
 # Local assistant config

@@ -353,6 +353,22 @@ export default function Home() {
             </div>
           </a>
 
+          <a href="/time-off-report" className="pf-card fade-up stagger-3">
+            <div className="pf-img-wrap">
+              <Laptop size={80} />
+            </div>
+            <div className="pf-content">
+              <h3>Time Off Control</h3>
+              <p>Un générateur privé de rapports SAP SuccessFactors : quatre exports CSV, un contrôle complet des compteurs et un classeur Excel produit sans que les données salariés quittent le navigateur.</p>
+              <div className="bento-tags" style={{marginBottom: '24px'}}>
+                <span className="bento-tag">SuccessFactors</span>
+                <span className="bento-tag">Time Off</span>
+                <span className="bento-tag">Privacy by design</span>
+              </div>
+              <span className="pf-action">Lancer le contrôle <ArrowRight size={16} /></span>
+            </div>
+          </a>
+
         </div>
       </div>
     </section>
