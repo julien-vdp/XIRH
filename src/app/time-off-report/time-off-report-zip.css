@@ -9,7 +9,10 @@
   min-height: 65px;
   padding: 12px;
 }
+.tor-archive-list { display: grid; gap: 8px; margin-top: 16px; }
+.tor-archive-list .tor-archive { margin: 0; }
 .tor-archive.is-ready { background: rgba(28, 174, 128, 0.08); border-color: rgba(65, 233, 180, 0.36); }
+.tor-archive.is-invalid, .tor-file.is-conflict { background: rgba(255, 97, 113, 0.08); border-color: rgba(255, 132, 145, 0.45); }
 .tor-archive > svg { color: #8aaecb; }
 .tor-archive.is-ready > svg { color: #57ecb6; }
 .tor-archive div { flex: 1; min-width: 0; }
