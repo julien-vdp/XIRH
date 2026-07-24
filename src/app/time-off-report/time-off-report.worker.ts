@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 import Papa from 'papaparse';
 import ExcelJS from 'exceljs';
+import JSZip from 'jszip';
 
 type Row = Record<string, string>;
 type Message = { type: 'build'; files: [string, File][]; cutoffDate: string; extractDate: string };
@@ -21,6 +22,34 @@ async function csv(file: File, name: string) {
   const parsed = await new Promise<Papa.ParseResult<Row>>((resolve, reject) => Papa.parse<Row>(file, { header: true, skipEmptyLines: true, transformHeader: (header) => header.replace(/^\uFEFF/, ''), complete: resolve, error: reject }));
   if (parsed.errors.length || required[name].some((column) => !parsed.meta.fields?.includes(column))) throw new Error(`Le fichier ${name} ne possède pas la structure SAP attendue.`);
   return parsed.data.filter((row) => (row['[OPERATOR]'] || '') === '');
+}
+function fileNameFromPath(path: string) { return path.split('/').pop()?.toLowerCase() || ''; }
+async function inspectZip(archive: File) {
+  let zip: JSZip;
+  try { zip = await JSZip.loadAsync(archive); }
+  catch { return { valid: false, found: [], missing: names, duplicates: [], message: 'Le fichier déposé n’est pas une archive ZIP lisible.' }; }
+  const matches = new Map<string, string[]>();
+  Object.values(zip.files).filter((entry) => !entry.dir).forEach((entry) => {
+    const canonical = names.find((name) => name.toLowerCase() === fileNameFromPath(entry.name));
+    if (canonical) { const group = matches.get(canonical) || []; group.push(entry.name); matches.set(canonical, group); }
+  });
+  const found = names.filter((name) => matches.has(name));
+  const missing = names.filter((name) => !matches.has(name));
+  const duplicates = names.filter((name) => (matches.get(name)?.length || 0) > 1);
+  const valid = !missing.length && !duplicates.length;
+  const message = valid ? 'Archive conforme.' : duplicates.length ? `Archive ambiguë : plusieurs occurrences de ${duplicates.join(', ')}.` : `Archive incomplète : ${missing.join(', ')} est absent.`;
+  return { valid, found, missing, duplicates, message, zip, matches };
+}
+async function filesFromZip(archive: File) {
+  const inspection = await inspectZip(archive);
+  if (!inspection.valid || !inspection.zip || !inspection.matches) throw new Error(inspection.message);
+  const files: Record<string, File> = {};
+  for (const name of names) {
+    const path = inspection.matches.get(name)![0];
+    const blob = await inspection.zip.file(path)!.async('blob');
+    files[name] = new File([blob], name, { type: 'text/csv' });
+  }
+  return files;
 }
 function title(sheet: ExcelJS.Worksheet, titleText: string, subtitle: string, end: string) {
   sheet.mergeCells(`A1:${end}1`); sheet.mergeCells(`A2:${end}2`);
