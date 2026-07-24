@@ -33,11 +33,11 @@ async function inspect(archive: File): Promise<Inspection> {
   const found = REQUIRED_FILES.filter((name) => matches.has(name));
   const missing = REQUIRED_FILES.filter((name) => !matches.has(name));
   const duplicates = REQUIRED_FILES.filter((name) => (matches.get(name)?.length || 0) > 1);
-  const valid = found.length > 0 && !duplicates.length;
+  const valid = found.length > 0;
   const message = !found.length
     ? 'Cette archive ne contient aucun des quatre exports SAP attendus.'
     : duplicates.length
-      ? `Archive ambiguë : plusieurs occurrences de ${duplicates.join(', ')}.`
+      ? `Archive contrôlée : plusieurs occurrences de ${duplicates.join(', ')}. Le plus gros fichier, puis le plus récent à taille égale, sera retenu.`
       : missing.length
         ? `Archive partielle : ${found.length} export(s) SAP détecté(s).`
         : 'Archive conforme : les quatre exports SAP sont présents.';
@@ -49,9 +49,14 @@ async function extract(archive: File) {
   if (!inspection.valid || !inspection.zip || !inspection.matches) throw new Error(inspection.message);
   const files: [RequiredFile, File][] = [];
   for (const name of inspection.found) {
-    const path = inspection.matches.get(name)![0];
-    const blob = await inspection.zip.file(path)!.async('blob');
-    files.push([name, new File([blob], name, { type: 'text/csv' })]);
+    let selected: File | undefined;
+    for (const path of inspection.matches.get(name)!) {
+      const entry = inspection.zip.file(path)!;
+      const blob = await entry.async('blob');
+      const candidate = new File([blob], name, { type: 'text/csv', lastModified: entry.date?.getTime() || archive.lastModified });
+      if (!selected || candidate.size > selected.size || (candidate.size === selected.size && candidate.lastModified > selected.lastModified)) selected = candidate;
+    }
+    files.push([name, selected!]);
   }
   return files;
 }
@@ -65,11 +70,14 @@ self.onmessage = async (event: MessageEvent<EventPayload>) => {
     }
 
     const merged = new Map<string, File>();
-    event.data.files.forEach(([name, file]) => { if (file) merged.set(name, file); });
+    const select = (name: string, candidate: File) => {
+      const current = merged.get(name);
+      if (!current || candidate.size > current.size || (candidate.size === current.size && candidate.lastModified > current.lastModified)) merged.set(name, candidate);
+    };
+    event.data.files.forEach(([name, file]) => { if (file) select(name, file); });
     for (const archive of event.data.archives) {
       for (const [name, file] of await extract(archive)) {
-        if (merged.has(name)) throw new Error(`Le fichier ${name} est présent dans plusieurs sources. Retirez le doublon avant de générer le rapport.`);
-        merged.set(name, file);
+        select(name, file);
       }
     }
     const files = [...merged.entries()] as [string, File][];
