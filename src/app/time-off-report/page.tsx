@@ -34,14 +34,13 @@ export default function TimeOffReportPage() {
     REQUIRED_FILES.forEach((name) => sources.set(name, uploads[name] ? ['CSV'] : []));
     archives.forEach((archive) => archive.inspection?.found.forEach((name) => sources.get(name)!.push(archive.id)));
     const missing = REQUIRED_FILES.filter((name) => !sources.get(name)!.length);
-    const duplicates = REQUIRED_FILES.filter((name) => sources.get(name)!.length > 1);
     const pending = archives.some((archive) => !archive.inspection);
     const invalid = archives.find((archive) => archive.inspection && !archive.inspection.valid);
-    return { sources, missing, duplicates, pending, invalid };
+    return { sources, missing, pending, invalid };
   }, [archives, uploads]);
   const complete = !coverage.pending && !coverage.invalid && !coverage.missing.length;
   const validationMessage = coverage.invalid?.inspection?.message
-    || (archives.length && coverage.missing.length ? `Ajoutez une autre archive ou les CSV manquants : ${coverage.missing.join(', ')}.` : null);
+    || (archives.length && coverage.missing.length ? `Il reste à ajouter : ${coverage.missing.join(', ')}.` : null);
 
   useEffect(() => {
     const worker = new Worker(new URL('./time-off-report-zip.worker.ts', import.meta.url));
@@ -101,9 +100,67 @@ export default function TimeOffReportPage() {
     if (!complete || !workerRef.current) return;
     if (extractDate < cutoffDate) { setError('La date d’extraction SAP doit être égale ou postérieure à la date d’arrêté.'); return; }
     clearResult();
-    setProgress({ label: archives.length ? 'Extraction locale des archives SAP…' : 'Lecture locale des exports SAP…', value: 18 });
+    setProgress({ label: archives.length ? 'Préparation locale de vos archives SAP…' : 'Lecture locale des exports SAP…', value: 18 });
     workerRef.current.postMessage({ type: 'build', files: REQUIRED_FILES.map((name) => [name, uploads[name]]), archives: archives.map((archive) => archive.file), cutoffDate, extractDate });
   }
 
-  return <main className="tor-page"><div className="tor-noise" /><nav className="tor-nav"><Link href="/consulting#portfolio" className="tor-back"><ArrowLeft size={16} /> Mes créations</Link><div className="tor-brand"><span>XR</span> Time Off Control</div><div className="tor-private"><LockKeyhole size={14} /> Traitement 100 % local</div></nav><section className="tor-hero"><div className="tor-hero-copy"><div className="tor-eyebrow"><Sparkles size={15} /> SAP SuccessFactors · Time Off</div><h1>Vos compteurs. <em>Sous contrôle.</em></h1><p>Transformez quatre exports SAP en un rapport de contrôle précis, lisible et immédiatement exploitable. Rien ne quitte votre navigateur.</p><div className="tor-proof"><span><ShieldCheck size={17} /> Aucun envoi serveur</span><span><FileSpreadsheet size={17} /> Excel généré localement</span></div><a href="#generator" className="tor-primary-link">Générer mon rapport <ArrowRight size={17} /></a></div><div className="tor-visual-wrap"><div className="tor-visual-glow" /><img src="/time-off-report-hero.png" alt="Illustration abstraite de contrôle sécurisé des données Time Off" className="tor-visual" /><div className="tor-float tor-float-top"><CheckCircle2 size={16} /> 5 onglets de contrôle</div><div className="tor-float tor-float-bottom"><LockKeyhole size={16} /> Données jamais conservées</div></div></section><section className="tor-value-grid"><article><span>01</span><h2>Fiable</h2><p>Dédoublonnage, soldes à date, snapshots et alertes reproduisent la recette de référence.</p></article><article><span>02</span><h2>Confidentiel</h2><p>Les CSV sont lus dans un Web Worker. Pas de base, pas d’API, pas de télémétrie.</p></article><article><span>03</span><h2>Actionnable</h2><p>Un classeur Excel prêt à partager avec synthèse, anomalies et piste d’audit.</p></article></section><section id="generator" className="tor-generator"><div className="tor-generator-intro"><div className="tor-eyebrow"><UploadCloud size={15} /> Espace de traitement privé</div><h2>Déposez. Contrôlez. Téléchargez.</h2><p>Déposez autant d’archives ZIP SAP que nécessaire : les quatre exports peuvent être répartis entre plusieurs ZIP. Les données restent en mémoire pendant cette session.</p></div><div className="tor-date-grid"><label>Date d’arrêté<input type="date" value={cutoffDate} onChange={(event) => { setCutoffDate(event.target.value); clearResult(); }} /></label><label>Date d’extraction SAP<input type="date" value={extractDate} onChange={(event) => { setExtractDate(event.target.value); clearResult(); }} /></label></div><p className="tor-date-note"><CalendarDays size={15} /> Les archives sont contrôlées localement, puis leurs CSV sont réunis sans jamais quitter votre navigateur.</p><label className={`tor-dropzone ${isDragging ? 'is-dragging' : ''}`} onDragOver={(event) => { event.preventDefault(); setIsDragging(true); }} onDragLeave={() => setIsDragging(false)} onDrop={onDrop}><Archive size={31} /><strong>Glissez autant de ZIP SAP que nécessaire</strong><span>Les quatre exports peuvent être répartis entre plusieurs archives</span><input type="file" accept=".zip,application/zip,.csv,text/csv" multiple onChange={onChange} /></label>{archives.length > 0 && <div className="tor-archive-list">{archives.map((archive) => <div key={archive.id} className={`tor-archive ${archive.inspection?.valid ? 'is-ready' : archive.inspection ? 'is-invalid' : ''}`}><Archive size={20} /><div><strong>{archive.file.name}</strong><small>{archive.inspection ? archive.inspection.message : 'Vérification locale de l’archive en cours…'}</small></div><button type="button" onClick={() => removeArchive(archive.id)} aria-label={`Retirer ${archive.file.name}`}><X size={16} /></button></div>)}</div>}<div className="tor-file-grid">{REQUIRED_FILES.map((name) => { const file = uploads[name]; const sourceCount = coverage.sources.get(name)!.length; const fromArchive = sourceCount > 0 && !file; const hasDuplicates = sourceCount > 1; return <div key={name} className={`tor-file ${sourceCount ? 'is-ready' : ''}`}><span className="tor-file-state">{sourceCount ? <CheckCircle2 size={18} /> : <FileSpreadsheet size={18} />}</span><div><strong>{FILE_LABELS[name]}</strong><small>{hasDuplicates ? 'Plusieurs sources : le plus gros, puis le plus récent, sera retenu' : file ? `${file.name} · ${(file.size / 1024 / 1024).toFixed(1)} Mo` : fromArchive ? 'Trouvé dans une archive ZIP' : name}</small></div>{file && <button type="button" onClick={() => removeFile(name)} aria-label={`Retirer ${name}`}><X size={16} /></button>}</div>; })}</div>{(error || validationMessage) && <div className="tor-error">{error || validationMessage}</div>}{progress && <div className="tor-progress"><div><span>{progress.label}</span><b>{progress.value}%</b></div><i><em style={{ width: `${progress.value}%` }} /></i></div>}<button type="button" className="tor-generate" disabled={!complete || Boolean(progress)} onClick={generate}><Sparkles size={18} /> Générer le rapport de contrôle</button>{summary && download && <div className="tor-result"><div><CheckCircle2 size={26} /><div><strong>Rapport prêt à télécharger</strong><span>Le fichier a été créé dans votre navigateur.</span></div></div><div className="tor-kpis"><span><b>{summary.activeAccounts.toLocaleString('fr-FR')}</b> comptes inclus</span><span><b>{summary.futureMovementRows.toLocaleString('fr-FR')}</b> mouvements postérieurs</span><span><b>{summary.duplicateRowsRemoved.toLocaleString('fr-FR')}</b> doublons écartés</span><span><b>{summary.reviewAccounts.toLocaleString('fr-FR')}</b> à vérifier</span></div><a className="tor-download" href={download.url} download={download.filename}><FileSpreadsheet size={18} /> Télécharger l’Excel</a></div>}</section></main>;
+  return (
+    <main className="tor-page">
+      <div className="tor-noise" />
+      <nav className="tor-nav">
+        <Link href="/consulting#portfolio" className="tor-back"><ArrowLeft size={16} /> Mes créations</Link>
+        <div className="tor-brand"><span>XR</span> Time Off Control</div>
+        <div className="tor-private"><LockKeyhole size={14} /> Vos données restent ici</div>
+      </nav>
+
+      <section className="tor-hero">
+        <div className="tor-hero-copy">
+          <div className="tor-eyebrow"><Sparkles size={15} /> SAP SuccessFactors · Time Off</div>
+          <h1>Vos compteurs,<br /><em>sans le stress.</em></h1>
+          <p>Réunissez vos exports SAP, vérifiez les soldes et repartez avec un rapport clair. Le traitement se fait uniquement dans votre navigateur.</p>
+          <div className="tor-proof">
+            <span><ShieldCheck size={17} /> Aucun envoi serveur</span>
+            <span><FileSpreadsheet size={17} /> Excel prêt à partager</span>
+          </div>
+          <a href="#generator" className="tor-primary-link">Commencer tranquillement <ArrowRight size={17} /></a>
+        </div>
+        <div className="tor-visual-wrap">
+          <div className="tor-visual-glow" />
+          <img src="/time-off-report-warm.png" alt="Illustration chaleureuse de documents SAP réunis dans un rapport de contrôle" className="tor-visual" />
+          <div className="tor-float tor-float-top"><CheckCircle2 size={16} /> 5 contrôles utiles</div>
+          <div className="tor-float tor-float-bottom"><LockKeyhole size={16} /> Jamais conservé</div>
+        </div>
+      </section>
+
+      <section className="tor-value-grid">
+        <article><span>01</span><h2>Rassurant</h2><p>Un périmètre clair, des règles visibles et des alertes à interpréter sereinement.</p></article>
+        <article><span>02</span><h2>Respectueux</h2><p>Vos exports ne quittent pas votre poste. Pas de compte, pas de stockage, pas de surprise.</p></article>
+        <article><span>03</span><h2>Pratique</h2><p>Un classeur propre, cinq onglets et une piste de contrôle directement exploitable.</p></article>
+      </section>
+
+      <section id="generator" className="tor-generator">
+        <div className="tor-generator-intro">
+          <div className="tor-eyebrow"><UploadCloud size={15} /> Votre espace de traitement</div>
+          <h2>On s’occupe de remettre de l’ordre.</h2>
+          <p>Ajoutez vos archives ZIP au fil de l’eau : les quatre exports peuvent être répartis entre plusieurs fichiers. Nous ne gardons rien après cette session.</p>
+        </div>
+        <div className="tor-steps" aria-label="Étapes de préparation"><span>1 · Déposez</span><span>2 · Contrôlez</span><span>3 · Téléchargez</span></div>
+        <div className="tor-date-grid">
+          <label>Date d’arrêté<input type="date" value={cutoffDate} onChange={(event) => { setCutoffDate(event.target.value); clearResult(); }} /></label>
+          <label>Date d’extraction SAP<input type="date" value={extractDate} onChange={(event) => { setExtractDate(event.target.value); clearResult(); }} /></label>
+        </div>
+        <p className="tor-date-note"><CalendarDays size={15} /> Les archives sont contrôlées localement, puis leurs CSV sont réunis sans jamais quitter votre navigateur.</p>
+        <label className={`tor-dropzone ${isDragging ? 'is-dragging' : ''}`} onDragOver={(event) => { event.preventDefault(); setIsDragging(true); }} onDragLeave={() => setIsDragging(false)} onDrop={onDrop}>
+          <Archive size={31} /><strong>Glissez vos archives ZIP SAP ici</strong><span>Vous pouvez en ajouter plusieurs, maintenant ou plus tard</span>
+          <input type="file" accept=".zip,application/zip,.csv,text/csv" multiple onChange={onChange} />
+        </label>
+        {archives.length > 0 && <div className="tor-archive-list">{archives.map((archive) => <div key={archive.id} className={`tor-archive ${archive.inspection?.valid ? 'is-ready' : archive.inspection ? 'is-invalid' : ''}`}><Archive size={20} /><div><strong>{archive.file.name}</strong><small>{archive.inspection ? archive.inspection.message : 'Vérification locale de l’archive en cours…'}</small></div><button type="button" onClick={() => removeArchive(archive.id)} aria-label={`Retirer ${archive.file.name}`}><X size={16} /></button></div>)}</div>}
+        <div className="tor-file-grid">{REQUIRED_FILES.map((name) => { const file = uploads[name]; const sourceCount = coverage.sources.get(name)!.length; const fromArchive = sourceCount > 0 && !file; const hasDuplicates = sourceCount > 1; return <div key={name} className={`tor-file ${sourceCount ? 'is-ready' : ''}`}><span className="tor-file-state">{sourceCount ? <CheckCircle2 size={18} /> : <FileSpreadsheet size={18} />}</span><div><strong>{FILE_LABELS[name]}</strong><small>{hasDuplicates ? 'Plusieurs sources : le plus gros, puis le plus récent, sera retenu' : file ? `${file.name} · ${(file.size / 1024 / 1024).toFixed(1)} Mo` : fromArchive ? 'Trouvé dans une archive ZIP' : name}</small></div>{file && <button type="button" onClick={() => removeFile(name)} aria-label={`Retirer ${name}`}><X size={16} /></button>}</div>; })}</div>
+        {(error || validationMessage) && <div className="tor-error">{error || validationMessage}</div>}
+        {progress && <div className="tor-progress"><div><span>{progress.label}</span><b>{progress.value}%</b></div><i><em style={{ width: `${progress.value}%` }} /></i></div>}
+        <button type="button" className="tor-generate" disabled={!complete || Boolean(progress)} onClick={generate}><Sparkles size={18} /> Générer mon rapport de contrôle</button>
+        {summary && download && <div className="tor-result"><div><CheckCircle2 size={26} /><div><strong>Votre rapport est prêt</strong><span>Le fichier a été créé sur votre poste, dans ce navigateur.</span></div></div><div className="tor-kpis"><span><b>{summary.activeAccounts.toLocaleString('fr-FR')}</b> comptes inclus</span><span><b>{summary.futureMovementRows.toLocaleString('fr-FR')}</b> mouvements postérieurs</span><span><b>{summary.duplicateRowsRemoved.toLocaleString('fr-FR')}</b> doublons écartés</span><span><b>{summary.reviewAccounts.toLocaleString('fr-FR')}</b> à vérifier</span></div><a className="tor-download" href={download.url} download={download.filename}><FileSpreadsheet size={18} /> Télécharger l’Excel</a></div>}
+      </section>
+    </main>
+  );
 }
