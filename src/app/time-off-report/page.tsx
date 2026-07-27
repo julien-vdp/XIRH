@@ -5,14 +5,16 @@ import Link from 'next/link';
 import { Archive, ArrowLeft, ArrowRight, CalendarDays, CheckCircle2, FileSpreadsheet, LockKeyhole, ShieldCheck, Sparkles, UploadCloud, X } from 'lucide-react';
 import './time-off-report.css';
 import './time-off-report-zip.css';
+import './time-off-report-preview.css';
 
 const REQUIRED_FILES = ['Time Account.csv', 'Time Account-Time Account Details.csv', 'Time Account Snapshot.csv', 'Time Account Type.csv'] as const;
 type RequiredFile = (typeof REQUIRED_FILES)[number];
 type Uploads = Partial<Record<RequiredFile, File>>;
 type Summary = { rawDetailRows: number; uniqueDetailRows: number; duplicateRowsRemoved: number; activeAccounts: number; uniqueUsers: number; uniqueTypes: number; futureMovementRows: number; reviewAccounts: number };
+type PreviewRow = { userId: string; country: string; type: string; label: string; unit: string; code: string; balance: number; move: number; after: number; projected: number; level: string; text: string };
 type ZipInspection = { valid: boolean; found: RequiredFile[]; missing: RequiredFile[]; duplicates: RequiredFile[]; message: string };
 type ArchiveUpload = { id: string; file: File; inspection?: ZipInspection };
-type WorkerMessage = { type: 'progress'; label: string; value: number } | { type: 'complete'; summary: Summary; filename: string; buffer: ArrayBuffer } | { type: 'zipInspection'; archiveId: string; inspection: ZipInspection } | { type: 'error'; message: string };
+type WorkerMessage = { type: 'progress'; label: string; value: number } | { type: 'complete'; summary: Summary; filename: string; buffer: ArrayBuffer; preview: PreviewRow[] } | { type: 'zipInspection'; archiveId: string; inspection: ZipInspection } | { type: 'error'; message: string };
 const FILE_LABELS: Record<RequiredFile, string> = { 'Time Account.csv': 'Comptes Time Off', 'Time Account-Time Account Details.csv': 'Écritures de compte', 'Time Account Snapshot.csv': 'Snapshots SAP', 'Time Account Type.csv': 'Types de compte' };
 
 export default function TimeOffReportPage() {
@@ -26,6 +28,8 @@ export default function TimeOffReportPage() {
   const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState<{ label: string; value: number } | null>(null);
   const [summary, setSummary] = useState<Summary | null>(null);
+  const [preview, setPreview] = useState<PreviewRow[]>([]);
+  const [typeFilter, setTypeFilter] = useState('all');
   const [download, setDownload] = useState<{ url: string; filename: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,6 +45,8 @@ export default function TimeOffReportPage() {
   const complete = !coverage.pending && !coverage.invalid && !coverage.missing.length;
   const validationMessage = coverage.invalid?.inspection?.message
     || (archives.length && coverage.missing.length ? `Il reste à ajouter : ${coverage.missing.join(', ')}.` : null);
+  const availableTypes = useMemo(() => [...new Set(preview.map((row) => row.type))].sort((a, b) => a.localeCompare(b)), [preview]);
+  const filteredPreview = useMemo(() => typeFilter === 'all' ? preview : preview.filter((row) => row.type === typeFilter), [preview, typeFilter]);
 
   useEffect(() => {
     const worker = new Worker(new URL('./time-off-report-zip.worker.ts', import.meta.url));
@@ -59,6 +65,8 @@ export default function TimeOffReportPage() {
       downloadRef.current = url;
       setDownload({ url, filename: message.filename });
       setSummary(message.summary);
+      setPreview(message.preview);
+      setTypeFilter('all');
       setProgress(null);
     };
     return () => { worker.terminate(); if (downloadRef.current) URL.revokeObjectURL(downloadRef.current); };
@@ -66,6 +74,8 @@ export default function TimeOffReportPage() {
 
   function clearResult() {
     setSummary(null);
+    setPreview([]);
+    setTypeFilter('all');
     setError(null);
     if (downloadRef.current) { URL.revokeObjectURL(downloadRef.current); downloadRef.current = null; }
     setDownload(null);
@@ -110,19 +120,19 @@ export default function TimeOffReportPage() {
       <nav className="tor-nav">
         <Link href="/consulting#portfolio" className="tor-back"><ArrowLeft size={16} /> Mes créations</Link>
         <div className="tor-brand"><span>XR</span> Time Off Control</div>
-        <div className="tor-private"><LockKeyhole size={14} /> Vos données restent ici</div>
+        <div className="tor-private"><LockKeyhole size={14} /> Traitement local uniquement</div>
       </nav>
 
       <section className="tor-hero">
         <div className="tor-hero-copy">
           <div className="tor-eyebrow"><Sparkles size={15} /> SAP SuccessFactors · Time Off</div>
           <h1>Vos compteurs,<br /><em>sans le stress.</em></h1>
-          <p>Réunissez vos exports SAP, vérifiez les soldes et repartez avec un rapport clair. Le traitement se fait uniquement dans votre navigateur.</p>
+          <p>Réunissez vos exports SAP, vérifiez les soldes et consultez le résultat immédiatement. Les CSV sont lus en mémoire par un Web Worker : ils ne sont ni envoyés, ni enregistrés, ni journalisés.</p>
           <div className="tor-proof">
-            <span><ShieldCheck size={17} /> Aucun envoi serveur</span>
+            <span><ShieldCheck size={17} /> Web Worker · mémoire locale</span>
             <span><FileSpreadsheet size={17} /> Excel prêt à partager</span>
           </div>
-          <a href="#generator" className="tor-primary-link">Commencer tranquillement <ArrowRight size={17} /></a>
+          <a href="#generator" className="tor-primary-link">Générer le rapport <ArrowRight size={17} /></a>
         </div>
         <div className="tor-visual-wrap">
           <div className="tor-visual-glow" />
@@ -141,8 +151,8 @@ export default function TimeOffReportPage() {
       <section id="generator" className="tor-generator">
         <div className="tor-generator-intro">
           <div className="tor-eyebrow"><UploadCloud size={15} /> Votre espace de traitement</div>
-          <h2>On s’occupe de remettre de l’ordre.</h2>
-          <p>Ajoutez vos archives ZIP au fil de l’eau : les quatre exports peuvent être répartis entre plusieurs fichiers. Nous ne gardons rien après cette session.</p>
+          <h2>Contrôlez vos compteurs, simplement.</h2>
+          <p>Ajoutez vos archives ZIP au fil de l’eau : les quatre exports peuvent être répartis entre plusieurs fichiers. Mode de traitement : Web Worker dans le navigateur, mémoire temporaire de session, Excel généré localement — aucune transmission ni base de données.</p>
         </div>
         <div className="tor-steps" aria-label="Étapes de préparation"><span>1 · Déposez</span><span>2 · Contrôlez</span><span>3 · Téléchargez</span></div>
         <div className="tor-date-grid">
@@ -159,7 +169,7 @@ export default function TimeOffReportPage() {
         {(error || validationMessage) && <div className="tor-error">{error || validationMessage}</div>}
         {progress && <div className="tor-progress"><div><span>{progress.label}</span><b>{progress.value}%</b></div><i><em style={{ width: `${progress.value}%` }} /></i></div>}
         <button type="button" className="tor-generate" disabled={!complete || Boolean(progress)} onClick={generate}><Sparkles size={18} /> Générer mon rapport de contrôle</button>
-        {summary && download && <div className="tor-result"><div><CheckCircle2 size={26} /><div><strong>Votre rapport est prêt</strong><span>Le fichier a été créé sur votre poste, dans ce navigateur.</span></div></div><div className="tor-kpis"><span><b>{summary.activeAccounts.toLocaleString('fr-FR')}</b> comptes inclus</span><span><b>{summary.futureMovementRows.toLocaleString('fr-FR')}</b> mouvements postérieurs</span><span><b>{summary.duplicateRowsRemoved.toLocaleString('fr-FR')}</b> doublons écartés</span><span><b>{summary.reviewAccounts.toLocaleString('fr-FR')}</b> à vérifier</span></div><a className="tor-download" href={download.url} download={download.filename}><FileSpreadsheet size={18} /> Télécharger l’Excel</a></div>}
+        {summary && download && <div className="tor-result"><div><CheckCircle2 size={26} /><div><strong>Votre rapport est prêt</strong><span>Le fichier et cette vue ont été créés localement dans votre navigateur.</span></div></div><div className="tor-kpis"><span><b>{summary.activeAccounts.toLocaleString('fr-FR')}</b> comptes inclus</span><span><b>{summary.futureMovementRows.toLocaleString('fr-FR')}</b> mouvements postérieurs</span><span><b>{summary.duplicateRowsRemoved.toLocaleString('fr-FR')}</b> doublons écartés</span><span><b>{summary.reviewAccounts.toLocaleString('fr-FR')}</b> à vérifier</span></div><a className="tor-download" href={download.url} download={download.filename}><FileSpreadsheet size={18} /> Télécharger l’Excel</a><section className="tor-preview" aria-label="Vue locale des soldes"><div className="tor-preview-heading"><div><span>Vue locale</span><h3>Soldes des compteurs</h3><p>{filteredPreview.length.toLocaleString('fr-FR')} compte(s) affiché(s) · données uniquement conservées en mémoire.</p></div><label>Type de compteur<select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}><option value="all">Tous les types ({preview.length})</option>{availableTypes.map((type) => <option key={type} value={type}>{type}</option>)}</select></label></div><div className="tor-preview-table-wrap"><table><thead><tr><th>Salarié</th><th>Type de compteur</th><th>Unité</th><th>Solde arrêté</th><th>Mouvements</th><th>Projeté</th><th>Contrôle</th></tr></thead><tbody>{filteredPreview.map((row) => <tr key={row.code}><td><strong>{row.userId}</strong><small>{row.country} · {row.code}</small></td><td><strong>{row.type}</strong><small>{row.label || 'Libellé non exporté'}</small></td><td>{row.unit}</td><td>{row.balance.toLocaleString('fr-FR', { maximumFractionDigits: 4 })}</td><td>{row.move.toLocaleString('fr-FR', { maximumFractionDigits: 4 })}</td><td>{row.projected.toLocaleString('fr-FR', { maximumFractionDigits: 4 })}</td><td><span className={`tor-preview-status is-${row.level === 'OK' ? 'ok' : row.level === 'Information' ? 'info' : 'review'}`} title={row.text}>{row.level}</span></td></tr>)}</tbody></table></div></section></div>}
       </section>
     </main>
   );
