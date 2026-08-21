@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight, Sun, Moon } from 'lucide-react';
+import { ArrowRight, Film, Sun, Moon } from 'lucide-react';
 import './landing.css';
 
 export default function Home() {
@@ -181,6 +181,24 @@ export default function Home() {
                 </div>
                 <div className="gateway-card-action">
                   <span>Rejoindre l'Academy <ArrowRight size={16} /></span>
+                </div>
+              </div>
+            </a>
+
+            {/* Card 3: XInéma */}
+            <a href="/xinema" className="gateway-card">
+              <div className="gateway-card-inner">
+                <div className="gateway-logo-container">
+                  <div className="academy-logo-box" aria-hidden="true">
+                    <Film size={42} color="#E50914" />
+                  </div>
+                </div>
+                <div className="gateway-text-container">
+                  <h3>XInéma</h3>
+                  <p>Découvrez le prototype de gestion de cinéma multiplexe : programmation, salles et espace équipe. Cette démonstration fonctionne uniquement avec des données locales éphémères.</p>
+                </div>
+                <div className="gateway-card-action">
+                  <span>Explorer le prototype <ArrowRight size={16} /></span>
                 </div>
               </div>
             </a>
