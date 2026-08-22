@@ -20,6 +20,11 @@ type OmdbTitleResponse = {
   Year?: string;
   Poster?: string;
   Runtime?: string;
+  Plot?: string;
+  Director?: string;
+  Actors?: string;
+  Genre?: string;
+  Rated?: string;
   Error?: string;
 };
 
@@ -76,6 +81,11 @@ export async function GET(request: NextRequest) {
           year: movie.Year ?? '',
           posterUrl: posterUrl(movie.Poster),
           durationMin: Number.isFinite(duration) ? duration : 120,
+          plot: movie.Plot && movie.Plot !== 'N/A' ? movie.Plot : null,
+          director: movie.Director && movie.Director !== 'N/A' ? movie.Director : null,
+          actors: movie.Actors && movie.Actors !== 'N/A' ? movie.Actors : null,
+          genre: movie.Genre && movie.Genre !== 'N/A' ? movie.Genre : null,
+          rated: movie.Rated && movie.Rated !== 'N/A' ? movie.Rated : null,
         },
       });
     }
