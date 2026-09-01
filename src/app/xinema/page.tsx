@@ -155,12 +155,24 @@ export default function XInemaPage() {
   }
   function addDevice(event: FormEvent<HTMLFormElement>) { event.preventDefault(); const value = newDevice.trim(); if (!value) return; setDevices((items) => items.some((item) => item.toLowerCase() === value.toLowerCase()) ? items : [...items, value]); setNewDevice(''); }
   function toggleFilmDevice(filmId: string, device: string) { setFilmBank((items) => items.map((item) => item.id === filmId ? { ...item, devices: item.devices.includes(device) ? item.devices.filter((value) => value !== device) : [...item.devices, device] } : item)); }
+  function renameDevice(previousName: string, nextName: string) {
+    const value = nextName.trim();
+    if (!value || (value.toLowerCase() !== previousName.toLowerCase() && devices.some((item) => item.toLowerCase() === value.toLowerCase()))) return;
+    setDevices((items) => items.map((item) => item === previousName ? value : item));
+    setFilmBank((items) => items.map((item) => ({ ...item, devices: item.devices.map((device) => device === previousName ? value : device) })));
+    setScreenings((items) => items.map((item) => ({ ...item, devices: item.devices?.map((device) => device === previousName ? value : device) })));
+  }
+  function deleteDevice(device: string) {
+    setDevices((items) => items.filter((item) => item !== device));
+    setFilmBank((items) => items.map((item) => ({ ...item, devices: item.devices.filter((value) => value !== device) })));
+    setScreenings((items) => items.map((item) => ({ ...item, devices: item.devices?.filter((value) => value !== device) })));
+  }
   function programBankFilm(item: FilmBankItem) { const movie = bankItemToMovie(item); setEditingScreening(null); setSelectedMovie(movie); setFilmTitle(movie.title); setScreeningDuration(movie.durationMin ?? 120); setShowPlanner(true); }
 
   if (view === 'welcome') return <Welcome setView={setView} />;
   return <main className="xinema-app">
     <header className="xinema-topbar"><button className="xinema-wordmark" onClick={() => setView('welcome')}><Film size={20} /> XI<b>NÉMA</b></button><nav className="xinema-nav"><button className={view === 'agenda' ? 'is-active' : ''} onClick={() => setView('agenda')}><CalendarDays size={15} /> Planning</button><button className={view === 'team' ? 'is-active' : ''} onClick={() => setView('team')}><Users size={15} /> Équipe</button></nav><div className="xinema-topbar__meta"><Sparkles size={15} /> Programmation centralisée</div><button className="xinema-back" onClick={() => setView('welcome')}><ArrowLeft size={16} /> Accueil</button></header>
-    {view === 'agenda' && <><AgendaView selectedDay={selectedDay} setSelectedDay={setSelectedDay} screenings={dayScreenings} filmBank={filmBank} devices={devices} movieSearch={movieSearch} setMovieSearch={setMovieSearch} movieResults={movieResults} movieMessage={movieMessage} onAddImdbMovie={addImdbMovieToBank} manualTitle={manualTitle} setManualTitle={setManualTitle} manualDuration={manualDuration} setManualDuration={setManualDuration} manualVersion={manualVersion} setManualVersion={setManualVersion} manualDistributor={manualDistributor} setManualDistributor={setManualDistributor} onAddManualMovie={addManualMovie} newDevice={newDevice} setNewDevice={setNewDevice} onAddDevice={addDevice} onToggleDevice={toggleFilmDevice} onProgramBankFilm={programBankFilm} onAddMovie={addMovieToAgenda} onMoveScreening={moveScreening} onCreateAt={openPlannerAt} onEditScreening={openScreeningEditor} moveWeek={moveWeek} />{plannerDialog}</>}
+    {view === 'agenda' && <><AgendaView selectedDay={selectedDay} setSelectedDay={setSelectedDay} screenings={dayScreenings} filmBank={filmBank} devices={devices} movieSearch={movieSearch} setMovieSearch={setMovieSearch} movieResults={movieResults} movieMessage={movieMessage} onAddImdbMovie={addImdbMovieToBank} manualTitle={manualTitle} setManualTitle={setManualTitle} manualDuration={manualDuration} setManualDuration={setManualDuration} manualVersion={manualVersion} setManualVersion={setManualVersion} manualDistributor={manualDistributor} setManualDistributor={setManualDistributor} onAddManualMovie={addManualMovie} newDevice={newDevice} setNewDevice={setNewDevice} onAddDevice={addDevice} onRenameDevice={renameDevice} onDeleteDevice={deleteDevice} onToggleDevice={toggleFilmDevice} onProgramBankFilm={programBankFilm} onAddMovie={addMovieToAgenda} onMoveScreening={moveScreening} onCreateAt={openPlannerAt} onEditScreening={openScreeningEditor} moveWeek={moveWeek} />{plannerDialog}</>}
     {view === 'team' && <TeamView team={team} selectedDay={selectedDay} setSelectedDay={setSelectedDay} employeeName={employeeName} setEmployeeName={setEmployeeName} addEmployee={addEmployee} availability={availability} setAvailability={setAvailability} />}
   </main>;
 }
@@ -190,6 +202,8 @@ type AgendaViewProps = {
   newDevice: string;
   setNewDevice: (value: string) => void;
   onAddDevice: (event: FormEvent<HTMLFormElement>) => void;
+  onRenameDevice: (previousName: string, nextName: string) => void;
+  onDeleteDevice: (device: string) => void;
   onToggleDevice: (filmId: string, device: string) => void;
   onProgramBankFilm: (film: FilmBankItem) => void;
   onAddMovie: (movie: Movie, roomId: string, time: string) => void;
@@ -229,20 +243,32 @@ function AgendaView(props: AgendaViewProps) {
     <div className="xinema-agenda-legend"><span><i className="xinema-legend-trailer" /> Bandes-annonces · 10 min</span><span><i className="xinema-legend-film" /> Film · durée réelle</span><span><i className="xinema-legend-buffer" /> Tampon pub / rotation</span></div>
   </section>;
 }
-function FilmBank(props: AgendaViewProps & { dragStart: (event: DragEvent<HTMLElement>, payload: DragPayload) => void }) {
+type FilmBankProps = AgendaViewProps & { dragStart: (event: DragEvent<HTMLElement>, payload: DragPayload) => void };
+function FilmBank(props: FilmBankProps) {
+  const unclassifiedFilms = props.filmBank.filter((film) => film.devices.length === 0);
   return <aside className="xinema-film-bank">
     <div className="xinema-film-bank__header"><div><p className="xinema-kicker">Réserve de programmation</p><h3>Banque de films</h3></div><span>{props.filmBank.length}</span></div>
-    <label className="xinema-bank-search">Ajouter depuis IMDb<input value={props.movieSearch} onChange={(event) => props.setMovieSearch(event.target.value)} placeholder="Rechercher un titre" /></label>
-    {props.movieResults.length > 0 && <div className="xinema-bank-results">{props.movieResults.slice(0, 4).map((movie) => <div key={movie.imdbId}><img src={movie.posterUrl ?? '/xinema/movie-placeholder.png'} alt="" /><span><strong>{movie.title}</strong><small>{movie.year} · IMDb</small></span><button type="button" onClick={() => props.onAddImdbMovie(movie)}>Ajouter</button></div>)}</div>}
-    {props.movieMessage && <p className="xinema-bank-message">{props.movieMessage}</p>}
-    <details className="xinema-bank-creator"><summary><Plus size={14} /> Création manuelle</summary><form onSubmit={props.onAddManualMovie}><label>Titre *<input required value={props.manualTitle} onChange={(event) => props.setManualTitle(event.target.value)} placeholder="Titre du film" /></label><label>Durée *<div className="xinema-duration-input"><input required min={1} type="number" value={props.manualDuration} onChange={(event) => props.setManualDuration(Number(event.target.value))} /><span>min</span></div></label><div className="xinema-bank-form-grid"><label>Version<input value={props.manualVersion} onChange={(event) => props.setManualVersion(event.target.value)} placeholder="VF, VOST…" /></label><label>Distributeur<input value={props.manualDistributor} onChange={(event) => props.setManualDistributor(event.target.value)} placeholder="Facultatif" /></label></div><button className="xinema-secondary">Créer dans la banque</button></form></details>
-    <div className="xinema-device-editor"><p>Dispositifs & événements</p><form onSubmit={props.onAddDevice}><input value={props.newDevice} onChange={(event) => props.setNewDevice(event.target.value)} placeholder="Ex. Festival italien" /><button aria-label="Ajouter le dispositif"><Plus size={15} /></button></form></div>
-    <div className="xinema-bank-list">{props.filmBank.map((film) => <article className="xinema-bank-film" key={film.id} draggable onDragStart={(event) => props.dragStart(event, { kind: 'movie', movie: bankItemToMovie(film) })}>
-      <div className="xinema-bank-film__main"><span className="xinema-bank-film__grip"><GripVertical size={15} /></span><img src={film.posterUrl ?? '/xinema/movie-placeholder.png'} alt="" /><div><strong>{film.title}</strong><small>{film.durationMin} min · {film.version ?? (film.source === 'imdb' ? 'IMDb' : 'Version à préciser')}</small>{film.distributor && <small>{film.distributor}</small>}</div></div>
-      <div className="xinema-device-chips">{props.devices.map((device) => <button type="button" key={device} className={film.devices.includes(device) ? 'is-active' : ''} onClick={(event) => { event.stopPropagation(); props.onToggleDevice(film.id, device); }}>{device}</button>)}</div>
-      <button type="button" className="xinema-bank-program" onClick={() => props.onProgramBankFilm(film)}>Programmer</button>
-    </article>)}</div>
+    <details className="xinema-bank-additions"><summary><Plus size={14} /> Ajouter un film · IMDb ou manuel</summary><div><label className="xinema-bank-search">Rechercher sur IMDb<input value={props.movieSearch} onChange={(event) => props.setMovieSearch(event.target.value)} placeholder="Rechercher un titre" /></label>{props.movieResults.length > 0 && <div className="xinema-bank-results">{props.movieResults.slice(0, 4).map((movie) => <div key={movie.imdbId}><img src={movie.posterUrl ?? '/xinema/movie-placeholder.png'} alt="" /><span><strong>{movie.title}</strong><small>{movie.year} · IMDb</small></span><button type="button" onClick={() => props.onAddImdbMovie(movie)}>Ajouter</button></div>)}</div>}{props.movieMessage && <p className="xinema-bank-message">{props.movieMessage}</p>}<details className="xinema-bank-creator"><summary><Plus size={14} /> Création manuelle</summary><form onSubmit={props.onAddManualMovie}><label>Titre *<input required value={props.manualTitle} onChange={(event) => props.setManualTitle(event.target.value)} placeholder="Titre du film" /></label><label>Durée *<div className="xinema-duration-input"><input required min={1} type="number" value={props.manualDuration} onChange={(event) => props.setManualDuration(Number(event.target.value))} /><span>min</span></div></label><div className="xinema-bank-form-grid"><label>Version<input value={props.manualVersion} onChange={(event) => props.setManualVersion(event.target.value)} placeholder="VF, VOST…" /></label><label>Distributeur<input value={props.manualDistributor} onChange={(event) => props.setManualDistributor(event.target.value)} placeholder="Facultatif" /></label></div><button className="xinema-secondary">Créer dans la banque</button></form></details></div></details>
+    <div className="xinema-device-editor"><p>Gérer les catégories</p><form onSubmit={props.onAddDevice}><input value={props.newDevice} onChange={(event) => props.setNewDevice(event.target.value)} placeholder="Ex. Festival italien" /><button aria-label="Ajouter la catégorie"><Plus size={15} /></button></form></div>
+    <div className="xinema-bank-zones">{props.devices.map((category) => <BankCategoryZone key={category} category={category} films={props.filmBank.filter((film) => film.devices.includes(category))} props={props} />)}<BankCategoryZone category={null} films={unclassifiedFilms} props={props} /></div>
   </aside>;
+}
+function BankCategoryZone({ category, films, props }: { category: string | null; films: FilmBankItem[]; props: FilmBankProps }) {
+  const [renaming, setRenaming] = useState(false);
+  const [draft, setDraft] = useState(category ?? '');
+  function submitRename(event: FormEvent<HTMLFormElement>) { event.preventDefault(); if (category && draft.trim()) { props.onRenameDevice(category, draft); setRenaming(false); } }
+  return <section className={`xinema-bank-zone${category ? '' : ' is-unclassified'}`}>
+    <header><div><strong>{category ?? 'Sans catégorie'}</strong><span>{films.length} film{films.length > 1 ? 's' : ''}</span></div>{category && <div className="xinema-bank-zone__actions"><button type="button" onClick={() => { setDraft(category); setRenaming((value) => !value); }}>{renaming ? 'Fermer' : 'Renommer'}</button><button type="button" className="is-danger" onClick={() => props.onDeleteDevice(category)}>Supprimer</button></div>}</header>
+    {renaming && category && <form className="xinema-bank-zone__rename" onSubmit={submitRename}><input autoFocus value={draft} onChange={(event) => setDraft(event.target.value)} aria-label={`Nouveau nom pour ${category}`} /><button>Valider</button></form>}
+    <div className="xinema-bank-zone__films">{films.length ? films.map((film) => <BankFilmCard key={`${category ?? 'unclassified'}-${film.id}`} film={film} props={props} />) : <p className="xinema-bank-zone__empty">Glissez ou classez un film dans cette catégorie.</p>}</div>
+  </section>;
+}
+function BankFilmCard({ film, props }: { film: FilmBankItem; props: FilmBankProps }) {
+  return <article className="xinema-bank-film" draggable onDragStart={(event) => props.dragStart(event, { kind: 'movie', movie: bankItemToMovie(film) })}>
+    <div className="xinema-bank-film__main"><span className="xinema-bank-film__grip"><GripVertical size={15} /></span><img src={film.posterUrl ?? '/xinema/movie-placeholder.png'} alt="" /><div><strong>{film.title}</strong><small>{film.durationMin} min · {film.version ?? (film.source === 'imdb' ? 'IMDb' : 'Version à préciser')}</small>{film.distributor && <small>{film.distributor}</small>}</div></div>
+    <div className="xinema-film-categories"><span>Classer dans</span><div>{props.devices.map((device) => <button type="button" key={device} className={film.devices.includes(device) ? 'is-active' : ''} onClick={(event) => { event.stopPropagation(); props.onToggleDevice(film.id, device); }}>{device}</button>)}</div></div>
+    <button type="button" className="xinema-bank-program" onClick={() => props.onProgramBankFilm(film)}>Programmer</button>
+  </article>;
 }
 function TimelineRoom({ room, screenings, hovered, setHovered, dragStart, drop, onCreateAt, onEditScreening, nowTop, dropTime, setDropTime }: { room: Room; screenings: Screening[]; hovered: boolean; setHovered: (value: string | null) => void; dragStart: (event: DragEvent<HTMLElement>, payload: DragPayload) => void; drop: (event: DragEvent<HTMLDivElement>, roomId: string, time: string) => void; onCreateAt: (roomId: string, time: string) => void; onEditScreening: (screening: Screening) => void; nowTop: number | null; dropTime: string | null; setDropTime: (time: string | null) => void }) {
   function clickRoom(event: MouseEvent<HTMLDivElement>) {
