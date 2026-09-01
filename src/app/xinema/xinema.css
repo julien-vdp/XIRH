@@ -74,3 +74,102 @@
 .xinema-dialog--planner { width:min(100%, 590px); max-height:calc(100vh - 40px); overflow-y:auto; }.xinema-dialog__intro { margin:8px 0 0; color:#9d9d9d; line-height:1.45; font-size:13px; }.xinema-dialog-search-results { display:grid; gap:7px; max-height:206px; overflow-y:auto; margin-top:-10px; }.xinema-dialog-search-results button { display:flex; align-items:center; gap:10px; padding:7px; color:#eee; text-align:left; border:1px solid #353535; border-radius:8px; background:#101010; cursor:pointer; font:inherit; }.xinema-dialog-search-results button:hover { border-color:#ab343a; background:#241415; }.xinema-dialog-search-results img { width:34px; height:47px; object-fit:cover; border-radius:4px; }.xinema-dialog-search-results strong,.xinema-dialog-search-results small { display:block; }.xinema-dialog-search-results strong { font-size:13px; }.xinema-dialog-search-results small { margin-top:3px; color:#999; font-size:11px; }.xinema-dialog-film--detail { align-items:flex-start; background:linear-gradient(110deg,#241516,#101010); }.xinema-dialog-film--detail img { width:52px; height:73px; }.xinema-dialog-film--detail a { display:inline-block; margin-top:6px; color:#ff858b; font-size:11px; font-weight:800; text-decoration:none; }.xinema-dialog-film--detail a:hover { color:#fff; }
 .xinema-week-nav { display:grid !important; place-items:center; min-width:32px !important; padding:0 !important; border:0 !important; background:transparent !important; }.xinema-week-nav:hover { color:#fff !important; }.xinema-now-line { position:absolute; right:0; left:0; z-index:3; height:2px; pointer-events:none; background:#ff3e48; box-shadow:0 0 12px rgba(255,62,72,.9); }.xinema-now-line span { position:absolute; top:-10px; left:6px; padding:2px 5px; color:#fff; border-radius:4px; background:#df1821; font-size:9px; font-weight:900; text-transform:uppercase; }
 .xinema-drop-indicator { position:absolute; right:4px; left:4px; z-index:5; height:2px; pointer-events:none; background:#84dfff; box-shadow:0 0 12px rgba(132,223,255,.85); }.xinema-drop-indicator span { position:absolute; top:-11px; right:4px; padding:2px 5px; color:#08222a; border-radius:4px; background:#84dfff; font-size:9px; font-weight:900; }.xinema-timeline-event { transition: transform .12s ease, box-shadow .12s ease; }.xinema-timeline-event:hover { transform:translateX(-2px); box-shadow:0 9px 24px rgba(229,9,20,.28); }
+
+.xinema-shell--agenda { max-width: 1540px; }
+.xinema-section-heading--agenda { align-items: center; }
+.xinema-view-controls { display: flex; align-items: center; gap: 14px; }
+.xinema-view-switch { display: inline-flex; padding: 3px; border: 1px solid #363636; border-radius: 10px; background: #121212; }
+.xinema-view-switch button { min-height: 34px; padding: 0 12px; color: #8f8f8f; border: 0; border-radius: 7px; background: transparent; cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; }
+.xinema-view-switch button:hover { color: #fff; }
+.xinema-view-switch button.is-active { color: #fff; background: #343434; box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+.xinema-planning-workspace { display: grid; grid-template-columns: 310px minmax(0, 1fr); gap: 16px; align-items: start; }
+.xinema-planning-board { min-width: 0; }
+.xinema-film-bank { position: sticky; top: 14px; max-height: calc(100vh - 28px); overflow-y: auto; padding: 16px; border: 1px solid #343434; border-radius: 15px; background: #131313; scrollbar-color: #4a4a4a transparent; }
+.xinema-film-bank__header { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #303030; }
+.xinema-film-bank__header h3 { margin: 0; font-size: 20px; letter-spacing: -.035em; }
+.xinema-film-bank__header > span { display: grid; place-items: center; width: 29px; height: 29px; color: #ffd0d2; border-radius: 8px; background: rgba(229,9,20,.18); font-size: 12px; font-weight: 900; }
+.xinema-bank-search { display: grid; gap: 7px; margin-top: 14px; color: #bcbcbc; font-size: 11px; font-weight: 800; }
+.xinema-bank-search input, .xinema-bank-creator input, .xinema-device-editor input { width: 100%; min-height: 38px; padding: 0 10px; color: #fff; border: 1px solid #393939; border-radius: 8px; outline: 0; background: #0c0c0c; font: inherit; font-size: 12px; box-sizing: border-box; }
+.xinema-bank-search input:focus, .xinema-bank-creator input:focus, .xinema-device-editor input:focus { border-color: #a93a40; box-shadow: 0 0 0 3px rgba(229,9,20,.1); }
+.xinema-bank-results { display: grid; gap: 6px; margin-top: 8px; }
+.xinema-bank-results > div { display: grid; grid-template-columns: 31px minmax(0, 1fr) auto; align-items: center; gap: 7px; padding: 6px; border: 1px solid #303030; border-radius: 8px; background: #0e0e0e; }
+.xinema-bank-results img { width: 31px; height: 42px; object-fit: cover; border-radius: 4px; }
+.xinema-bank-results strong, .xinema-bank-results small { display: block; }
+.xinema-bank-results strong { overflow: hidden; color: #eee; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.xinema-bank-results small { margin-top: 3px; color: #777; font-size: 9px; }
+.xinema-bank-results button, .xinema-bank-program { color: #ff9499; border: 0; background: transparent; cursor: pointer; font: inherit; font-size: 10px; font-weight: 900; }
+.xinema-bank-message { margin: 8px 0 0; color: #8f8f8f; font-size: 10px; line-height: 1.35; }
+.xinema-bank-creator { margin-top: 12px; border: 1px solid #343434; border-radius: 9px; background: #181818; }
+.xinema-bank-creator summary { display: flex; align-items: center; gap: 6px; padding: 10px; color: #dedede; cursor: pointer; list-style: none; font-size: 11px; font-weight: 900; }
+.xinema-bank-creator summary::-webkit-details-marker { display: none; }
+.xinema-bank-creator form { display: grid; grid-template-columns: minmax(0, 1fr) 84px; gap: 9px; padding: 0 10px 10px; }
+.xinema-bank-creator label { display: grid; gap: 5px; color: #929292; font-size: 10px; font-weight: 800; }
+.xinema-bank-form-grid { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.xinema-bank-creator .xinema-secondary { grid-column: 1 / -1; min-height: 35px; font-size: 11px; }
+.xinema-duration-input { position: relative; }
+.xinema-duration-input input { padding-right: 29px; }
+.xinema-duration-input span { position: absolute; top: 12px; right: 8px; color: #777; font-size: 9px; }
+.xinema-device-editor { padding: 13px 0; margin-top: 12px; border-top: 1px solid #303030; border-bottom: 1px solid #303030; }
+.xinema-device-editor p { margin: 0 0 7px; color: #bdbdbd; font-size: 11px; font-weight: 900; }
+.xinema-device-editor form { display: grid; grid-template-columns: 1fr 36px; gap: 6px; }
+.xinema-device-editor button { display: grid; place-items: center; color: #fff; border: 1px solid #4a4a4a; border-radius: 8px; background: #2c2c2c; cursor: pointer; }
+.xinema-bank-list { display: grid; gap: 10px; margin-top: 12px; }
+.xinema-bank-film { padding: 10px; border: 1px solid #303030; border-radius: 11px; background: #0e0e0e; cursor: grab; transition: border-color .15s ease, transform .15s ease; }
+.xinema-bank-film:hover { border-color: #7f3236; transform: translateY(-1px); }
+.xinema-bank-film:active { cursor: grabbing; }
+.xinema-bank-film__main { display: grid; grid-template-columns: 14px 40px minmax(0, 1fr); gap: 8px; align-items: center; }
+.xinema-bank-film__grip { color: #8e8e8e; }
+.xinema-bank-film__main img { width: 40px; height: 55px; object-fit: cover; border-radius: 5px; }
+.xinema-bank-film__main strong, .xinema-bank-film__main small { display: block; }
+.xinema-bank-film__main strong { color: #f3f3f3; font-size: 12px; line-height: 1.2; }
+.xinema-bank-film__main small { margin-top: 4px; color: #888; font-size: 9px; line-height: 1.2; }
+.xinema-device-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.xinema-device-chips button { padding: 4px 6px; color: #858585; border: 1px solid #303030; border-radius: 99px; background: #171717; cursor: pointer; font: inherit; font-size: 8px; font-weight: 800; }
+.xinema-device-chips button:hover { color: #ddd; border-color: #555; }
+.xinema-device-chips button.is-active { color: #d7f2a1; border-color: rgba(190,227,94,.5); background: rgba(190,227,94,.12); }
+.xinema-bank-program { width: 100%; padding: 8px 0 0; margin-top: 8px; border-top: 1px solid #292929; }
+.xinema-bank-program:hover { color: #fff; }
+.xinema-row-agenda-scroll { overflow-x: auto; border: 1px solid #303030; border-radius: 15px; background: #121212; }
+.xinema-row-agenda { min-width: 1220px; }
+.xinema-row-agenda__head, .xinema-row-agenda__room { display: grid; grid-template-columns: 180px minmax(0, 1fr); }
+.xinema-row-agenda__head { min-height: 54px; color: #d9d9d9; border-bottom: 1px solid #343434; background: #1b1b1b; }
+.xinema-row-agenda__head > strong { display: flex; align-items: center; padding: 0 14px; border-right: 1px solid #343434; font-size: 12px; }
+.xinema-row-agenda__head > div { position: relative; }
+.xinema-row-agenda__head span { position: absolute; top: 20px; color: #919191; font-size: 10px; transform: translateX(-50%); }
+.xinema-row-agenda__room { min-height: 126px; border-bottom: 1px solid #303030; }
+.xinema-row-agenda__room:last-child { border-bottom: 0; }
+.xinema-row-agenda__room > header { display: grid; align-content: center; gap: 5px; padding: 13px; border-right: 1px solid #343434; background: #181818; }
+.xinema-row-agenda__room > header strong { font-size: 13px; }
+.xinema-row-agenda__room > header small { color: #848484; font-size: 9px; line-height: 1.35; }
+.xinema-row-track { position: relative; min-height: 126px; background-image: repeating-linear-gradient(to right, transparent 0, transparent calc(5.555% - 1px), #292929 calc(5.555% - 1px), #292929 5.555%); cursor: crosshair; }
+.xinema-row-track.is-drop-target { background-color: rgba(229,9,20,.08); outline: 2px dashed #ff747b; outline-offset: -3px; }
+.xinema-row-event { position: absolute; top: 17px; z-index: 2; display: grid; grid-template-columns: 6px 39px minmax(0, 1fr) 6px; align-items: center; gap: 7px; min-width: 105px; height: 91px; padding: 6px; box-sizing: border-box; overflow: hidden; color: #fff; border: 1px solid #76252a; border-radius: 8px; background: linear-gradient(90deg, #641016, #2b1113); box-shadow: 0 7px 16px rgba(0,0,0,.28); cursor: grab; }
+.xinema-row-event:hover { z-index: 4; border-color: #ff5e66; }
+.xinema-row-event img { width: 39px; height: 68px; object-fit: cover; border-radius: 4px; }
+.xinema-row-event > div { min-width: 0; }
+.xinema-row-event > div > span, .xinema-row-event strong, .xinema-row-event small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.xinema-row-event > div > span { display: flex; align-items: center; color: #ffc1c5; font-size: 9px; font-weight: 900; }
+.xinema-row-event strong { margin: 5px 0; font-size: 11px; }
+.xinema-row-event small { color: #d7aeb0; font-size: 8px; }
+.xinema-row-event__trailer { align-self: stretch; border-radius: 3px; background: #bee35e; }
+.xinema-row-event__buffer { align-self: stretch; border-radius: 3px; background: #666; }
+.xinema-row-drop, .xinema-row-now { position: absolute; top: 0; bottom: 0; z-index: 5; width: 2px; pointer-events: none; }
+.xinema-row-drop { background: #84dfff; box-shadow: 0 0 10px rgba(132,223,255,.85); }
+.xinema-row-now { background: #ff3e48; box-shadow: 0 0 10px rgba(255,62,72,.8); }
+.xinema-row-drop span, .xinema-row-now span { position: absolute; top: 3px; left: 5px; padding: 2px 4px; border-radius: 3px; white-space: nowrap; font-size: 8px; font-weight: 900; }
+.xinema-row-drop span { color: #08222a; background: #84dfff; }
+.xinema-row-now span { color: #fff; background: #df1821; }
+
+@media (max-width: 1100px) {
+  .xinema-planning-workspace { grid-template-columns: 1fr; }
+  .xinema-film-bank { position: static; max-height: none; }
+  .xinema-bank-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .xinema-section-heading--agenda, .xinema-view-controls { align-items: flex-start; flex-direction: column; }
+  .xinema-view-controls { width: 100%; gap: 9px; }
+  .xinema-view-switch { width: 100%; }
+  .xinema-view-switch button { flex: 1; }
+  .xinema-bank-list { grid-template-columns: 1fr; }
+  .xinema-bank-form-grid { grid-template-columns: 1fr; }
+}
