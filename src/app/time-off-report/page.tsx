@@ -7,6 +7,7 @@ import './time-off-report.css';
 import './time-off-report-zip.css';
 import './time-off-report-preview.css';
 import './time-off-report-tooltips.css';
+import './time-off-report-exports.css';
 
 const REQUIRED_FILES = ['Time Account.csv', 'Time Account-Time Account Details.csv', 'Time Account Snapshot.csv', 'Time Account Type.csv'] as const;
 type RequiredFile = (typeof REQUIRED_FILES)[number];
@@ -17,6 +18,12 @@ type ZipInspection = { valid: boolean; found: RequiredFile[]; missing: RequiredF
 type ArchiveUpload = { id: string; file: File; inspection?: ZipInspection };
 type WorkerMessage = { type: 'progress'; label: string; value: number } | { type: 'complete'; summary: Summary; filename: string; buffer: ArrayBuffer; preview: PreviewRow[] } | { type: 'zipInspection'; archiveId: string; inspection: ZipInspection } | { type: 'error'; message: string };
 const FILE_LABELS: Record<RequiredFile, string> = { 'Time Account.csv': 'Comptes Time Off', 'Time Account-Time Account Details.csv': 'Écritures de compte', 'Time Account Snapshot.csv': 'Snapshots SAP', 'Time Account Type.csv': 'Types de compte' };
+const EXPORT_GUIDE: { file: RequiredFile; purpose: string; fields: string }[] = [
+  { file: 'Time Account.csv', purpose: 'Comptes Time Off et périodes de validité.', fields: 'externalCode, userId, type de compte, statut fermé, dates de début et fin' },
+  { file: 'Time Account-Time Account Details.csv', purpose: 'Écritures de compte utilisées pour reconstituer les soldes.', fields: 'externalCode du compte, externalCode du détail, bookingDate et bookingAmount' },
+  { file: 'Time Account Snapshot.csv', purpose: 'Snapshots SAP utilisés pour les rapprochements de contrôle.', fields: 'userId, type de compte, date effective, solde et indicateur outdated' },
+  { file: 'Time Account Type.csv', purpose: 'Configuration des types de compteur.', fields: 'externalCode, unité, solde minimum, simulateAccruals et snapshotsAllowed' },
+];
 function ColumnHelp({ label, help }: { label: string; help: string }) {
   return <span className="tor-column-help" tabIndex={0} data-tooltip={help} title={help}>{label}<CircleHelp size={13} aria-hidden="true" /></span>;
 }
@@ -164,6 +171,11 @@ export default function TimeOffReportPage() {
           <label>Date d’extraction SAP<input type="date" value={extractDate} onChange={(event) => { setExtractDate(event.target.value); clearResult(); }} /></label>
         </div>
         <p className="tor-date-note"><CalendarDays size={15} /> Les archives sont contrôlées localement, puis leurs CSV sont réunis sans jamais quitter votre navigateur.</p>
+        <section className="tor-export-guide" aria-label="Exports SAP requis">
+          <div className="tor-export-guide-heading"><div><span>Préparer les exports SAP</span><h3>Les quatre CSV requis</h3></div><p>Exportez ces quatre jeux de données depuis votre environnement SuccessFactors, puis conservez exactement les noms de fichiers ci-dessous.</p></div>
+          <div className="tor-export-grid">{EXPORT_GUIDE.map((item) => <article key={item.file}><FileSpreadsheet size={18} /><div><strong>{item.file}</strong><p>{item.purpose}</p><small>Champs attendus : {item.fields}</small></div></article>)}</div>
+          <p className="tor-export-note">Les quatre CSV peuvent être répartis dans plusieurs ZIP. La navigation SAP permettant de les générer dépend de votre tenant et de vos droits ; l’outil contrôle directement la structure des fichiers déposés.</p>
+        </section>
         <label className={`tor-dropzone ${isDragging ? 'is-dragging' : ''}`} onDragOver={(event) => { event.preventDefault(); setIsDragging(true); }} onDragLeave={() => setIsDragging(false)} onDrop={onDrop}>
           <Archive size={31} /><strong>Glissez vos archives ZIP SAP ici</strong><span>Vous pouvez en ajouter plusieurs, maintenant ou plus tard</span>
           <input type="file" accept=".zip,application/zip,.csv,text/csv" multiple onChange={onChange} />
