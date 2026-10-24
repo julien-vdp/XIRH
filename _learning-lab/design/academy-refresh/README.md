@@ -4,6 +4,8 @@ Préparée le 24 octobre 2026 après consultation de l'accueil, de la catégorie
 
 ## Fond vivant
 
+Correction de perceptibilité : la version initiale était bien exécutée en production, mais le mouvement de 26/38 secondes restait presque entièrement derrière les zones opaques. La version `20261024-5` renforce le déplacement du fond et ajoute un mouvement de caméra de 12 secondes dans l'illustration, avec des points lumineux de 7 secondes. La commande « Fond animé » met les quatre animations en pause. Le réglage de réduction du mouvement désactive aussi le mouvement de l'illustration.
+
 `academy-ambient.css` ajoute deux couches décoratives derrière l'accueil : des halos dorés/turquoise et un maillage de facettes avec quelques points lumineux. Le mouvement lent utilise uniquement CSS (transformations et opacité), sans script ni suivi du pointeur. Les couches ne reçoivent aucun clic et ne déplacent pas le contenu.
 
 La case native « Fond animé » met les animations en pause et les relance sans rechargement. Cette préférence reste dans la page courante. Le réglage système `prefers-reduced-motion` désactive les animations et masque ce contrôle ; le décor reste statique. Le fond est exclu du mode édition et de l'impression.
