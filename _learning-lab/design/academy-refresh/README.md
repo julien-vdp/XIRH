@@ -2,6 +2,14 @@
 
 Préparée le 24 octobre 2026 après consultation de l'accueil, de la catégorie Processus, de la connexion et des options d'inscription du Moodle en ligne.
 
+## Fond vivant
+
+`academy-ambient.css` ajoute deux couches décoratives derrière l'accueil : des halos dorés/turquoise et un maillage de facettes avec quelques points lumineux. Le mouvement lent utilise uniquement CSS (transformations et opacité), sans script ni suivi du pointeur. Les couches ne reçoivent aucun clic et ne déplacent pas le contenu.
+
+La case native « Fond animé » met les animations en pause et les relance sans rechargement. Cette préférence reste dans la page courante. Le réglage système `prefers-reduced-motion` désactive les animations et masque ce contrôle ; le décor reste statique. Le fond est exclu du mode édition et de l'impression.
+
+Vérification dans le navigateur : deux animations actives, arrêt effectif des deux couches avec transformations identiques pendant la pause, reprise et absence de débordement horizontal. L'aperçu utilise exactement la même feuille de style et le même contrôle que le thème Moodle.
+
 ## Version golden polygonal
 
 La direction ardoise a été remplacée par une présentation illustrée fidèle à l'univers du golden retriever polygonal des cours XIRH : bleu profond, turquoise, ambre et or. `academy-golden.css` est chargé après les deux premières couches. Le même template d'accueil contient désormais la scène principale, les actions Moodle et trois cartes illustrées reliées aux catégories natives Processus, Data et Outils.

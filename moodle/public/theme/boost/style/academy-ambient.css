@@ -1,0 +1,47 @@
+/* Golden polygonal ambient backdrop. CSS only; no pointer tracking or canvas.
+ * Both layers are decorative, sit behind the content and never receive input.
+ */
+body#page-site-index:not(.editing) { isolation: isolate; }
+body#page-site-index:not(.editing)::before,
+body#page-site-index:not(.editing)::after {
+    content: ''; position: fixed; inset: -6%; width: auto; height: auto;
+    pointer-events: none; z-index: -1; transform-origin: center;
+    animation-play-state: paused !important;
+}
+body#page-site-index:not(.editing)::before {
+    background: radial-gradient(ellipse at 4% 18%, #e9aa3f26 0%, transparent 33%), radial-gradient(ellipse at 96% 32%, #17a6be38 0%, transparent 36%), radial-gradient(ellipse at 25% 92%, #138eaa33 0%, transparent 35%), radial-gradient(ellipse at 85% 94%, #d2932821 0%, transparent 30%) !important;
+    animation: xa-aurora-drift 26s ease-in-out infinite alternate !important;
+    animation-play-state: paused !important;
+}
+body#page-site-index:not(.editing)::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 1000' fill='none'%3E%3Cg stroke='%23e9bd65' stroke-width='.8'%3E%3Cpath d='M0 120L280 0L112 340L0 120L0 470L112 340L240 530' opacity='.26'/%3E%3Cpath d='M1600 0L1360 150L1570 350L1600 0L1490 560L1570 350' opacity='.2'/%3E%3Cpath d='M0 700L230 850L65 1000L0 700L365 1000L230 850' opacity='.2'/%3E%3Cpath d='M1600 670L1290 870L1515 1000L1600 670L1420 610L1290 870' opacity='.24'/%3E%3C/g%3E%3Cpath d='M0 120L280 0L112 340Z' fill='%23eeb64f' opacity='.09'/%3E%3Cpath d='M0 120L112 340L0 470Z' fill='%23eeb64f' opacity='.035'/%3E%3Cpath d='M1600 0L1360 150L1570 350Z' fill='%2329bbcd' opacity='.10'/%3E%3Cpath d='M1570 350L1490 560L1600 0Z' fill='%234fc8df' opacity='.035'/%3E%3Cpath d='M0 700L230 850L65 1000Z' fill='%2329bbcd' opacity='.08'/%3E%3Cpath d='M1600 670L1290 870L1515 1000Z' fill='%23eeb64f' opacity='.08'/%3E%3Cg fill='%23ffdc8c'%3E%3Ccircle cx='160' cy='400' r='2' opacity='.65'/%3E%3Ccircle cx='68' cy='610' r='1.6' opacity='.5'/%3E%3Ccircle cx='1450' cy='410' r='2' opacity='.7'/%3E%3Ccircle cx='1360' cy='690' r='1.8' opacity='.65'/%3E%3Cpath d='M250 690h10m-5-5v10M1450 90h10m-5-5v10' stroke='%23ffdc8c' opacity='.5'/%3E%3C/g%3E%3Cg fill='%2372d8e3'%3E%3Ccircle cx='295' cy='180' r='1.7' opacity='.6'/%3E%3Ccircle cx='120' cy='870' r='2' opacity='.6'/%3E%3Ccircle cx='1510' cy='800' r='1.8' opacity='.7'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: cover; background-position: center;
+    animation: xa-facet-drift 38s ease-in-out infinite alternate !important;
+    animation-play-state: paused !important;
+}
+body#page-site-index:not(.editing):has(#xa-background-motion:checked)::before,
+body#page-site-index:not(.editing):has(#xa-background-motion:checked)::after { animation-play-state: running !important; }
+body#page-site-index:not(.editing) .xa-motion-control {
+    display: inline-flex !important; align-items: center; gap: 7px;
+    position: fixed; bottom: 14px; left: 14px; z-index: 20;
+    padding: 7px 10px; background: #071a2ad9; border: 1px solid #8f784e80;
+    border-radius: 6px; color: #e6d4ad; font: 11px 'Outfit','Segoe UI',sans-serif;
+    backdrop-filter: blur(8px); cursor: pointer;
+}
+.xa-motion-control input { width: 13px; height: 13px; margin: 0; accent-color: #eac168; cursor: pointer; }
+.xa-motion-control input:focus-visible { outline: 2px solid #ffcf70; outline-offset: 3px; }
+@keyframes xa-aurora-drift { from { transform: translate3d(-1%,0,0) scale(1); opacity: .7; } to { transform: translate3d(1.5%,-1.5%,0) scale(1.07); opacity: 1; } }
+@keyframes xa-facet-drift { from { transform: translate3d(0,12px,0) scale(1); opacity: .65; } to { transform: translate3d(0,-18px,0) scale(1.025); opacity: 1; } }
+@media (max-width: 650px) {
+    body#page-site-index:not(.editing)::after { background-size: auto 100%; opacity: .65; }
+    body#page-site-index:not(.editing) .xa-motion-control { bottom: 10px; left: 10px; padding: 6px 8px; font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    body#page-site-index:not(.editing)::before,
+    body#page-site-index:not(.editing)::after { animation: none !important; transform: none; }
+    body#page-site-index:not(.editing) .xa-motion-control { display: none !important; }
+}
+@media print {
+    body#page-site-index::before, body#page-site-index::after,
+    body#page-site-index:not(.editing) .xa-motion-control { display: none !important; }
+}
