@@ -96,6 +96,7 @@ $coursefullname = ($PAGE->course?->fullname) ? format_string(
 $courseurl = $PAGE->course ? new \core\url('/course/view.php', ['id' => $PAGE->course->id]) : null;
 
 $templatecontext = [
+    'xirhfrontpage' => $PAGE->pagelayout === 'frontpage' && !$PAGE->user_is_editing(),
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), "escape" => false]),
     'coursefullname' => $coursefullname,
     'courseurl' => $courseurl ? $courseurl->out(false) : null,

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '../../..');
 const assetRoot = path.join(root, 'moodle/public/pix/xirh');
-const types = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.png':'image/png' };
+const types = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.png':'image/png', '.webp':'image/webp' };
 const server = http.createServer(async (req,res) => {
   try {
     const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
@@ -18,6 +18,8 @@ const server = http.createServer(async (req,res) => {
       file = path.join(root, 'moodle/public/theme/boost/style/academy-refresh.css');
     } else if (pathname === '/theme-dark.css') {
       file = path.join(root, 'moodle/public/theme/boost/style/academy-dark.css');
+    } else if (pathname === '/theme-golden.css') {
+      file = path.join(root, 'moodle/public/theme/boost/style/academy-golden.css');
     } else if (pathname.startsWith('/academy-preview/')) {
       const publicPreview = path.join(root, 'public/academy-preview');
       file = path.resolve(publicPreview, '.' + pathname.slice('/academy-preview'.length));

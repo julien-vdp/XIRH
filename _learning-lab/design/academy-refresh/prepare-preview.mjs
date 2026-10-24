@@ -17,3 +17,4 @@ let fragment = page.match(/<main class="xa"[\s\S]*?<\/main>/)[0];
 fragment = fragment.replace(/\s*<div class="preview-search"[\s\S]*?<\/div>/,'').replace(/\s*<p class="preview-empty"[\s\S]*?<\/p>/,'');
 await writeFile(path.join(here,'accueil.html'),fragment+'\n');
 console.log('Aperçu autonome prêt : public/academy-preview/index.html');
+await import('./prepare-golden-preview.mjs');

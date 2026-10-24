@@ -2,6 +2,22 @@
 
 Préparée le 24 octobre 2026 après consultation de l'accueil, de la catégorie Processus, de la connexion et des options d'inscription du Moodle en ligne.
 
+## Version golden polygonal
+
+La direction ardoise a été remplacée par une présentation illustrée fidèle à l'univers du golden retriever polygonal des cours XIRH : bleu profond, turquoise, ambre et or. `academy-golden.css` est chargé après les deux premières couches. Le même template d'accueil contient désormais la scène principale, les actions Moodle et trois cartes illustrées reliées aux catégories natives Processus, Data et Outils.
+
+Le visuel principal a été généré avec imagegen depuis la couverture de cours existante, puis encodé en WebP avec une variante 960 px. Les trois images de domaines réutilisent les illustrations existantes, optimisées en WebP. Le prompt final et les chemins des sources sont enregistrés dans `golden-art-direction.md`.
+
+La liste de domaines conservée en base est masquée seulement lorsque la nouvelle section illustrée est installée, hors édition. Les écoles restent les contenus de Moodle et sont regroupées sur une ligne sur bureau. Le forum d'annonces est masqué seulement lorsqu'il contient l'état natif `.forumnodiscuss` ; un forum contenant des annonces reste visible. Le mode édition conserve les éléments d'origine.
+
+Le contexte `xirhfrontpage` de `layout/drawers.php` limite le rendu du nouveau template à l'accueil, hors édition : les images du bandeau ne sont donc pas téléchargées sur les pages de cours et d'administration.
+
+`public/academy-preview/index.html` présente maintenant cette version avec les mêmes templates et styles. L'aperçu est autonome : ses images et styles sont servis depuis `public/academy-preview/`. Il ne simule aucun compte ni progression. Les liens ouvrent le Moodle réel.
+
+Validation : huit images chargées dans l'aperçu, liens vers les trois catégories réelles, un seul titre principal visible, ancienne liste de domaines masquée sans doublon, écoles sur trois colonnes et aucun débordement horizontal sur bureau. Contrôle visuel sur une copie des composants Moodle réels et dans une fenêtre de 390 pixels. Les parcours inscrits et l'exécution PHP restent à contrôler après déploiement.
+
+Retour à la version ardoise : retirer le lien `academy-golden.css` du template de tête, restaurer le template d'accueil du commit précédent et purger les caches Moodle. Le contenu stocké en base n'a pas été modifié.
+
 ## Version sombre et nouvel en-tête
 
 Le premier déploiement a été constaté en ligne le 24 octobre 2026. Le carrousel restant provenait d'un bloc HTML distinct (`.xirh-top-banner`), avec des décalages de page et de tiroirs. `academy-dark.css`, chargé après la première couche, masque ce carrousel hors du mode édition et remet les décalages à leur valeur normale.
