@@ -1,0 +1,27 @@
+{{!
+    XIRH Academy homepage introduction. CSS shows it only on the site homepage
+    outside editing mode. Course pages and administration keep native headers.
+}}
+<section class="xa-live-hero" style="display: none;" aria-labelledby="xa-live-title">
+    <div class="xa-live-hero-copy">
+        <p class="xa-live-eyebrow"><span aria-hidden="true"></span> XIRH ACADEMY · DU SAVOIR AU SAVOIR-FAIRE</p>
+        <h1 id="xa-live-title">Les RH évoluent.<br><em>Prenez une longueur d’avance.</em></h1>
+        <p class="xa-live-description">Processus, données, intelligence artificielle : développez vos réflexes SIRH avec des cas concrets et des outils à mettre en pratique.</p>
+        <div class="xa-live-actions">
+            <a class="xa-live-primary" href="{{config.wwwroot}}/course/index.php">Explorer les formations <span aria-hidden="true">↗</span></a>
+            <a class="xa-live-secondary" href="{{config.wwwroot}}/my/">Mon espace <span aria-hidden="true">→</span></a>
+        </div>
+        <p class="xa-live-audience">Pour les étudiants et les professionnels des Ressources Humaines.</p>
+    </div>
+    <div class="xa-live-map" aria-hidden="true">
+        <div class="xa-live-map-ring"></div>
+        <svg class="xa-live-map-path" viewBox="0 0 440 330" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 78H260Q300 78 300 118V168Q300 198 330 198H352M300 160H200Q160 160 160 200V260H80" stroke="#7ecab2" stroke-width="2" stroke-dasharray="5 7"/>
+            <circle cx="100" cy="78" r="5" fill="#b9f1d2"/><circle cx="352" cy="198" r="5" fill="#b9f1d2"/><circle cx="80" cy="260" r="5" fill="#b9f1d2"/>
+        </svg>
+        <div class="xa-live-node xa-live-node-process"><span class="xa-live-node-symbol">⇄</span><div><small>STRUCTURER</small><strong>Les processus</strong></div><b>01</b></div>
+        <div class="xa-live-node xa-live-node-data"><span class="xa-live-node-symbol">▥</span><div><small>COMPRENDRE</small><strong>Les données</strong></div><b>02</b></div>
+        <div class="xa-live-node xa-live-node-tools"><span class="xa-live-node-symbol">✳</span><div><small>EXPÉRIMENTER</small><strong>Les outils & l’IA</strong></div><b>03</b></div>
+        <div class="xa-live-map-caption"><span></span> CONNECTER LES IDÉES AU TERRAIN</div>
+    </div>
+</section>

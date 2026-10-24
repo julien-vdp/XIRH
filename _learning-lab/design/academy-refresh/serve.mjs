@@ -12,8 +12,12 @@ const server = http.createServer(async (req,res) => {
     let file;
     if (pathname === '/skin-check.html') {
       file = path.join(root, '_local-lab/academy-qa/skin-check.html');
+    } else if (pathname === '/dark-check.html' || pathname === '/mobile-check.html') {
+      file = path.join(root, '_local-lab/academy-qa', path.basename(pathname));
     } else if (pathname === '/theme-style.css') {
       file = path.join(root, 'moodle/public/theme/boost/style/academy-refresh.css');
+    } else if (pathname === '/theme-dark.css') {
+      file = path.join(root, 'moodle/public/theme/boost/style/academy-dark.css');
     } else if (pathname.startsWith('/academy-preview/')) {
       const publicPreview = path.join(root, 'public/academy-preview');
       file = path.resolve(publicPreview, '.' + pathname.slice('/academy-preview'.length));

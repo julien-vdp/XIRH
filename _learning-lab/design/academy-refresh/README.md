@@ -2,6 +2,18 @@
 
 Préparée le 24 octobre 2026 après consultation de l'accueil, de la catégorie Processus, de la connexion et des options d'inscription du Moodle en ligne.
 
+## Version sombre et nouvel en-tête
+
+Le premier déploiement a été constaté en ligne le 24 octobre 2026. Le carrousel restant provenait d'un bloc HTML distinct (`.xirh-top-banner`), avec des décalages de page et de tiroirs. `academy-dark.css`, chargé après la première couche, masque ce carrousel hors du mode édition et remet les décalages à leur valeur normale.
+
+Le template `academy_masthead.mustache`, inclus dans `drawers.mustache`, présente un titre, une illustration vectorielle décorative et deux liens natifs : le catalogue et l'espace personnel. Il est visible uniquement sur l'accueil, hors mode édition. Sur les autres pages il reste masqué ; si les styles sont absents, son `display:none` conserve le rendu existant. L'introduction stockée en base reste présente et sert de repli si le nouveau template n'est pas chargé.
+
+L'accueil, le catalogue et la connexion utilisent désormais une palette bleu ardoise, avec des accents menthe. Les logos conservent un support blanc ; les formulaires et résumés de cours conservent leurs surfaces claires. Les activités et l'administration ne reçoivent pas cette palette. Les décalages de l'ancien bandeau sont retirés sur les pages hors édition pour éviter un espace vide après sa disparition.
+
+Contrôles locaux sur les composants publics réels : ancien bandeau masqué, marge supérieure supprimée, un seul titre principal visible, absence de débordement horizontal sur bureau et contrôle visuel dans une fenêtre de 390 pixels. La vérification PHP et les parcours inscrits nécessitent l'instance Moodle déployée. Après redéploiement, purger les caches Moodle si les nouveaux templates ne sont pas pris en compte.
+
+Retour à la première version : retirer le lien `academy-dark.css` du template `head.mustache`, puis purger les caches. L'en-tête garde alors son état masqué par défaut. Les pages d'aperçu de la première proposition dans `public/academy-preview/` restent un concept séparé ; les fichiers `academy-dark.css` et `academy_masthead.mustache` définissent le nouveau rendu Moodle effectif.
+
 ## Première couche intégrée à Moodle
 
 `moodle/public/theme/boost/style/academy-refresh.css` est chargé par le template `theme/boost/templates/head.mustache`, après les styles existants. La racine de l'URL vient de `config.wwwroot`, fourni par le moteur de templates Moodle. Cette première couche donne un contraste plus marqué à l'accueil existant, colore les domaines, réduit la bannière et améliore les surfaces du catalogue et de la connexion. Elle conserve le contenu stocké en base et les contrôles Moodle. Le mode édition, les activités et l'administration sont exclus des règles de présentation principales.

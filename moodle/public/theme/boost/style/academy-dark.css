@@ -1,0 +1,108 @@
+/* XIRH Academy · second pass, 24/10/2026. Loaded after academy-refresh.css.
+ * Dark presentation pages; native content and permission checks remain in Moodle.
+ */
+/* Retire the decorative carousel and the offsets added in Additional HTML. */
+body:not(.editing) .xirh-top-banner { display: none !important; }
+body:not(.editing) #page,
+body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index):not(.editing) #page { margin-top: 0 !important; }
+body:not(.editing) .drawer,
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .drawer { top: 60px !important; height: calc(100vh - 60px) !important; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index):not(.editing) {
+    background: #111e28 !important; color: #edf5f7; animation: none !important; color-scheme: dark;
+}
+body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index):not(.editing)::before { background: radial-gradient(ellipse at 10% 0%, #254c562e, transparent 50%) !important; animation: none !important; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar.fixed-top { background: #12212b !important; color: #d8e7ed; border-bottom: 1px solid #36545e !important; box-shadow: 0 4px 22px #06121a25 !important; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar-brand img { background: #fff; border-radius: 5px; padding: 4px 7px; box-sizing: content-box; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar-brand::after { color: #b9f1d2 !important; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar .nav-link { color: #d8e7ed !important; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar .nav-link:is(:hover,.active) { color: #b9f1d2 !important; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar .login,
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar .login a { color: #d8e7ed !important; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar .dropdown-menu { color-scheme: light; }
+
+/* Homepage masthead. Inline display:none is the safe fallback on other layouts. */
+.xa-live-hero { display: none; }
+body#page-site-index:not(.editing) .xa-live-hero {
+    display: grid !important; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 34px;
+    max-width: 1240px; width: calc(100% - 48px); margin: 28px auto 38px; padding: 48px 44px;
+    background: radial-gradient(ellipse at 90% 25%, #29695f38, transparent 58%), #172e39;
+    border: 1px solid #36545e; border-radius: 18px; overflow: hidden; position: relative; box-sizing: border-box;
+}
+.xa-live-hero * { box-sizing: border-box; }
+.xa-live-hero .xa-live-eyebrow { color: #b9f1d2; font-size: 10px; font-weight: 650; letter-spacing: .13em; line-height: 1.6; margin: 0 0 24px; }
+.xa-live-eyebrow > span { display: inline-block; width: 6px; height: 6px; margin-right: 5px; border-radius: 50%; background: #b9f1d2; }
+.xa-live-hero h1 { color: #fff !important; font-size: clamp(2rem, 3.4vw, 3.25rem) !important; font-weight: 600 !important; letter-spacing: -.045em; line-height: 1.08; margin: 0 0 24px; }
+.xa-live-hero h1 em { font-style: normal; color: #b9f1d2; }
+.xa-live-hero .xa-live-description { color: #c6d8df; font-size: 16px; line-height: 1.7; max-width: 510px; margin: 0; }
+.xa-live-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 22px; margin: 26px 0 18px; }
+.xa-live-actions a { display: inline-flex; align-items: center; gap: 20px; font-size: 13px; font-weight: 650; text-decoration: none; min-height: 46px; }
+.xa-live-actions .xa-live-primary { color: #112c30 !important; background: #b9f1d2; padding: 12px 19px; border: 1px solid #b9f1d2; border-radius: 6px; }
+.xa-live-actions .xa-live-primary:hover { background: #d3f9e3; }
+.xa-live-actions .xa-live-secondary { color: #edf5f7 !important; padding: 10px 0; }
+.xa-live-actions .xa-live-secondary:hover { text-decoration: underline; text-underline-offset: 4px; }
+.xa-live-hero .xa-live-audience { color: #adc5cf; font-size: 11px; line-height: 1.7; margin: 0; }
+.xa-live-map { position: relative; height: 330px; width: 100%; max-width: 440px; justify-self: center; background-image: radial-gradient(#8dc1b51f 1px, transparent 1px); background-size: 18px 18px; }
+.xa-live-map-ring { position: absolute; width: 245px; height: 245px; top: 42px; left: 80px; border-radius: 50%; border: 1px solid #7bc1b129; }
+.xa-live-map-ring::before { content: ''; position: absolute; inset: 24px; border-radius: 50%; border: 1px solid #7bc1b11a; }
+.xa-live-map-path { position: absolute; inset: 0; width: 100%; height: 100%; }
+.xa-live-node { position: absolute; display: flex; gap: 13px; align-items: center; padding: 16px; min-width: 225px; border-radius: 9px; border: 1px solid #4f797d; background: #203e47; box-shadow: 0 10px 28px #06121a33; }
+.xa-live-node-process { top: 18px; left: 2%; transform: rotate(-4deg); }
+.xa-live-node-data { top: 124px; right: 0; transform: rotate(3deg); background: #263e54; border-color: #567489; }
+.xa-live-node-tools { bottom: 25px; left: 5%; transform: rotate(-2deg); background: #353650; border-color: #6c668c; }
+.xa-live-node-symbol { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 8px; background: #b9f1d21a; color: #c9f5df; font-size: 26px; flex-shrink: 0; }
+.xa-live-node small { display: block; font-size: 8px; letter-spacing: .14em; color: #c2d9df; margin-bottom: 3px; }
+.xa-live-node strong { display: block; font-size: 17px; font-weight: 600; color: #fff; white-space: nowrap; }
+.xa-live-node b { color: #bfdcd6; font-size: 10px; font-weight: 400; margin-left: auto; align-self: flex-start; }
+.xa-live-map-caption { position: absolute; bottom: -10px; right: 0; color: #a4c6c9; font-size: 8px; letter-spacing: .12em; }
+.xa-live-map-caption > span { display: inline-block; height: 5px; width: 5px; border-radius: 50%; background: #a1d4bd; margin-right: 7px; }
+/* Preserve the database introduction as fallback if the template is not installed. */
+body#page-site-index:not(.editing):has(.xa-live-hero) .xirh-airy-section:has(> h1) { display: none !important; }
+body#page-site-index:not(.editing) #region-main { background: transparent !important; color: #edf5f7; }
+body#page-site-index:not(.editing) #region-main :is(h2,h3) { color: #edf5f7 !important; }
+body#page-site-index:not(.editing) #region-main .xirh-static-item { background: #1c2e3a !important; border: 1px solid #334955 !important; border-radius: 12px !important; min-height: 114px !important; height: auto !important; padding: 23px !important; gap: 18px !important; box-shadow: none !important; }
+body#page-site-index:not(.editing) #region-main .col-md-6:first-child .xirh-static-item:nth-child(1) { background: #203b3a !important; border-color: #41615a !important; }
+body#page-site-index:not(.editing) #region-main .col-md-6:first-child .xirh-static-item:nth-child(2) { background: #22374b !important; border-color: #435c74 !important; }
+body#page-site-index:not(.editing) #region-main .col-md-6:first-child .xirh-static-item:nth-child(3) { background: #33334a !important; border-color: #565370 !important; }
+body#page-site-index:not(.editing) #region-main .xirh-static-item :is(p,div) { color: #c4d4dc !important; line-height: 1.6 !important; }
+body#page-site-index:not(.editing) #region-main .xirh-static-item h3 { font-size: 1.12rem !important; }
+body#page-site-index:not(.editing) #region-main .xirh-static-item > div:first-child { background: #fff !important; border-radius: 9px; padding: 5px; }
+body#page-site-index:not(.editing) #region-main .xirh-static-item > div:nth-child(2) { border-color: #45606b !important; }
+body#page-site-index:not(.editing) .course_category_tree .category { background: #1c2e3a !important; border: 1px solid #334955 !important; box-shadow: none !important; }
+body#page-site-index:not(.editing) .course_category_tree .category .info { background: #1c2e3a !important; }
+body#page-site-index:not(.editing) .course_category_tree .category .info .categoryname a { color: #e1efe9 !important; }
+body#page-site-index:not(.editing) .course_category_tree .category .categoryname::before { background: #b9f1d2 !important; color: #142e38 !important; }
+body#page-site-index:not(.editing) .course_category_tree .category .content { background: #182a35 !important; border-color: #334955 !important; }
+body#page-site-index:not(.editing) .course_category_tree .coursebox { background: #fff !important; color: #142e38; }
+body#page-site-index:not(.editing) #region-main .course_category_tree .coursebox .coursename a { color: #142e38 !important; }
+body#page-site-index:not(.editing) #site-news-forum .forumnodiscuss { background: #203747; color: #d2e4ec; border-color: #3e596a; }
+body#page-site-index:not(.editing) #region-main a:not(.xa-live-primary):not(.xa-live-secondary) { color: #b9e8d1; }
+body#page-site-index:not(.editing) #region-main .course_category_tree .coursebox :is(h1,h2,h3,h4) { color: #142e38 !important; }
+body#page-site-index:not(.editing) #region-main .course_category_tree .coursebox a { color: #17654f !important; }
+
+/* Dark surroundings, light course descriptions and native form controls. */
+body:is(#page-course-index,#page-course-index-category):not(.editing) #page .main-inner { background: #172b37 !important; color: #d8e7ef; }
+body:is(#page-course-index,#page-course-index-category):not(.editing) #page-header h1 { color: #edf5f7; }
+body:is(#page-course-index,#page-course-index-category):not(.editing) .coursebox { background: #fff !important; color: #142e38; border-color: #516571 !important; box-shadow: 0 8px 24px #06121a20 !important; color-scheme: light; }
+body:is(#page-course-index,#page-course-index-category):not(.editing) :is(select,input,.form-control) { color-scheme: light; background-color: #fff; color: #142e38; }
+body#page-login-index,
+body#page-login-index .login-layout-left,
+body#page-login-index .login-layout-right { background: #111e28 !important; }
+body#page-login-index .login-layout-left-logo img { background: #fff; border-radius: 10px; padding: 10px; }
+body#page-login-index .login-container { color-scheme: light; background: #fff !important; color: #142e38; border-color: #44606c !important; box-shadow: 0 22px 70px #030e1659 !important; }
+body#page-login-index .login-container .btn-primary { background: #173743 !important; border-color: #173743 !important; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index):not(.editing) a:focus-visible,
+body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index):not(.editing) button:focus-visible { outline: 3px solid #6fc7b2 !important; outline-offset: 3px !important; }
+@media (max-width: 900px) {
+    body#page-site-index:not(.editing) .xa-live-hero { grid-template-columns: 1fr .8fr; gap: 20px; padding: 36px 28px; }
+    .xa-live-map { transform: scale(.86); transform-origin: center; }
+    .xa-live-node { min-width: 200px; padding: 12px; }
+}
+@media (max-width: 650px) {
+    body#page-site-index:not(.editing) .xa-live-hero { grid-template-columns: 1fr; width: calc(100% - 24px); padding: 30px 23px; margin: 14px auto 24px; }
+    .xa-live-map { display: none; }
+    .xa-live-hero h1 { font-size: 35px !important; }
+    .xa-live-hero .xa-live-eyebrow { font-size: 9px; margin-bottom: 18px; }
+    .xa-live-hero .xa-live-description { font-size: 14px; }
+    .xa-live-actions { gap: 18px; }
+    body#page-site-index:not(.editing) #region-main .xirh-static-item { padding: 18px !important; gap: 14px !important; }
+}
