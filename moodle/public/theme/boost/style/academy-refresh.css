@@ -1,0 +1,143 @@
+/* XIRH Academy, 24/10/2026.
+ * First visual pass on public pages only. Course activities, administration,
+ * permissions and editing controls retain their native Moodle behavior.
+ * Remove the link in templates/head.mustache to roll this layer back.
+ */
+body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index):not(.editing) {
+    background: #f6f7f3 !important;
+    animation: none !important;
+    color: #142e38;
+}
+body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index):not(.editing)::before {
+    animation: none !important;
+}
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar.fixed-top {
+    border-bottom-color: #a8dfc2 !important;
+    box-shadow: 0 2px 12px #142e380b !important;
+}
+body:is(#page-site-index,#page-course-index,#page-course-index-category):not(.editing) .navbar-brand::after {
+    color: #17654f !important;
+}
+/* Compact the decorative strip on the homepage; restore space on task pages. */
+body#page-site-index:not(.editing) .xirh-top-banner { height: 110px !important; }
+body#page-site-index:not(.editing) #page { margin-top: 110px !important; }
+body#page-site-index:not(.editing) .drawer { top: 170px !important; height: calc(100vh - 170px) !important; }
+body:is(#page-course-index,#page-course-index-category,#page-login-index):not(.editing) .xirh-top-banner { display: none !important; }
+body:is(#page-course-index,#page-course-index-category):not(.editing) #page { margin-top: 24px !important; }
+body:is(#page-course-index,#page-course-index-category):not(.editing) .drawer { top: 60px !important; height: calc(100vh - 60px) !important; }
+/* The current homepage title and description are one existing content block. */
+body#page-site-index:not(.editing) .xirh-airy-section:has(> h1) {
+    background: #142e38 !important;
+    border: 1px solid #142e38 !important;
+    border-radius: 18px !important;
+    padding: 42px 36px !important;
+    margin: 24px auto 32px !important;
+    width: calc(100% - 48px) !important;
+    max-width: 1140px !important;
+    text-align: left !important;
+    box-shadow: 0 12px 28px #142e3812;
+}
+body#page-site-index:not(.editing) .xirh-airy-section:has(> h1) > h1 {
+    color: #fff !important;
+    font-size: clamp(2rem, 4vw, 3rem) !important;
+    font-weight: 650 !important;
+    letter-spacing: -.045em !important;
+    line-height: 1.12 !important;
+    margin-bottom: 20px !important;
+}
+body#page-site-index:not(.editing) .xirh-airy-section:has(> h1) > div {
+    background-color: #b9f1d2 !important;
+    margin: 0 0 18px !important;
+    width: 56px !important;
+}
+body#page-site-index:not(.editing) .xirh-airy-section:has(> h1) > p {
+    color: #d8e6e5 !important;
+    font-size: 1.04rem !important;
+    line-height: 1.65 !important;
+    max-width: 720px !important;
+    margin: 0 !important;
+}
+body#page-site-index:not(.editing) .xirh-static-item {
+    min-height: 112px !important;
+    height: auto !important;
+    padding: 23px !important;
+    border: 1px solid #dce3dc !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    gap: 18px !important;
+}
+body#page-site-index:not(.editing) .col-md-6:first-child .xirh-static-item:nth-child(1) { background: #e5eedf !important; }
+body#page-site-index:not(.editing) .col-md-6:first-child .xirh-static-item:nth-child(2) { background: #e3edf5 !important; }
+body#page-site-index:not(.editing) .col-md-6:first-child .xirh-static-item:nth-child(3) { background: #eeebf6 !important; }
+body#page-site-index:not(.editing) .xirh-static-item h3 { color: #142e38 !important; font-size: 1.12rem !important; }
+body#page-site-index:not(.editing) .xirh-static-item p { color: #40545b !important; line-height: 1.6 !important; }
+body#page-site-index:not(.editing) .course_category_tree .category {
+    border-color: #dce3dc !important;
+    box-shadow: none !important;
+}
+body#page-site-index:not(.editing) .course_category_tree .category .categoryname::before {
+    background: #17654f !important;
+    color: #fff !important;
+}
+/* Make the existing course summaries readable without truncating their content. */
+body:is(#page-course-index,#page-course-index-category):not(.editing) .coursebox {
+    background: #fff !important;
+    border: 1px solid #dce3dc !important;
+    border-radius: 14px !important;
+    padding: 24px !important;
+    margin: 24px 0 !important;
+    box-shadow: 0 6px 20px #142e3808 !important;
+}
+body:is(#page-course-index,#page-course-index-category):not(.editing) .coursebox .coursename a {
+    color: #142e38 !important;
+    font-size: 1.4rem !important;
+    font-weight: 650 !important;
+    line-height: 1.3 !important;
+}
+body:is(#page-course-index,#page-course-index-category):not(.editing) .coursebox .summary {
+    line-height: 1.7;
+    color: #40545b;
+}
+body:is(#page-course-index,#page-course-index-category):not(.editing) .coursebox .summary h1 {
+    font-size: clamp(1.4rem, 3vw, 2rem) !important;
+    line-height: 1.25 !important;
+    color: #142e38 !important;
+}
+/* Preserve Moodle's login form, validation messages and identity providers. */
+body#page-login-index {
+    padding-top: 0 !important;
+    background: #f6f7f3 !important;
+}
+body#page-login-index #page { margin-top: 0 !important; }
+body#page-login-index .login-layout-left,
+body#page-login-index .login-layout-right { background: #f6f7f3 !important; }
+body#page-login-index .login-container {
+    border: 1px solid #dce3dc !important;
+    border-radius: 16px !important;
+    box-shadow: 0 18px 48px #142e3812 !important;
+}
+body#page-login-index .login-container .btn-primary {
+    background: #142e38 !important;
+    border-color: #142e38 !important;
+    color: #fff !important;
+}
+body#page-login-index .login-container .btn-primary:hover { background: #24505a !important; }
+body#page-login-index .login-container a { color: #17654f !important; }
+body#page-login-index .login-container .login-mascot-container img.icon { border-color: #83c8a7 !important; }
+body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index):not(.editing) a:focus-visible,
+body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index):not(.editing) button:focus-visible {
+    outline: 3px solid #007d86 !important;
+    outline-offset: 3px !important;
+}
+@media (max-width: 767px) {
+    body#page-site-index:not(.editing) .xirh-airy-section:has(> h1) { width: calc(100% - 24px) !important; padding: 28px 23px !important; }
+    body#page-site-index:not(.editing) .xirh-static-item { padding: 18px !important; gap: 14px !important; }
+    body:is(#page-course-index,#page-course-index-category):not(.editing) .coursebox { padding: 18px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+    body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index) *,
+    body:is(#page-site-index,#page-course-index,#page-course-index-category,#page-login-index)::before {
+        animation: none !important;
+        transition: none !important;
+    }
+}

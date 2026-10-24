@@ -1,0 +1,31 @@
+/* Habillage de la maquette uniquement. Ne pas installer dans Moodle. */
+* { box-sizing:border-box; }
+body { margin:0; background:#f6f7f3; color:#142e38; font-family:'Segoe UI',sans-serif; }
+html { scroll-behavior:smooth; scroll-padding-top:90px; }
+.preview-note { background:#e8ede7; color:#435a55; padding:8px 30px; text-align:center; font-size:9px; font-weight:700; letter-spacing:.1em; }
+.preview-note span { font-weight:400; letter-spacing:0; margin-left:14px; font-size:11px; }
+.preview-header { display:flex; justify-content:space-between; align-items:center; gap:20px; padding:19px max(32px,calc((100vw - 1140px)/2)); background:#fff; }
+.preview-brand { display:flex; align-items:center; text-decoration:none; color:#142e38; gap:13px; font-size:22px; letter-spacing:-.05em; }
+.preview-brand img { width:88px; height:32px; object-fit:contain; }
+.preview-brand > span { border-left:1px solid #d6dedb; padding-left:13px; }
+.preview-brand-dot { color:#07846b; font-weight:800; }
+.preview-header nav { display:flex; align-items:center; gap:28px; }
+.preview-header button { cursor:pointer; background:none; border:0; padding:8px 0; font:600 12px 'Segoe UI',sans-serif; color:#637575; border-bottom:2px solid transparent; }
+.preview-header button[aria-current] { color:#142e38; border-bottom-color:#1e795e; }
+.preview-header a.preview-login { text-decoration:none; padding:10px 16px; background:#142e38; border-radius:5px; color:#fff; font-size:12px; }
+.preview-header :focus-visible { outline:3px solid #008370; outline-offset:4px; }
+.preview-footer { max-width:1140px; margin:auto; padding:25px 0; border-top:1px solid #dce3dc; display:flex; align-items:center; justify-content:space-between; font-size:11px; color:#52636b; gap:20px; }
+.preview-footer > span:first-child { font-size:18px; letter-spacing:-.03em; color:#142e38; }
+.preview-footer a { color:inherit; }
+.preview-search { margin-bottom:24px; }
+.preview-search label { display:block; font-size:12px; margin-bottom:8px; color:#52636b; }
+.preview-search input { font:inherit; background:#fff; border:1px solid #b8c8c0; border-radius:6px; padding:13px 16px; width:min(100%,500px); }
+.preview-search input:focus-visible { outline:3px solid #007d86; outline-offset:2px; }
+.preview-search p { font-size:12px; margin-top:8px; color:#52636b; }
+[hidden] { display:none!important; }
+body[data-preview="catalogue"] .xa-hero,body[data-preview="catalogue"] .xa-domains,body[data-preview="catalogue"] .xa-approach,body[data-preview="catalogue"] .xa-partners { display:none; }
+body[data-preview="catalogue"] .xa-courses { border-top:0; min-height:65vh; }
+.preview-empty { padding:25px; background:#e3edf5; border-radius:6px; }
+@media(max-width:1220px) { .preview-footer { margin:0 32px; } }
+@media(max-width:600px) { .preview-note { padding:7px 12px; } .preview-note span { display:block; margin:3px 0 0; font-size:10px; } .preview-header { padding:13px 18px; flex-wrap:wrap; gap:10px; } .preview-brand { font-size:19px; } .preview-brand img { width:70px; height:28px; } .preview-header nav { gap:22px; width:100%; justify-content:space-between; } .preview-header a.preview-login { padding:9px 12px; } .preview-footer { margin:0 20px; align-items:start; flex-direction:column; gap:10px; } }
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
