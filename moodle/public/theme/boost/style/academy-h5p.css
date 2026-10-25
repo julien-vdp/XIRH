@@ -3,7 +3,9 @@
  */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
-:root {
+/* Moodle also writes brand tokens inline on <html>; scope the player palette
+ * on its descendants so those inherited defaults cannot restore white panels. */
+:root, body:has(.h5p-content), .h5p-content {
     --xa-h5p-bg: #071a2a;
     --xa-h5p-panel: #10283d;
     --xa-h5p-raised: #1c3b50;
@@ -83,7 +85,7 @@ body:has(.h5p-content) { margin: 0; background: var(--xa-h5p-bg); color: var(--x
 .h5p-interactive-book :is(.h5p-interactive-book-status-side,.h5p-interactive-book-status-main) { border-bottom: 1px solid var(--xa-h5p-line); }
 .h5p-interactive-book .h5p-interactive-book-navigation { border-right: 1px solid var(--xa-h5p-line); }
 .h5p-interactive-book .h5p-interactive-book-status-title h2 { color: #f8dfa9; }
-.h5p-interactive-book .h5p-interactive-book-chapter > .h5p-column,
+.h5p-interactive-book .h5p-column-box-container,
 .h5p-column.h5p-standalone { background: var(--xa-h5p-panel); border: 1px solid var(--xa-h5p-line); border-radius: 12px; padding: 24px; box-sizing: border-box; }
 .h5p-content .h5p-advanced-text { color: var(--xa-h5p-text); font-family: 'Outfit', 'Segoe UI', sans-serif; line-height: 1.75; }
 .h5p-content .h5p-advanced-text :is(h1,h2,h3,h4) { color: #f8dfa9; line-height: 1.2; letter-spacing: -.025em; font-weight: 600; }
