@@ -8,6 +8,7 @@
 - Upstream changes were merged against the baseline, preserving local additions and edits. Boost's compiled CSS was rebuilt from the customized SCSS after the merge.
 - Retained: Academy templates, golden artwork, animated background, login overrides, custom user profile changes, Docker configuration and existing configuration file.
 - Outfit loads through the shared HTML head, rather than a remote SCSS import, so Moodle's server-side theme compiler can rebuild the customized preset reliably.
+- Preserve the Boost `core_h5p_renderer` override and `academy-h5p.css`, `academy-embed.css`, `academy-learning.css` plus their template links. Verify the nested H5P iframe and native quiz feedback after cache purging; see `CUSTOMIZATIONS.md` section 6.
 
 ## Deployment procedure
 

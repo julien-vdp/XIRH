@@ -215,10 +215,22 @@ When upgrading Moodle (e.g. 5.x → 5.y):
 
 ## 5. Shared golden Academy styling
 
-`style/academy-platform.css` loads last in `templates/head.mustache`. The drawers layout adds `xa-shell` and, outside the homepage, `xa-inner`; the login layout adds `xa-shell xa-auth`. Embedded H5P documents, popups and maintenance layouts do not receive these classes.
+`style/academy-platform.css` loads in `templates/head.mustache`, followed by the authored-content layer described below. The drawers layout adds `xa-shell` and, outside the homepage, `xa-inner`; the login layout adds `xa-shell xa-auth`. Embedded H5P documents, popups and maintenance layouts do not receive these classes.
 
 The layer shares the homepage palette and typography across the catalogue, course outlines, activity navigation, dashboard, account forms and login flow. It restores the useful page headings and breadcrumbs suppressed by the older full-width homepage preset. Course descriptions remain complete; existing default course thumbnails gain branded artwork while uploaded dashboard cover images retain their own imagery.
 
 `templates/core/login_panel.mustache` supplies the illustrated welcome panel and return link. Custom authentication instructions still render in that panel. Login fields, validation, identity providers and authentication logic remain Moodle components.
 
 After an upgrade, preserve these layout classes, the stylesheet link and the login panel override. Check desktop/mobile widths, open and closed course drawers, menus, forms and an embedded H5P activity. To revert this presentation layer, remove its stylesheet link and restore the prior login panel template.
+
+## 6. Moodle lessons and native H5P players
+
+`style/academy-learning.css`, linked from the shared head, harmonizes authored course summaries, activity descriptions, Page and Book prose, tables and images. It does not rewrite stored course content or attached documents.
+
+`classes/output/core_h5p_renderer.php` is Boost's override of `core_h5p\output\renderer`. Its `h5p_alter_styles` hook calls the parent first, then appends `style/academy-h5p.css` to the player's own iframe. The stylesheet URL includes a content hash for cache invalidation. The editor is excluded. Keep the namespace `theme_boost\output` and class name `core_h5p_renderer`: Moodle's theme renderer factory depends on them.
+
+The H5P layer covers InteractiveBook, Column, AdvancedText and SingleChoiceSet. It replaces only the decorative book cover with the existing golden artwork; instructional illustrations and diagrams remain original. Native correctness feedback, answers, scoring and progression are retained. Palette variables live on the player as well as the root because Moodle can set its H5P branding variables inline on `<html>`.
+
+`templates/embedded.mustache` links `style/academy-embed.css`. Its selectors apply only to `body#page-h5p-embed.h5p-embed`, removing the homepage's 60px padding and 160px banner offset from the outer embed. Other embedded layouts remain unaffected.
+
+After an upgrade, preserve the renderer, both template links and the three CSS files. Purge Moodle caches, verify the renderer factory resolves the Boost override and the hashed CSS appears last in the inner iframe. Check a cover, chapter navigation, a diagram/table, standalone quiz and green/red answer feedback at desktop and mobile widths. Compare H5P raw-content hashes and attempt/completion records before and after styling. To revert, remove the two new links and the renderer override, then purge caches; no content reimport or database migration is needed.

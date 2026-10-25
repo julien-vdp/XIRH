@@ -92,7 +92,7 @@ body:has(.h5p-content) { margin: 0; background: var(--xa-h5p-bg); color: var(--x
 .h5p-content .h5p-advanced-text h1 { font-size: clamp(25px,3vw,34px); }
 .h5p-content .h5p-advanced-text h2 { font-size: clamp(23px,2.5vw,29px); margin-top: 1.2em; }
 .h5p-content .h5p-advanced-text h3 { font-size: 21px; }
-.h5p-content .h5p-advanced-text :is(p,li) { color: var(--xa-h5p-text); font-size: 16px; line-height: 1.75; }
+.h5p-content .h5p-advanced-text :is(p,li) { color: var(--xa-h5p-text) !important; font-size: 16px; line-height: 1.75; }
 .h5p-content .h5p-advanced-text a { color: var(--xa-h5p-gold); text-underline-offset: 3px; }
 .h5p-content .h5p-advanced-text blockquote { background: #1a394e; border-left: 4px solid var(--xa-h5p-gold); border-radius: 0 9px 9px 0; margin: 24px 0; padding: 18px 22px; }
 .h5p-content .h5p-advanced-text table { width: 100%; border-collapse: collapse; background: #10283d; color: var(--xa-h5p-text); font-size: 14px; }
