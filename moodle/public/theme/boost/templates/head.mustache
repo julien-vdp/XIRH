@@ -23,6 +23,8 @@
     <title>{{{ output.page_title }}}</title>
     <link rel="shortcut icon" href="{{{ output.favicon }}}" />
     {{{ output.standard_head_html }}}
+    {{! Load web fonts in HTML so the server-side SCSS compiler never resolves a remote import. }}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap">
     {{! XIRH presentation layer, kept separate from the compiled Boost preset. }}
     <link rel="stylesheet" href="{{config.wwwroot}}/theme/boost/style/academy-refresh.css?v=20261024-1">
     <link rel="stylesheet" href="{{config.wwwroot}}/theme/boost/style/academy-dark.css?v=20261024-2">

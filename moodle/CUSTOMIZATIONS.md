@@ -21,9 +21,10 @@ On every container start, `docker-entrypoint.sh` deletes the moodledata theme ca
 ### 1.1 Font override — Outfit (Google Fonts)
 
 ```scss
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 $font-family-sans-serif: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
 ```
+
+Load the Google Fonts stylesheet through `templates/head.mustache`. Do not reintroduce the remote `@import` in SCSS: Moodle's PHP compiler can treat it as a missing source file and fail to rebuild the theme.
 
 ### 1.2 Brand colors
 
