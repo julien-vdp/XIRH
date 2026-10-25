@@ -1,0 +1,14 @@
+/* H5P's outer Moodle document has no navbar or decorative site banner. */
+body#page-h5p-embed.h5p-embed {
+    margin: 0 !important; padding: 0 !important; background: #071a2a !important;
+    color: #edf4fa; animation: none !important;
+}
+body#page-h5p-embed.h5p-embed::before,
+body#page-h5p-embed.h5p-embed::after { content: none !important; }
+body#page-h5p-embed.h5p-embed .xirh-top-banner { display: none !important; }
+body#page-h5p-embed.h5p-embed #page {
+    margin: 0 !important; padding: 0 !important; max-width: none !important;
+    min-height: 0 !important; background: transparent !important;
+}
+body#page-h5p-embed.h5p-embed .embedded-main { margin: 0 !important; padding: 0 !important; }
+body#page-h5p-embed.h5p-embed iframe.h5p-iframe { display: block; width: 100%; border: 0; }

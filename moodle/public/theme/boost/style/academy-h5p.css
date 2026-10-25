@@ -1,0 +1,124 @@
+/* Browser CSS for H5P's own iframe, not Moodle's server-side SCSS compiler.
+ * Presentation only: content parameters, question states and scoring stay native.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --xa-h5p-bg: #071a2a;
+    --xa-h5p-panel: #10283d;
+    --xa-h5p-raised: #1c3b50;
+    --xa-h5p-line: #3a596e;
+    --xa-h5p-text: #edf4fa;
+    --xa-h5p-muted: #bbcedc;
+    --xa-h5p-gold: #ffcf70;
+    --h5p-theme-main-cta-base: #ffcf70;
+    --h5p-theme-main-cta-light: #ffe1a0;
+    --h5p-theme-main-cta-dark: #e9b64d;
+    --h5p-theme-contrast-cta: #10263a;
+    --h5p-theme-contrast-cta-white: #ffcf70;
+    --h5p-theme-contrast-cta-light: #ffcf701a;
+    --h5p-theme-focus: #ffcf70;
+    --h5p-theme-secondary-cta-base: #1c3b50;
+    --h5p-theme-secondary-cta-light: #284e65;
+    --h5p-theme-secondary-cta-dark: #345c73;
+    --h5p-theme-secondary-contrast-cta: #edf4fa;
+    --h5p-theme-secondary-contrast-cta-hover: #fff;
+    --h5p-theme-alternative-base: #19364b;
+    --h5p-theme-alternative-light: #183247;
+    --h5p-theme-alternative-dark: #2b4f65;
+    --h5p-theme-alternative-darker: #3a6178;
+    --h5p-theme-background: #071a2a;
+    --h5p-theme-ui-base: #10283d;
+    --h5p-theme-text-primary: #edf4fa;
+    --h5p-theme-text-secondary: #bbcedc;
+    --h5p-theme-text-third: #b4c7d5;
+    --h5p-theme-stroke-1: #526f83;
+    --h5p-theme-stroke-2: #3a596e;
+    --h5p-theme-stroke-3: #365267;
+    --h5p-theme-border-radius-large: 14px;
+    --h5p-theme-border-radius-medium: 8px;
+    --h5p-theme-font-name: 'Outfit', 'Segoe UI', sans-serif;
+    /* Legacy H5P buttons use this palette instead of the newer theme tokens. */
+    --color-base: #ffcf70;
+    --color-base-85: #ffe1a0;
+    --color-base-80: #e9b64d;
+    --color-base-75: #ce9c38;
+    --color-text: #10263a;
+    /* Correct/incorrect feedback tokens deliberately retain their native values. */
+}
+body:has(.h5p-content) { margin: 0; background: var(--xa-h5p-bg); color: var(--xa-h5p-text); }
+.h5p-content {
+    background: var(--xa-h5p-bg); color: var(--xa-h5p-text);
+    font-family: 'Outfit', 'Segoe UI', sans-serif; border: 0; color-scheme: dark;
+}
+.h5p-content .h5p-container { font-family: inherit; }
+.h5p-content :is(button,a,[role=button],input):focus-visible { outline: 3px solid var(--xa-h5p-gold) !important; outline-offset: 3px; }
+.h5p-content .h5p-theme-button { border-radius: 7px; font-weight: 600; }
+.h5p-content .h5p-theme-primary-cta { color: #10263a; background: linear-gradient(115deg,#ffdc8b,#f6b641); border-color: #ffd67c; }
+.h5p-content .h5p-theme-primary-cta:hover:not(:disabled) { color: #10263a; background: #ffe1a0; border-color: #ffe1a0; }
+.h5p-content .h5p-theme-secondary-cta:hover:not(:disabled) { color: #fff; background: #284e65; border-color: #56788e; }
+.h5p-content button:disabled { opacity: .55; }
+
+/* Illustrated book covers. Only the decorative cover is replaced; diagrams and
+ * all instructional images inside chapters retain their original content. */
+.h5p-interactive-book .h5p-theme-cover-page.h5p-theme-cover-page-with-image {
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.05fr);
+    padding: 0; background: #0d263e; border: 1px solid #577587; border-radius: 14px; overflow: hidden;
+}
+.h5p-interactive-book .h5p-theme-cover-page > .h5p-theme-pattern-container { display: none; }
+.h5p-interactive-book .h5p-theme-cover-img {
+    width: 100%; height: 100%; min-height: 360px;
+    background: linear-gradient(90deg,#071a2a00 60%,#0d263e66), url('../../../pix/xirh/golden-universe-v1.webp') 75% center / cover;
+}
+.h5p-interactive-book .h5p-theme-cover-img > img { display: none; }
+.h5p-interactive-book .h5p-theme-cover-details { padding: clamp(24px,4vw,46px); align-self: center; }
+.h5p-interactive-book .h5p-theme-cover-details::before { content: 'XIRH ACADEMY'; display: block; color: var(--xa-h5p-gold); font-size: 10px; font-weight: 600; letter-spacing: .15em; margin-bottom: 18px; }
+.h5p-interactive-book .h5p-theme-cover-icon { color: var(--xa-h5p-gold); }
+.h5p-interactive-book .h5p-theme-cover-details h2 { color: #fff; font-size: clamp(25px,3vw,38px); line-height: 1.1; letter-spacing: -.035em; font-weight: 600; margin: 14px 0 20px; }
+.h5p-interactive-book .h5p-theme-cover-details > p { color: var(--xa-h5p-muted); font-size: 14px; line-height: 1.7; text-align: left !important; }
+.h5p-interactive-book .h5p-theme-cover-details > p:empty { display: none; }
+.h5p-interactive-book .h5p-theme-cover-details .h5p-theme-primary-cta { margin-top: 16px; }
+
+/* Book navigation, chapter cards and reading typography. */
+.h5p-interactive-book :is(.h5p-interactive-book-status-side,.h5p-interactive-book-status-main) { border-bottom: 1px solid var(--xa-h5p-line); }
+.h5p-interactive-book .h5p-interactive-book-navigation { border-right: 1px solid var(--xa-h5p-line); }
+.h5p-interactive-book .h5p-interactive-book-status-title h2 { color: #f8dfa9; }
+.h5p-interactive-book .h5p-interactive-book-chapter > .h5p-column,
+.h5p-column.h5p-standalone { background: var(--xa-h5p-panel); border: 1px solid var(--xa-h5p-line); border-radius: 12px; padding: 24px; box-sizing: border-box; }
+.h5p-content .h5p-advanced-text { color: var(--xa-h5p-text); font-family: 'Outfit', 'Segoe UI', sans-serif; line-height: 1.75; }
+.h5p-content .h5p-advanced-text :is(h1,h2,h3,h4) { color: #f8dfa9; line-height: 1.2; letter-spacing: -.025em; font-weight: 600; }
+.h5p-content .h5p-advanced-text h1 { font-size: clamp(25px,3vw,34px); }
+.h5p-content .h5p-advanced-text h2 { font-size: clamp(23px,2.5vw,29px); margin-top: 1.2em; }
+.h5p-content .h5p-advanced-text h3 { font-size: 21px; }
+.h5p-content .h5p-advanced-text :is(p,li) { color: var(--xa-h5p-text); font-size: 16px; line-height: 1.75; }
+.h5p-content .h5p-advanced-text a { color: var(--xa-h5p-gold); text-underline-offset: 3px; }
+.h5p-content .h5p-advanced-text blockquote { background: #1a394e; border-left: 4px solid var(--xa-h5p-gold); border-radius: 0 9px 9px 0; margin: 24px 0; padding: 18px 22px; }
+.h5p-content .h5p-advanced-text table { width: 100%; border-collapse: collapse; background: #10283d; color: var(--xa-h5p-text); font-size: 14px; }
+.h5p-content .h5p-advanced-text :is(th,td) { border: 1px solid #48687e; padding: 12px 15px; text-align: left; color: var(--xa-h5p-text); }
+.h5p-content .h5p-advanced-text th { background: #24465c; color: #ffdc90; font-weight: 600; }
+.h5p-content .h5p-advanced-text tbody tr:nth-child(even) { background: #163247; }
+.h5p-content .h5p-image img { max-width: 100%; height: auto; border-radius: 10px; }
+.h5p-content .h5p-advanced-text hr { border: 0; border-top: 1px solid var(--xa-h5p-line); margin: 26px 0; }
+
+/* Quiz alternatives keep H5P's green/red result states and original answer order. */
+.h5p-content .h5p-sc-alternatives:not(.h5p-sc-selected) .h5p-sc-alternative { border: 1px solid #4e6a7f; color: var(--xa-h5p-text); }
+.h5p-content .h5p-sc-alternatives:not(.h5p-sc-selected) .h5p-sc-alternative:hover { border-color: var(--xa-h5p-gold); }
+.h5p-content .h5p-question-introduction { color: #f8dfa9; line-height: 1.5; }
+.h5p-content .h5p-question-content { color: var(--xa-h5p-text); }
+.h5p-content .h5p-content-copyrights { background: var(--xa-h5p-panel); color: var(--xa-h5p-text); }
+.h5p-content .h5p-actions { background: #10283d; border-color: var(--xa-h5p-line); color: var(--xa-h5p-muted); }
+.h5p-content .h5p-actions a { color: var(--xa-h5p-gold); }
+
+@media (max-width: 650px) {
+    .h5p-interactive-book .h5p-theme-cover-page.h5p-theme-cover-page-with-image { grid-template-columns: 1fr; }
+    .h5p-interactive-book .h5p-theme-cover-img { min-height: 210px; background-position: 76% 40%; }
+    .h5p-interactive-book .h5p-theme-cover-details { padding: 25px 22px; }
+    .h5p-interactive-book .h5p-theme-cover-details h2 { font-size: 28px; }
+    .h5p-interactive-book .h5p-interactive-book-chapter > .h5p-column,
+    .h5p-column.h5p-standalone { padding: 16px; }
+    .h5p-content .h5p-advanced-text :is(p,li) { font-size: 15px; }
+    .h5p-content .h5p-advanced-text :is(th,td) { padding: 9px; overflow-wrap: anywhere; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .h5p-content .h5p-theme-button, .h5p-sc-set.h5p-sc-animate { transition: none !important; }
+}

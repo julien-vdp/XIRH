@@ -1,0 +1,25 @@
+/* Authored Moodle lesson text. Exercise engines and document viewers keep
+ * their own markup; H5P's separate iframe is styled by academy-h5p.css.
+ */
+body.xa-inner :is(.course-content .summarytext,.activity-description,.book_content),
+body#page-mod-page-view.xa-inner #region-main .generalbox {
+    color: #edf4fa; font-family: 'Outfit','Segoe UI',sans-serif; line-height: 1.8;
+}
+body.xa-inner :is(.course-content .summarytext,.activity-description,.book_content) :is(h1,h2,h3,h4),
+body#page-mod-page-view.xa-inner #region-main .generalbox :is(h1,h2,h3,h4) {
+    color: #f8dfa9; font-weight: 600; line-height: 1.2; letter-spacing: -.025em;
+}
+body.xa-inner :is(.course-content .summarytext,.activity-description,.book_content) blockquote,
+body#page-mod-page-view.xa-inner #region-main .generalbox blockquote {
+    border-left: 4px solid #ffcf70; padding: 18px 22px; margin: 24px 0; background: #1a394e; border-radius: 0 10px 10px 0;
+}
+body.xa-inner :is(.course-content .summarytext,.activity-description,.book_content) table,
+body#page-mod-page-view.xa-inner #region-main .generalbox table {
+    width: 100%; border-collapse: collapse; color: #edf4fa; background: #10283d;
+}
+body.xa-inner :is(.summarytext,.activity-description,.book_content) :is(th,td) { padding: 12px 15px; border: 1px solid #48687e; }
+body.xa-inner :is(.summarytext,.activity-description,.book_content) th { background: #24465c; color: #ffdc90; }
+body.xa-inner :is(.summarytext,.activity-description,.book_content) img { max-width: 100%; height: auto; border-radius: 10px; }
+@media (max-width: 650px) {
+    body.xa-inner :is(.summarytext,.activity-description,.book_content) :is(th,td) { padding: 8px; overflow-wrap: anywhere; }
+}
