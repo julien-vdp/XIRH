@@ -20,6 +20,10 @@ body#page-mod-page-view.xa-inner #region-main .generalbox table {
 body.xa-inner :is(.summarytext,.activity-description,.book_content) :is(th,td) { padding: 12px 15px; border: 1px solid #48687e; }
 body.xa-inner :is(.summarytext,.activity-description,.book_content) th { background: #24465c; color: #ffdc90; }
 body.xa-inner :is(.summarytext,.activity-description,.book_content) img { max-width: 100%; height: auto; border-radius: 10px; }
+/* Moodle expands this footer into the page at mobile widths. */
+body.xa-inner #page-footer { background: transparent !important; color: #bbcedc; }
+body.xa-inner #page-footer .footer-content-popover { background: #10283d; color: #bbcedc; border: 1px solid #3a596e; border-radius: 10px; }
+body.xa-inner #page-footer .footer-section { border-color: #3a596e !important; }
 @media (max-width: 650px) {
     body.xa-inner :is(.summarytext,.activity-description,.book_content) :is(th,td) { padding: 8px; overflow-wrap: anywhere; }
 }

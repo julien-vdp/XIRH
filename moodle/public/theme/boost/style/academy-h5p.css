@@ -108,8 +108,8 @@ body:has(.h5p-content) { margin: 0; background: var(--xa-h5p-bg); color: var(--x
 .h5p-content .h5p-question-introduction { color: #f8dfa9; line-height: 1.5; }
 .h5p-content .h5p-question-content { color: var(--xa-h5p-text); }
 .h5p-content .h5p-content-copyrights { background: var(--xa-h5p-panel); color: var(--xa-h5p-text); }
-.h5p-content .h5p-actions { background: #10283d; border-color: var(--xa-h5p-line); color: var(--xa-h5p-muted); }
-.h5p-content .h5p-actions a { color: var(--xa-h5p-gold); }
+.h5p-content ul.h5p-actions { background: #10283d; border-color: var(--xa-h5p-line); color: var(--xa-h5p-muted); }
+.h5p-content .h5p-actions :is(a,button) { color: var(--xa-h5p-gold); }
 
 @media (max-width: 650px) {
     .h5p-interactive-book .h5p-theme-cover-page.h5p-theme-cover-page-with-image { grid-template-columns: 1fr; }
