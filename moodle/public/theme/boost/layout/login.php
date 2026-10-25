@@ -24,7 +24,7 @@ defined('MOODLE_INTERNAL') || die();
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$bodyattributes = $OUTPUT->body_attributes();
+$bodyattributes = $OUTPUT->body_attributes(['xa-shell', 'xa-auth']);
 
 // Left-panel instructions. Only set when the admin has defined custom instructions;
 // the template falls back to the default welcome content when this is empty/null.

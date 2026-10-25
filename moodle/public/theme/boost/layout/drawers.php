@@ -42,7 +42,10 @@ if (defined('BEHAT_SITE_RUNNING') && get_user_preferences('behat_keep_drawer_clo
     $blockdraweropen = true;
 }
 
-$extraclasses = ['uses-drawers'];
+$extraclasses = ['uses-drawers', 'xa-shell'];
+if ($PAGE->pagelayout !== 'frontpage') {
+    $extraclasses[] = 'xa-inner';
+}
 if ($courseindexopen) {
     $extraclasses[] = 'drawer-open-index';
 }

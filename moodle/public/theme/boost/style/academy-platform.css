@@ -1,0 +1,251 @@
+/* Shared Academy presentation. The layout classes exclude embedded activities,
+ * popups, maintenance screens and the rich-text editor's own document.
+ * The :is() ID guard matches the specificity of the legacy page-ID layers.
+ * Keep after the homepage layers so native Moodle pages share its brand.
+ */
+body:is(#page-site-index, .xa-shell).xa-shell {
+    --xa-bg: #071a2a;
+    --xa-surface: #10283d;
+    --xa-raised: #17354b;
+    --xa-line: #365367;
+    --xa-text: #edf4fa;
+    --xa-muted: #b8ccd9;
+    --xa-gold: #ffcf70;
+    --xa-art: url('../../../pix/xirh/golden-universe-v1.webp');
+    --xa-card-art: url('../../../pix/xirh/golden-domain-process.webp');
+    font-family: 'Outfit', 'Segoe UI', sans-serif;
+}
+body:is(#page-site-index, .xa-shell).xa-shell.category-2 { --xa-art: url('../../../pix/xirh/golden-domain-data.webp'); --xa-card-art: var(--xa-art); }
+body:is(#page-site-index, .xa-shell).xa-shell.category-3 { --xa-art: url('../../../pix/xirh/golden-domain-ai.webp'); --xa-card-art: var(--xa-art); }
+
+/* One navigation bar across the home, catalogue, courses and personal space. */
+body:is(#page-site-index, .xa-shell).xa-shell .navbar.fixed-top {
+    background: #081b2cf5 !important;
+    border-bottom: 1px solid #ba944b66 !important;
+    box-shadow: 0 4px 24px #020b1840 !important;
+    color: var(--xa-text);
+}
+body:is(#page-site-index, .xa-shell).xa-shell .navbar-brand img { background: #fff; padding: 4px 7px; border-radius: 5px; box-sizing: content-box; }
+body:is(#page-site-index, .xa-shell).xa-shell .navbar-brand::after { color: var(--xa-gold) !important; }
+body:is(#page-site-index, .xa-shell).xa-shell .navbar :is(.nav-link,.login,.login a,.usertext,.editmode-switch-form,.popover-region-toggle,.usermenu .dropdown-toggle) { color: var(--xa-text) !important; }
+body:is(#page-site-index, .xa-shell).xa-shell .navbar .nav-link:is(:hover,.active),
+body:is(#page-site-index, .xa-shell).xa-shell .navbar #lang-menu-toggle { color: var(--xa-gold) !important; }
+body:is(#page-site-index, .xa-shell).xa-shell .navbar .primary-navigation .nav-link.active { border-bottom-color: var(--xa-gold) !important; }
+body:is(#page-site-index, .xa-shell).xa-shell .navbar .btn-icon { color: var(--xa-text); }
+body:is(#page-site-index, .xa-shell).xa-shell :is(a,button,input,select,textarea):focus-visible { outline: 3px solid var(--xa-gold) !important; outline-offset: 3px; }
+
+/* Quiet polygonal surroundings; animation stays on the homepage. */
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner, body:is(#page-site-index, .xa-shell).xa-shell.xa-auth {
+    background: radial-gradient(ellipse at 100% 0%,#165f7940,transparent 48%), radial-gradient(ellipse at 0% 85%,#a1772420,transparent 45%), var(--xa-bg) !important;
+    color: var(--xa-text);
+    color-scheme: dark;
+    --bs-body-color: #edf4fa;
+    --bs-body-bg: #10283d;
+    --bs-secondary-color: #b8ccd9;
+    --bs-tertiary-bg: #17354b;
+    --bs-border-color: #365367;
+    --bs-link-color: #ffdc90;
+    --bs-link-hover-color: #ffe9bb;
+}
+body:is(#page-site-index, .xa-shell).xa-inner { isolation: isolate; }
+body:is(#page-site-index, .xa-shell).xa-inner::before {
+    content: ''; position: fixed; inset: 60px 0 0; pointer-events: none; z-index: -1;
+    background: linear-gradient(142deg,transparent 74%,#ffd1790a 74.1%,transparent 74.25%), linear-gradient(32deg,transparent 15%,#6bc9d710 15.1%,transparent 15.25%) !important;
+    animation: none !important;
+}
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page { margin-top: 0 !important; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page.drawers { padding-left: 28px !important; padding-right: 28px !important; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page.drawers .main-inner {
+    width: 100% !important; max-width: 1180px !important; margin: 28px auto 40px !important;
+    padding: 0 !important; background: transparent !important; box-shadow: none !important; border: 0 !important;
+}
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner :is(#page-content,#region-main-box,#region-main) { background: transparent !important; color: var(--xa-text); }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page.drawers :is(span[role=main],div[role=main]) { padding: 0 !important; }
+
+/* Restore useful headings hidden by the former full-width homepage preset. */
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page-header {
+    display: block !important; max-width: none; position: relative; overflow: hidden;
+    padding: 30px 34px !important; margin: 0 0 24px !important; min-height: 164px;
+    background-image: linear-gradient(90deg,#0c233afc 20%,#0b2139e8 50%,#0b213930 100%), var(--xa-art);
+    background-position: center, 80% 48%; background-size: cover;
+    border: 1px solid #577080; border-radius: 16px;
+}
+body:is(#page-site-index, .xa-shell).xa-inner #page-header .page-header-headings { max-width: 790px; }
+body:is(#page-site-index, .xa-shell).xa-inner #page-header h1 { color: #fff !important; font-size: clamp(25px,2.4vw,38px); line-height: 1.14; letter-spacing: -.035em; font-weight: 600; }
+body:is(#page-site-index, .xa-shell).xa-inner #page-header :is(.breadcrumb,.breadcrumb-item,.breadcrumb-item a) { color: #f1d392 !important; font-size: 12px; }
+body:is(#page-site-index, .xa-shell).xa-inner #page-header .header-actions-container { position: relative; z-index: 1; }
+body:is(#page-site-index, .xa-shell).xa-inner :is(h2,h3,h4,.activityname,.sectionname) { color: var(--xa-text); }
+body:is(#page-site-index, .xa-shell).xa-inner a { color: #ffdc90; }
+body:is(#page-site-index, .xa-shell).xa-inner a:hover { color: #ffe9bb; }
+body:is(#page-site-index, .xa-shell).xa-inner :is(.text-muted,.text-body-secondary,.text-secondary) { color: var(--xa-muted) !important; }
+
+/* Shared controls and panels, including account and enrolment forms. */
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) :is(.card,.modal-content,.dropdown-menu,.popover,.list-group-item) {
+    background-color: var(--xa-surface); color: var(--xa-text); border-color: var(--xa-line);
+}
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .dropdown-menu { color-scheme: dark; }
+body:is(#page-site-index, .xa-shell).xa-shell .navbar .dropdown-menu { background: var(--xa-surface); border: 1px solid var(--xa-line); }
+body:is(#page-site-index, .xa-shell).xa-shell .dropdown-item { color: var(--xa-text); }
+body:is(#page-site-index, .xa-shell).xa-shell .dropdown-item:is(:hover,:focus,.active) { background: var(--xa-raised); color: var(--xa-gold); }
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) :is(.form-control,.form-select,.custom-select,select:not([class])) {
+    background-color: #0a2033 !important; color: var(--xa-text) !important; border-color: #5b7486 !important; color-scheme: dark;
+}
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .form-control::placeholder { color: #a7bdcd; opacity: 1; }
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) :is(.form-control,.form-select):disabled { background: #243c4e !important; color: #afbdc7 !important; }
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .form-label { color: var(--xa-text); }
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .btn-primary {
+    background: linear-gradient(115deg,#ffdc8b,#f6b641) !important; border-color: #ffd67c !important;
+    color: #10263a !important; font-weight: 600; box-shadow: 0 5px 18px #f4ad3215;
+}
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .btn-primary:hover { background: #ffe1a0 !important; border-color: #ffe1a0 !important; }
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) :is(.btn-secondary,.btn-outline-secondary,.btn-light) {
+    background: #17354b; color: var(--xa-text); border-color: #557287;
+}
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) :is(.btn-secondary,.btn-outline-secondary,.btn-light):hover { background: #24465d; color: #fff; }
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .btn-link { color: #ffdc90; }
+body:is(#page-site-index, .xa-shell).xa-inner :is(.generaltable,.table) { --bs-table-bg: transparent; --bs-table-color: #edf4fa; --bs-table-border-color: #365367; --bs-table-striped-color: #edf4fa; --bs-table-striped-bg: #17354b; --bs-table-hover-color: #fff; --bs-table-hover-bg: #1b3a50; }
+body:is(#page-site-index, .xa-shell).xa-inner .page-link { background: var(--xa-surface); border-color: var(--xa-line); color: var(--xa-gold); }
+body:is(#page-site-index, .xa-shell).xa-inner .page-item.active .page-link { background: var(--xa-gold); color: #10263a; border-color: var(--xa-gold); }
+
+/* Catalogue: illustrated cards and complete, readable course descriptions. */
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner .courses:has(> .coursebox) { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner .coursebox {
+    background: var(--xa-surface) !important; color: var(--xa-text) !important; border: 1px solid var(--xa-line) !important;
+    border-radius: 16px !important; padding: 0 !important; margin: 0 !important; overflow: hidden; min-width: 0;
+    box-shadow: 0 12px 35px #020b1829 !important; color-scheme: dark;
+}
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox::before {
+    content: ''; display: block; height: 190px;
+    background-image: linear-gradient(0deg,#10283d,transparent 65%), var(--xa-card-art);
+    background-size: cover; background-position: center 57%;
+}
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox[data-courseid="2"] { --xa-card-art: url('../../../pix/xirh/golden-domain-ai.webp'); }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .info { padding: 22px 26px 0; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .content { padding: 14px 26px 26px; margin: 0 !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .content > .d-flex { flex-direction: column; gap: 12px; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .coursename { margin: 0; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner .coursebox .coursename a { color: #f8dfa9 !important; font-size: 25px !important; font-weight: 600 !important; line-height: 1.2 !important; letter-spacing: -.025em; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .coursefile { font-size: 11px; padding: 5px 9px; border: 1px solid #577080; border-radius: 5px; width: fit-content; max-width: 100%; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .coursefile a { color: var(--xa-muted); overflow-wrap: anywhere; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary { color: var(--xa-muted); line-height: 1.75; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary .no-overflow > section {
+    background: none !important; color: var(--xa-muted) !important; border: 0 !important; box-shadow: none !important;
+    padding: 0 !important; margin: 0 !important; max-width: none !important;
+}
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner .coursebox .summary h1 { font-size: 17px !important; color: var(--xa-text) !important; line-height: 1.4 !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary :is(p,span) { color: var(--xa-muted) !important; font-size: 14px !important; line-height: 1.75 !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary section > div[style*="height: 4px"] { background: var(--xa-gold) !important; margin-bottom: 18px !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary div[style*="border-left"] { background: #244054 !important; border-left-color: var(--xa-gold) !important; padding: 18px !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary strong { color: #ffdc90 !important; font-size: 14px !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .teachers { color: var(--xa-muted); padding: 15px 0 0; font-size: 12px; }
+body:is(#page-site-index, .xa-shell).xa-inner .course_category_tree .category { background: var(--xa-surface) !important; border: 1px solid var(--xa-line) !important; border-radius: 12px; margin-bottom: 14px; }
+body:is(#page-site-index, .xa-shell).xa-inner .course_category_tree .category > .info { background: transparent !important; padding: 20px; }
+body:is(#page-site-index, .xa-shell).xa-inner .course_category_tree .category .categoryname a { color: #f8dfa9 !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .tertiary-navigation { margin: 0 0 24px; padding: 0; }
+
+/* Course outline, activity chrome, index drawer and personal course cards. */
+body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation { background: #10283d !important; border: 1px solid var(--xa-line) !important; border-radius: 10px; padding: 0 12px !important; margin: 0 0 24px !important; height: auto !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation .moremenu { background: transparent !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation .nav-link { color: #c9dbe7; }
+body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation .nav-link:is(:hover,.active) { color: var(--xa-gold); background: transparent; border-bottom-color: var(--xa-gold); }
+body:is(#page-site-index, .xa-shell).xa-inner .course-content .course-section { background: var(--xa-surface); border: 1px solid var(--xa-line); border-radius: 14px; margin: 0 0 18px; }
+body:is(#page-site-index, .xa-shell).xa-inner .course-content .course-section .section-item { background: transparent; border: 0; }
+body:is(#page-site-index, .xa-shell).xa-inner .course-section-header .sectionname { font-size: 22px; font-weight: 600; }
+body:is(#page-site-index, .xa-shell).xa-inner .course-section-header .sectionname a { color: #f8dfa9; }
+body:is(#page-site-index, .xa-shell).xa-inner .activity-item { background: transparent; border-color: var(--xa-line); }
+body:is(#page-site-index, .xa-shell).xa-inner .activity-item .activityname a { color: var(--xa-text); }
+body:is(#page-site-index, .xa-shell).xa-inner .activity-item:hover { background: #17354b; border-radius: 8px; }
+body:is(#page-site-index, .xa-shell).xa-inner .activity-navigation { margin-top: 24px; padding: 18px; background: var(--xa-surface); border: 1px solid var(--xa-line); border-radius: 10px; }
+body:is(#page-site-index, .xa-shell).xa-shell .drawer { top: 60px !important; height: calc(100dvh - 60px) !important; background: #0c2235; color: var(--xa-text); border-color: var(--xa-line); }
+body:is(#page-site-index, .xa-shell).xa-shell .drawerheader { background: #0c2235; border-bottom: 1px solid var(--xa-line); }
+body:is(#page-site-index, .xa-shell).xa-shell .drawer .btn-icon { color: var(--xa-text); }
+body:is(#page-site-index, .xa-shell).xa-shell .drawer .courseindex .courseindex-item a { color: #c9dbe7; }
+body:is(#page-site-index, .xa-shell).xa-shell .drawer .courseindex .courseindex-section-title a { color: #f8dfa9; }
+body:is(#page-site-index, .xa-shell).xa-shell .drawer .courseindex .courseindex-item:is(:hover,.pageitem) { background: #23435b; color: #fff; }
+body:is(#page-site-index, .xa-shell).xa-inner .block { border-radius: 14px; }
+body:is(#page-site-index, .xa-shell).xa-inner .block .card-title { color: #f8dfa9 !important; border-color: var(--xa-line) !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .course-card { border-radius: 13px; overflow: hidden; border: 1px solid var(--xa-line); }
+body:is(#page-site-index, .xa-shell).xa-inner .course-card :is(.card-body,.card-footer) { background: var(--xa-surface); color: var(--xa-text); }
+body:is(#page-site-index, .xa-shell).xa-inner .course-card .coursename { color: #f8dfa9; }
+body:is(#page-site-index, .xa-shell).xa-inner .course-card[data-course-id="2"] { --xa-card-art: url('../../../pix/xirh/golden-domain-ai.webp'); }
+body:is(#page-site-index, .xa-shell).xa-inner .course-card .card-img-top[style*="data:image/svg"] { background-image: var(--xa-card-art) !important; background-size: cover; background-position: center 56%; height: 180px; }
+body:is(#page-site-index, .xa-shell).xa-inner .progress { background: #304b5e; }
+body:is(#page-site-index, .xa-shell).xa-inner .progress-bar { background: #e5b75c; }
+body:is(#page-site-index, .xa-shell).xa-inner .h5p-player { background: #fff; border: 1px solid var(--xa-line); border-radius: 12px; overflow: hidden; color-scheme: light; }
+body:is(#page-site-index, .xa-shell).xa-inner #page-footer { background: transparent; color: var(--xa-muted); }
+
+/* Login, password recovery and signup share the illustrated welcome panel. */
+body:is(#page-site-index, .xa-shell).xa-shell.xa-auth { padding-top: 0 !important; }
+body:is(#page-site-index, .xa-shell).xa-auth::after { display: none !important; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-auth #page-content.row { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(420px,.9fr); }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-auth :is(.login-layout-left,.login-layout-right) { width: 100%; max-width: none; background: transparent !important; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-auth .login-layout-left {
+    display: flex !important; position: relative;
+    background-image: linear-gradient(0deg,#061a2afa 0%,#061a2a66 50%,#061a2a22 100%), url('../../../pix/xirh/golden-universe-v1.webp') !important;
+    background-size: cover !important; background-position: 72% center !important;
+    border-right: 1px solid #bc98524d;
+}
+body:is(#page-site-index, .xa-shell).xa-auth .login-layout-left::before, body:is(#page-site-index, .xa-shell).xa-auth .login-layout-left::after { display: none !important; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-auth .login-layout-left-content {
+    display: flex; flex-direction: column; justify-content: space-between; align-items: stretch;
+    min-height: 100dvh; width: 100%; max-width: none !important; padding: 44px clamp(28px,4vw,76px) !important; text-align: left !important;
+}
+.xa-auth-brand { display: inline-flex; align-items: center; gap: 12px; align-self: flex-start; text-decoration: none; color: #ffdc90; font-size: 23px; font-weight: 600; }
+.xa-auth-brand img.icon { width: 108px; height: auto; max-height: none; padding: 7px; margin: 0; background: #fff; border-radius: 5px; }
+.xa-auth-copy { padding-top: 240px; max-width: 560px; }
+.xa-auth-copy .xa-auth-eyebrow { color: #ffdc90; font-size: 10px; font-weight: 600; letter-spacing: .15em; margin-bottom: 16px; }
+.xa-auth-copy h2 { font-size: clamp(30px,3vw,48px); color: #fff; font-weight: 600; line-height: 1.1; letter-spacing: -.035em; margin-bottom: 22px; }
+.xa-auth-copy h2 em { color: var(--xa-gold); font-style: normal; }
+.xa-auth-copy p { color: #d6e3ed; line-height: 1.7; font-size: 14px; }
+.xa-auth-copy .xa-auth-back { display: inline-block; margin-top: 18px; color: #ffdc90; font-size: 13px; }
+.xa-auth-signature { color: #b8ccd9; font-size: 9px; letter-spacing: .14em; margin: 30px 0 0; }
+body:is(#page-site-index, .xa-shell).xa-auth .login-layout-right-content { width: 100%; padding: 40px 26px; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-auth .login-container {
+    width: 100%; max-width: 490px; background: #10283df5 !important; color: var(--xa-text) !important;
+    border: 1px solid #557080 !important; border-radius: 18px !important; padding: 34px !important; box-shadow: 0 24px 75px #020b1859 !important; color-scheme: dark;
+}
+body:is(#page-site-index, .xa-shell).xa-auth .login-container :is(h1,h2,h3) { color: #fff; }
+body:is(#page-site-index, .xa-shell).xa-auth .login-container .text-muted { color: var(--xa-muted) !important; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-auth .login-container a { color: #ffdc90 !important; }
+body:is(#page-site-index, .xa-shell).xa-auth #loginlogo img { max-height: 60px; width: auto; background: #fff; padding: 7px 12px; border-radius: 6px; }
+body:is(#page-site-index, .xa-shell).xa-auth .login-mascot-container { display: none; }
+body:is(#page-site-index, .xa-shell).xa-auth .login-container .form-control { min-height: 48px; }
+body:is(#page-site-index, .xa-shell).xa-auth .login-container .btn-primary { min-height: 48px; }
+body:is(#page-site-index, .xa-shell).xa-auth .login-divider { border-color: var(--xa-line); }
+
+@media (max-width: 1000px) {
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page.drawers { padding-left: 18px !important; padding-right: 18px !important; }
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-inner .courses:has(> .coursebox) { grid-template-columns: 1fr; }
+    body:is(#page-site-index, .xa-shell).xa-inner #page-header .page-header-headings { max-width: 80%; }
+}
+@media (max-width: 900px) {
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-auth #page-content.row { grid-template-columns: 1fr; }
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-auth .login-layout-left-content { min-height: 270px; padding: 22px 26px !important; }
+    body:is(#page-site-index, .xa-shell).xa-auth .login-layout-left { border-right: 0; border-bottom: 1px solid #bc98524d; background-position: 80% 38% !important; }
+    .xa-auth-copy { padding-top: 50px; }
+    .xa-auth-copy h2 { font-size: 29px; margin-bottom: 10px; }
+    .xa-auth-copy > p:not(.xa-auth-eyebrow), .xa-auth-signature { display: none; }
+    .xa-auth-copy .xa-auth-eyebrow { font-size: 8px; margin-bottom: 8px; }
+    .xa-auth-copy .xa-auth-back { margin-top: 5px; font-size: 12px; }
+    .xa-auth-brand { font-size: 18px; }
+    .xa-auth-brand img.icon { width: 83px; }
+}
+@media (max-width: 600px) {
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page.drawers { padding-left: 12px !important; padding-right: 12px !important; }
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page.drawers .main-inner { margin-top: 16px !important; }
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page-header { padding: 24px 20px !important; min-height: 145px; }
+    body:is(#page-site-index, .xa-shell).xa-inner #page-header .page-header-headings { max-width: 100%; }
+    body:is(#page-site-index, .xa-shell).xa-inner #page-header h1 { font-size: 26px; }
+    body:is(#page-site-index, .xa-shell).xa-inner .coursebox :is(.info,.content) { padding-left: 20px; padding-right: 20px; }
+    body:is(#page-site-index, .xa-shell).xa-inner .coursebox::before { height: 170px; }
+    body:is(#page-site-index, .xa-shell).xa-inner .course-section-header .sectionname { font-size: 19px; }
+    body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation { padding: 0 6px !important; }
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-auth .login-container { padding: 25px 21px !important; }
+    body:is(#page-site-index, .xa-shell).xa-auth .login-layout-right-content { padding: 24px 14px; }
+}
+@media print {
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-inner { background: #fff !important; color: #111; color-scheme: light; }
+    body:is(#page-site-index, .xa-shell).xa-inner::before { display: none; }
+    body:is(#page-site-index, .xa-shell).xa-shell.xa-inner #page-header { background: none; color: #111; border-color: #999; }
+    body:is(#page-site-index, .xa-shell).xa-inner #page-header h1 { color: #111 !important; }
+}

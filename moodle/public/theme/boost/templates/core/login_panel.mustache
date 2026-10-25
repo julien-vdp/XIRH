@@ -27,15 +27,20 @@
         "leftinstructions": "<p>Welcome to our learning platform. Please log in to continue.</p>"
     }
 }}
-<div class="login-layout-left-content">
-    {{^leftinstructions}}
-        <div class="login-layout-left-logo text-center">
-            {{#pix}} xirh/logo, core {{/pix}}
-        </div>
-    {{/leftinstructions}}
+<div class="login-layout-left-content xa-auth-story">
+    <a class="xa-auth-brand" href="{{config.wwwroot}}/index.php?redirect=0" aria-label="XIRH Academy — Accueil">
+        {{#pix}} xirh/logo, core {{/pix}}<span>Academy</span>
+    </a>
+    <div class="xa-auth-copy">
+        <p class="xa-auth-eyebrow">UN AUTRE REGARD SUR LES RH</p>
+        <h2>Votre prochain déclic<br><em>commence ici.</em></h2>
+        <p>Des idées qui bousculent. Des outils qui servent.<br>Un espace pour apprendre, explorer et passer à l’action.</p>
     {{#leftinstructions}}
-        <div class="mx-auto text-start">
+        <div class="xa-auth-instructions">
             {{{leftinstructions}}}
         </div>
     {{/leftinstructions}}
+        <a class="xa-auth-back" href="{{config.wwwroot}}/index.php?redirect=0">← Retour à l’accueil</a>
+    </div>
+    <p class="xa-auth-signature">COMPRENDRE · EXPÉRIMENTER · TRANSFORMER</p>
 </div>

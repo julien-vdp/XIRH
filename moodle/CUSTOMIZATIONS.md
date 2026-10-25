@@ -212,3 +212,13 @@ When upgrading Moodle (e.g. 5.x → 5.y):
 4. **Verify body classes on frontpage** — open DevTools and confirm the body still has `pagelayout-frontpage`, `path-site`, and `limitedwidth` classes. If class names changed, update the SCSS selectors.
 5. **Check the drawers template** — `public/theme/boost/templates/drawers.mustache` — verify the DOM structure hasn't changed (new wrappers could break the full-bleed hero).
 6. **Redeploy on Coolify** — the entrypoint will clear the theme cache automatically.
+
+## 5. Shared golden Academy styling
+
+`style/academy-platform.css` loads last in `templates/head.mustache`. The drawers layout adds `xa-shell` and, outside the homepage, `xa-inner`; the login layout adds `xa-shell xa-auth`. Embedded H5P documents, popups and maintenance layouts do not receive these classes.
+
+The layer shares the homepage palette and typography across the catalogue, course outlines, activity navigation, dashboard, account forms and login flow. It restores the useful page headings and breadcrumbs suppressed by the older full-width homepage preset. Course descriptions remain complete; existing default course thumbnails gain branded artwork while uploaded dashboard cover images retain their own imagery.
+
+`templates/core/login_panel.mustache` supplies the illustrated welcome panel and return link. Custom authentication instructions still render in that panel. Login fields, validation, identity providers and authentication logic remain Moodle components.
+
+After an upgrade, preserve these layout classes, the stylesheet link and the login panel override. Check desktop/mobile widths, open and closed course drawers, menus, forms and an embedded H5P activity. To revert this presentation layer, remove its stylesheet link and restore the prior login panel template.
