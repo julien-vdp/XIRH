@@ -102,7 +102,9 @@ body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) :is(.btn-secondary,.
     background: #17354b !important; color: var(--xa-text) !important; border-color: #557287 !important;
 }
 body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) :is(.btn-secondary,.btn-outline-secondary,.btn-light):hover { background: #24465d; color: #fff; }
-body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .btn-link { color: #ffdc90; }
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .btn-link { color: #ffdc90 !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .text-primary { color: var(--xa-gold) !important; }
+body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .btn-outline-primary { background: transparent !important; color: var(--xa-gold) !important; border-color: #b99a61 !important; }
 body:is(#page-site-index, .xa-shell).xa-inner :is(.generaltable,.table) { --bs-table-bg: transparent; --bs-table-color: #edf4fa; --bs-table-border-color: #365367; --bs-table-striped-color: #edf4fa; --bs-table-striped-bg: #17354b; --bs-table-hover-color: #fff; --bs-table-hover-bg: #1b3a50; }
 body:is(#page-site-index, .xa-shell).xa-inner .page-link { background: var(--xa-surface); border-color: var(--xa-line); color: var(--xa-gold); }
 body:is(#page-site-index, .xa-shell).xa-inner .page-item.active .page-link { background: var(--xa-gold); color: #10263a; border-color: var(--xa-gold); }
@@ -167,10 +169,12 @@ body:is(#page-site-index, .xa-shell).xa-shell .drawer .courseindex .courseindex-
 body:is(#page-site-index, .xa-shell).xa-shell .drawer .courseindex .courseindex-section-title a { color: #f8dfa9; }
 body:is(#page-site-index, .xa-shell).xa-shell .drawer .courseindex .courseindex-item:is(:hover,.pageitem) { background: #23435b; color: #fff; }
 body:is(#page-site-index, .xa-shell).xa-inner .block { border-radius: 14px; background: var(--xa-surface) !important; border: 1px solid var(--xa-line) !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .block > .card-body { padding: 24px !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .block .card-title { color: #f8dfa9 !important; border-color: var(--xa-line) !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card { border-radius: 13px; overflow: hidden; border: 1px solid var(--xa-line) !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card :is(.card-body,.card-footer) { background: var(--xa-surface) !important; color: var(--xa-text); }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card .coursename { color: #f8dfa9; }
+body:is(#page-site-index, .xa-shell).xa-inner .course-card :is(.categoryname,.small,.text-muted,.text-body-secondary) { color: var(--xa-muted) !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card[data-course-id="2"] { --xa-card-art: url('../../../pix/xirh/golden-domain-ai.webp'); }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card .card-img-top[style*="data:image/svg"] { background-image: var(--xa-card-art) !important; background-size: cover; background-position: center 56%; height: 180px; }
 body:is(#page-site-index, .xa-shell).xa-inner .progress { background: #304b5e; }
