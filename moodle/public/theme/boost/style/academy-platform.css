@@ -99,7 +99,7 @@ body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .btn-primary {
 }
 body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .btn-primary:hover { background: #ffe1a0 !important; border-color: #ffe1a0 !important; }
 body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) :is(.btn-secondary,.btn-outline-secondary,.btn-light) {
-    background: #17354b; color: var(--xa-text); border-color: #557287;
+    background: #17354b !important; color: var(--xa-text) !important; border-color: #557287 !important;
 }
 body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) :is(.btn-secondary,.btn-outline-secondary,.btn-light):hover { background: #24465d; color: #fff; }
 body:is(#page-site-index, .xa-shell):is(.xa-inner,.xa-auth) .btn-link { color: #ffdc90; }
@@ -125,14 +125,16 @@ body:is(#page-site-index, .xa-shell).xa-inner .coursebox .content { padding: 14p
 body:is(#page-site-index, .xa-shell).xa-inner .coursebox .content > .d-flex { flex-direction: column; gap: 12px; }
 body:is(#page-site-index, .xa-shell).xa-inner .coursebox .coursename { margin: 0; }
 body:is(#page-site-index, .xa-shell).xa-shell.xa-inner .coursebox .coursename a { color: #f8dfa9 !important; font-size: 25px !important; font-weight: 600 !important; line-height: 1.2 !important; letter-spacing: -.025em; }
-body:is(#page-site-index, .xa-shell).xa-inner .coursebox .coursefile { font-size: 11px; padding: 5px 9px; border: 1px solid #577080; border-radius: 5px; width: fit-content; max-width: 100%; }
+/* The native course name is the card heading. Old decorative cover attachments
+ * and the repeated authored heading are unnecessary in the catalogue. */
+body:is(#page-site-index, .xa-shell).xa-inner .coursebox .coursefile { display: none; }
 body:is(#page-site-index, .xa-shell).xa-inner .coursebox .coursefile a { color: var(--xa-muted); overflow-wrap: anywhere; }
 body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary { color: var(--xa-muted); line-height: 1.75; }
 body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary .no-overflow > section {
     background: none !important; color: var(--xa-muted) !important; border: 0 !important; box-shadow: none !important;
     padding: 0 !important; margin: 0 !important; max-width: none !important;
 }
-body:is(#page-site-index, .xa-shell).xa-shell.xa-inner .coursebox .summary h1 { font-size: 17px !important; color: var(--xa-text) !important; line-height: 1.4 !important; }
+body:is(#page-site-index, .xa-shell).xa-shell.xa-inner .coursebox .summary h1 { display: none; }
 body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary :is(p,span) { color: var(--xa-muted) !important; font-size: 14px !important; line-height: 1.75 !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary section > div[style*="height: 4px"] { background: var(--xa-gold) !important; margin-bottom: 18px !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary div[style*="border-left"] { background: #244054 !important; border-left-color: var(--xa-gold) !important; padding: 18px !important; }
@@ -140,18 +142,20 @@ body:is(#page-site-index, .xa-shell).xa-inner .coursebox .summary strong { color
 body:is(#page-site-index, .xa-shell).xa-inner .coursebox .teachers { color: var(--xa-muted); padding: 15px 0 0; font-size: 12px; }
 body:is(#page-site-index, .xa-shell).xa-inner .course_category_tree .category { background: var(--xa-surface) !important; border: 1px solid var(--xa-line) !important; border-radius: 12px; margin-bottom: 14px; }
 body:is(#page-site-index, .xa-shell).xa-inner .course_category_tree .category > .info { background: transparent !important; padding: 20px; }
+body:is(#page-site-index, .xa-shell).xa-inner .course_category_tree .category .content { background: #0c2235 !important; border-color: var(--xa-line) !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .course_category_tree .category .categoryname a { color: #f8dfa9 !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .tertiary-navigation { margin: 0 0 24px; padding: 0; }
 
 /* Course outline, activity chrome, index drawer and personal course cards. */
 body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation { background: #10283d !important; border: 1px solid var(--xa-line) !important; border-radius: 10px; padding: 0 12px !important; margin: 0 0 24px !important; height: auto !important; }
-body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation .moremenu { background: transparent !important; }
-body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation .nav-link { color: #c9dbe7; }
-body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation .nav-link:is(:hover,.active) { color: var(--xa-gold); background: transparent; border-bottom-color: var(--xa-gold); }
+body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation :is(.moremenu,.more-nav,.nav-tabs) { background: transparent !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation .nav-link { color: #c9dbe7 !important; background: transparent !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .secondary-navigation .nav-link:is(:hover,.active) { color: var(--xa-gold) !important; background: transparent !important; border-bottom-color: var(--xa-gold); }
 body:is(#page-site-index, .xa-shell).xa-inner .course-content .course-section { background: var(--xa-surface); border: 1px solid var(--xa-line); border-radius: 14px; margin: 0 0 18px; }
 body:is(#page-site-index, .xa-shell).xa-inner .course-content .course-section .section-item { background: transparent; border: 0; }
 body:is(#page-site-index, .xa-shell).xa-inner .course-section-header .sectionname { font-size: 22px; font-weight: 600; }
 body:is(#page-site-index, .xa-shell).xa-inner .course-section-header .sectionname a { color: #f8dfa9; }
+body:is(#page-site-index, .xa-shell).xa-inner .icons-collapse-expand :is(.expanded-icon,.collapsed-icon) { background: #22445b !important; color: var(--xa-gold) !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .activity-item { background: transparent; border-color: var(--xa-line); }
 body:is(#page-site-index, .xa-shell).xa-inner .activity-item .activityname a { color: var(--xa-text); }
 body:is(#page-site-index, .xa-shell).xa-inner .activity-item:hover { background: #17354b; border-radius: 8px; }
@@ -162,10 +166,10 @@ body:is(#page-site-index, .xa-shell).xa-shell .drawer .btn-icon { color: var(--x
 body:is(#page-site-index, .xa-shell).xa-shell .drawer .courseindex .courseindex-item a { color: #c9dbe7; }
 body:is(#page-site-index, .xa-shell).xa-shell .drawer .courseindex .courseindex-section-title a { color: #f8dfa9; }
 body:is(#page-site-index, .xa-shell).xa-shell .drawer .courseindex .courseindex-item:is(:hover,.pageitem) { background: #23435b; color: #fff; }
-body:is(#page-site-index, .xa-shell).xa-inner .block { border-radius: 14px; }
+body:is(#page-site-index, .xa-shell).xa-inner .block { border-radius: 14px; background: var(--xa-surface) !important; border: 1px solid var(--xa-line) !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .block .card-title { color: #f8dfa9 !important; border-color: var(--xa-line) !important; }
-body:is(#page-site-index, .xa-shell).xa-inner .course-card { border-radius: 13px; overflow: hidden; border: 1px solid var(--xa-line); }
-body:is(#page-site-index, .xa-shell).xa-inner .course-card :is(.card-body,.card-footer) { background: var(--xa-surface); color: var(--xa-text); }
+body:is(#page-site-index, .xa-shell).xa-inner .course-card { border-radius: 13px; overflow: hidden; border: 1px solid var(--xa-line) !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .course-card :is(.card-body,.card-footer) { background: var(--xa-surface) !important; color: var(--xa-text); }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card .coursename { color: #f8dfa9; }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card[data-course-id="2"] { --xa-card-art: url('../../../pix/xirh/golden-domain-ai.webp'); }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card .card-img-top[style*="data:image/svg"] { background-image: var(--xa-card-art) !important; background-size: cover; background-position: center 56%; height: 180px; }
@@ -192,6 +196,7 @@ body:is(#page-site-index, .xa-shell).xa-shell.xa-auth .login-layout-left-content
 }
 .xa-auth-brand { display: inline-flex; align-items: center; gap: 12px; align-self: flex-start; text-decoration: none; color: #ffdc90; font-size: 23px; font-weight: 600; }
 .xa-auth-brand img.icon { width: 108px; height: auto; max-height: none; padding: 7px; margin: 0; background: #fff; border-radius: 5px; }
+body:is(#page-site-index, .xa-shell).xa-auth .xa-auth-brand { color: var(--xa-gold) !important; text-decoration: none !important; }
 .xa-auth-copy { padding-top: 240px; max-width: 560px; }
 .xa-auth-copy .xa-auth-eyebrow { color: #ffdc90; font-size: 10px; font-weight: 600; letter-spacing: .15em; margin-bottom: 16px; }
 .xa-auth-copy h2 { font-size: clamp(30px,3vw,48px); color: #fff; font-weight: 600; line-height: 1.1; letter-spacing: -.035em; margin-bottom: 22px; }
@@ -204,13 +209,14 @@ body:is(#page-site-index, .xa-shell).xa-shell.xa-auth .login-container {
     width: 100%; max-width: 490px; background: #10283df5 !important; color: var(--xa-text) !important;
     border: 1px solid #557080 !important; border-radius: 18px !important; padding: 34px !important; box-shadow: 0 24px 75px #020b1859 !important; color-scheme: dark;
 }
-body:is(#page-site-index, .xa-shell).xa-auth .login-container :is(h1,h2,h3) { color: #fff; }
+body:is(#page-site-index, .xa-shell).xa-auth .login-container :is(h1,h2,h3,label,legend,.form-label) { color: #fff !important; }
 body:is(#page-site-index, .xa-shell).xa-auth .login-container .text-muted { color: var(--xa-muted) !important; }
 body:is(#page-site-index, .xa-shell).xa-shell.xa-auth .login-container a { color: #ffdc90 !important; }
 body:is(#page-site-index, .xa-shell).xa-auth #loginlogo img { max-height: 60px; width: auto; background: #fff; padding: 7px 12px; border-radius: 6px; }
 body:is(#page-site-index, .xa-shell).xa-auth .login-mascot-container { display: none; }
 body:is(#page-site-index, .xa-shell).xa-auth .login-container .form-control { min-height: 48px; }
 body:is(#page-site-index, .xa-shell).xa-auth .login-container .btn-primary { min-height: 48px; }
+body:is(#page-site-index, .xa-shell).xa-auth .login-container .btn-link { color: var(--xa-muted) !important; }
 body:is(#page-site-index, .xa-shell).xa-auth .login-divider { border-color: var(--xa-line); }
 
 @media (max-width: 1000px) {
