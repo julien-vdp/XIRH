@@ -74,6 +74,7 @@ body:is(#page-site-index, .xa-shell).xa-inner #page-header .page-header-headings
 body:is(#page-site-index, .xa-shell).xa-inner #page-header h1 { color: #fff !important; font-size: clamp(25px,2.4vw,38px); line-height: 1.14; letter-spacing: -.035em; font-weight: 600; }
 body:is(#page-site-index, .xa-shell).xa-inner #page-header :is(.breadcrumb,.breadcrumb-item,.breadcrumb-item a) { color: #f1d392 !important; font-size: 12px; }
 body:is(#page-site-index, .xa-shell).xa-inner #page-header .header-actions-container { position: relative; z-index: 1; }
+body:is(#page-site-index, .xa-shell).xa-inner #page-header .header-actions-container .btn:not(.btn-primary) { background: #17354bf2 !important; color: var(--xa-text) !important; border: 1px solid #607b8d !important; }
 body:is(#page-site-index, .xa-shell).xa-inner :is(h2,h3,h4,.activityname,.sectionname) { color: var(--xa-text); }
 body:is(#page-site-index, .xa-shell).xa-inner a { color: #ffdc90; }
 body:is(#page-site-index, .xa-shell).xa-inner a:hover { color: #ffe9bb; }
@@ -174,7 +175,7 @@ body:is(#page-site-index, .xa-shell).xa-inner .block .card-title { color: #f8dfa
 body:is(#page-site-index, .xa-shell).xa-inner .course-card { border-radius: 13px; overflow: hidden; border: 1px solid var(--xa-line) !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card :is(.card-body,.card-footer) { background: var(--xa-surface) !important; color: var(--xa-text); }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card .coursename { color: #f8dfa9; }
-body:is(#page-site-index, .xa-shell).xa-inner .course-card :is(.categoryname,.small,.text-muted,.text-body-secondary) { color: var(--xa-muted) !important; }
+body:is(#page-site-index, .xa-shell).xa-inner .course-card :is(.categoryname,.small,.progress-text,.text-muted,.text-body-secondary) { color: var(--xa-muted) !important; }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card[data-course-id="2"] { --xa-card-art: url('../../../pix/xirh/golden-domain-ai.webp'); }
 body:is(#page-site-index, .xa-shell).xa-inner .course-card .card-img-top[style*="data:image/svg"] { background-image: var(--xa-card-art) !important; background-size: cover; background-position: center 56%; height: 180px; }
 body:is(#page-site-index, .xa-shell).xa-inner .progress { background: #304b5e; }
