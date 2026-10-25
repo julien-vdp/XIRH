@@ -93,16 +93,59 @@ class import_map implements \JsonSerializable {
     }
 
     /**
+     * Return the bare specifiers explicitly opted in to modulepreload hinting.
+     *
+     * This is a closed allowlist, not a shape-based filter: only entries registered with
+     * `preload: true` (currently a handful of core, site-wide, single-file dependencies) are
+     * returned, regardless of specifier name.
+     *
+     * @return string[]
+     */
+    public function get_preload_specifiers(): array {
+        $specifiers = [];
+        foreach ($this->imports as $specifier => $importdata) {
+            if (!$importdata->preload) {
+                continue;
+            }
+            $specifiers[] = $specifier;
+        }
+        return $specifiers;
+    }
+
+    /**
      * Add the standard entries to the importmap.
      * @return void
      */
     protected function add_standard_imports(): void {
-        $this->add_import('@moodle/lms/', path: 'js/esm/build', loadfromcomponent: true);
-        $this->add_import('@moodlehq/design-system', path: 'lib/js/bundles/design-system/index');
-        $this->add_import('react', path: 'lib/js/bundles/react/react');
-        $this->add_import('react/', path: 'lib/js/bundles/react');
-        $this->add_import('react-dom', path: 'lib/js/bundles/react-dom/react-dom');
-        $this->add_import('react-dom/', path: 'lib/js/bundles/react-dom', modifier: $this->resolve_react_dev_path(...));
+        $this->add_import(
+            '@moodle/lms/',
+            path: 'js/esm/build',
+            loadfromcomponent: true,
+        );
+        $this->add_import(
+            '@moodlehq/design-system',
+            path: 'lib/js/bundles/design-system/index.js',
+            preload: true,
+        );
+        $this->add_import(
+            'react',
+            path: 'lib/js/bundles/react/react',
+            preload: true,
+        );
+        $this->add_import(
+            'react/',
+            path: 'lib/js/bundles/react',
+        );
+        $this->add_import(
+            'react-dom',
+            path: 'lib/js/bundles/react-dom/react-dom',
+            preload: true,
+        );
+        $this->add_import(
+            'react-dom/',
+            path: 'lib/js/bundles/react-dom',
+            modifier: $this->resolve_react_dev_path(...),
+        );
     }
 
     /**
@@ -142,6 +185,13 @@ class import_map implements \JsonSerializable {
      * @param string $suffix File extension suffix appended when resolving filesystem paths (defaults to `.js`).
      * @param callable|null $modifier Optional callable (int $revision, string $requestedpath, string $resolvedpath): string
      *   to transform the resolved filesystem path before the file is served. Not used for URL generation.
+     * @param string[] $allowedsuffixes List of allowed suffixes for the resolved file.
+     *   If the resolved path already ends with one of these suffixes, the default suffix will not be appended.
+     *   Defaults to ['.js', '.js.map'] so that source maps are served without double-suffix mangling.
+     * @param bool $preload Whether this entry is a foundational, single-file dependency worth
+     *   preloading with a modulepreload hint. Restricted to an explicit opt-in (rather than
+     *   inferred from the specifier shape) so only the handful of entries core knows are used
+     *   site-wide on every ESM-using page are ever preloaded.
      */
     public function add_import(
         string $specifier,
@@ -150,13 +200,20 @@ class import_map implements \JsonSerializable {
         bool $loadfromcomponent = false,
         string $suffix = '.js',
         ?callable $modifier = null,
+        array $allowedsuffixes = ['.js', '.js.map'],
+        bool $preload = false,
     ): void {
+        if (!in_array($suffix, $allowedsuffixes, true)) {
+            $allowedsuffixes[] = $suffix;
+        }
         $this->imports[$specifier] = (object) [
             'loader' => $loader,
             'path' => $path,
             'loadfromcomponent' => $loadfromcomponent,
             'suffix' => $suffix,
+            'allowedsuffixes' => $allowedsuffixes,
             'modifier' => $modifier,
+            'preload' => $preload,
         ];
         $this->importssorted = false;
     }
@@ -167,6 +224,7 @@ class import_map implements \JsonSerializable {
      * Entries are matched longest-key-first so a more-specific prefix always wins
      * (e.g. `react/` is matched before `react`). Returns null if no entry matches.
      *
+     * @param int $revision The JS revision number, used for modifier callables to determine if in developer mode.
      * @param string $requestedpath The bare specifier path (e.g. `react`, `@moodle/lms/mod_book/viewer`).
      * @return string|null Absolute filesystem path to the JS file, or null if unresolved.
      */
@@ -208,14 +266,30 @@ class import_map implements \JsonSerializable {
             if (in_array('..', explode('/', $pathremainder), true)) {
                 return null;
             }
-            $resolved = implode(DIRECTORY_SEPARATOR, array_filter([
+
+            $resolved = implode('/', array_filter([
                 $CFG->root,
                 $importdata->path,
                 $pathremainder,
-            ])) . $importdata->suffix;
+            ]));
+
+            $suffixpresent = false;
+            foreach ($importdata->allowedsuffixes as $allowedsuffix) {
+                if (str_ends_with($resolved, $allowedsuffix) && file_exists($resolved)) {
+                    $suffixpresent = true;
+                }
+            }
+
+            if (!$suffixpresent) {
+                // If the requested path already ends with an accepted suffix, don't try appending it again.
+                // This allows specifiers to include the suffix if needed.
+                $resolved .= $importdata->suffix;
+            }
+
             if ($importdata->modifier !== null) {
                 $resolved = ($importdata->modifier)($revision, $requestedpath, $resolved);
             }
+
             return $resolved;
         }
 
@@ -249,11 +323,19 @@ class import_map implements \JsonSerializable {
 
         // Resolve the component directory; an unknown component name returns null.
         $dir = \core\component::get_component_directory($component);
-        $file = "{$dir}/{$importdata->path}/{$modulerest}{$importdata->suffix}";
-        if (!file_exists($file)) {
-            throw new \core\exception\not_found_exception('script', $subpath);
+        $file = "{$dir}/{$importdata->path}/{$modulerest}";
+
+        foreach ($importdata->allowedsuffixes as $allowedsuffix) {
+            if (str_ends_with($file, $allowedsuffix) && file_exists($file)) {
+                return $file;
+            }
         }
 
-        return $file;
+        $file .= $importdata->suffix;
+        if (file_exists($file)) {
+            return $file;
+        }
+
+        throw new \core\exception\not_found_exception('script', $subpath);
     }
 }
