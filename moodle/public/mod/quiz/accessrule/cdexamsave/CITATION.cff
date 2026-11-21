@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use CD ExamFocus in research or educational practice, please cite this software."
+title: "CD ExamFocus"
+type: software
+authors:
+  - family-names: "Díaz Bueno"
+    given-names: "Carlos"
+    affiliation: "Colegio Sagrada Familia – Siervas de San José, Salamanca, Spain"
+repository-code: "https://github.com/cdiazbu/moodle-quizaccess_cdexamsave"
+license: GPL-3.0-or-later
+version: 1.0.4
+date-released: 2026-08-22

@@ -1,5 +1,13 @@
 # XIRH Academy — Moodle Customizations
 
+## Supervised assessments — CD ExamFocus XIRH edition (2026-11-21)
+
+`public/mod/quiz/accessrule/cdexamsave/` extends upstream CD ExamFocus 1.0.4, commit `b2469c0efa5c736840309f961d5af548de975840`, under GPL v3 or later. It adds per-quiz fullscreen, configurable automatic departure deductions (default 0 / 2 / 3), French interface, XIRH navy/gold/turquoise dialogs, durable per-attempt policies and deduction totals, gradebook synchronisation, and teacher cancellation with an audit reason. No Moodle core or theme files are changed for this integration.
+
+Install/upgrade the plugin through Moodle Notifications or `php admin/cli/upgrade.php --non-interactive`, then purge caches. Existing quizzes remain disabled. Do not overwrite this fork with an upstream automatic update. The French operating guide is [GUIDE_XIRH.md](public/mod/quiz/accessrule/cdexamsave/GUIDE_XIRH.md); administrators and teachers can also open the guide from each monitored quiz. BPMN is deferred.
+
+Original question and attempt marks remain unchanged. Aggregate `quiz_grades` and the main gradebook item reflect deductions; original attempt detail pages can therefore show a different raw mark. Core grade events reapply the deduction after regrading from original attempt marks. Locked and manually overridden gradebook marks take precedence. Detailed log expiry does not erase assessment deduction totals.
+
 This file documents every non-standard change made to this Moodle installation.
 Its purpose is to allow an AI (or developer) to re-apply these changes after a Moodle version upgrade without breaking the site.
 

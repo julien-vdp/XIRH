@@ -1,0 +1,259 @@
+/* CD ExamFocus student monitor and teacher report styles. */
+
+.cdexamsave-monitor-badge {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1030;
+    padding: .45rem .75rem;
+    border: 1px solid #5f0f0f;
+    border-radius: .35rem;
+    background: #fff;
+    color: #5f0f0f;
+    font-size: .8rem;
+    font-weight: 700;
+    box-shadow: 0 .2rem .6rem rgba(0, 0, 0, .16);
+}
+
+/* XIRH Academy · scoped presentation, no global theme overrides. */
+body.xa-exam-loading #region-main { visibility: hidden; }
+.xa-exam-dialog {
+    width: min(600px, calc(100vw - 32px));
+    max-height: calc(100dvh - 40px);
+    overflow: auto;
+    padding: 0;
+    border: 1px solid #bc9b58;
+    border-radius: 22px;
+    background: #0b2236;
+    color: #edf5fa;
+    box-shadow: 0 25px 100px #010b17aa;
+    font-family: 'Outfit', 'Segoe UI', sans-serif;
+}
+.xa-exam-dialog::backdrop { background: #03111fe6; backdrop-filter: blur(7px); }
+.xa-exam-dialog-card { padding: clamp(25px, 5vw, 46px); background: radial-gradient(ellipse at 100% 0, #19546880, transparent 65%); }
+.xa-exam-dialog .xa-exam-eyebrow { color: #f6cf80; font-size: .69rem; font-weight: 600; letter-spacing: .16em; margin-bottom: 25px; }
+.xa-exam-dialog h2 { color: #fff3d7; font-size: clamp(28px, 4vw, 39px); line-height: 1.13; letter-spacing: -.035em; margin: 0 0 21px; }
+.xa-exam-description { color: #d0e2ed; font-size: 1rem; line-height: 1.75; }
+.xa-exam-policy { padding: 18px 20px; margin: 24px 0; border: 1px solid #54727d; border-left: 3px solid #f6cc78; border-radius: 10px; background: #071a2a80; color: #ffe4ad; line-height: 1.8; font-size: .94rem; }
+.xa-exam-detail { color: #9be3df; font-size: .9rem; line-height: 1.6; min-height: 1.4em; }
+.xa-exam-dialog .xa-exam-action { width: 100%; min-height: 48px; padding: 12px 20px; background: linear-gradient(115deg, #ffdc8b, #f6b641); color: #10263a; border: 1px solid #ffdc8b; font-weight: 650; border-radius: 9px; }
+.xa-exam-dialog .xa-exam-action:hover { color: #10263a; background: #ffe0a0; border-color: #ffe0a0; }
+.xa-exam-dialog button:focus-visible { outline: 3px solid #9be3df; outline-offset: 4px; }
+.xa-exam-bar.cdexamsave-monitor-badge { left: 50%; right: auto; bottom: 18px; transform: translateX(-50%); display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; width: max-content; max-width: calc(100vw - 30px); border: 1px solid #5e8b91; border-radius: 14px; background: #0c293ef5; color: #e7f1f8; padding: 12px 22px; font-family: inherit; font-size: .8rem; box-shadow: 0 8px 30px #020c1b55; }
+.xa-exam-status { color: #a8e2d8; }
+.xa-exam-status::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 9px; border-radius: 50%; background: #8cddc7; }
+.xa-exam-counters { color: #ffdda0; font-variant-numeric: tabular-nums; }
+.xa-exam-offline .xa-exam-status { color: #ffd58d; }
+.xa-exam-offline .xa-exam-status::before { background: #ffc75f; }
+body:has(.xa-exam-bar) #page { padding-bottom: 82px; }
+.xa-exam-attempt { border: 1px solid #53717e; border-radius: 14px; padding: 24px; margin: 20px 0; }
+.xa-exam-attempt-summary { line-height: 1.8; padding-bottom: 16px; font-variant-numeric: tabular-nums; }
+.xa-exam-incident { border-top: 1px solid #6e8b9955; padding: 16px 0 0; margin-top: 15px; }
+.xa-exam-waive-form { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.xa-exam-waive-form .form-control { flex: 1; min-width: 180px; }
+.xa-exam-guide { max-width: 850px; line-height: 1.8; }
+.xa-exam-guide h3 { margin-top: 32px; }
+body.xa-inner .cdexamsave-toolbar, body.xa-inner .cdexamsave-card { background: #102b40; color: #edf5fa; border-color: #476779; }
+body.xa-inner .cdexamsave-card-value { color: #ffda91; }
+body.xa-inner .cdexamsave-card-label { color: #c8dce7; }
+@media (max-width: 600px) {
+    .xa-exam-bar.cdexamsave-monitor-badge { font-size: .73rem; gap: 4px; padding: 9px 14px; width: calc(100% - 24px); }
+    .xa-exam-bar span { text-align: center; width: 100%; }
+    .xa-exam-waive-form .btn { width: 100%; }
+    .xa-exam-attempt { padding: 18px; }
+}
+
+.cdexamsave-warning-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(20, 20, 20, .72);
+}
+
+.cdexamsave-warning-dialog {
+    width: 100%;
+    max-width: 34rem;
+    padding: 2rem;
+    border-top: .4rem solid #960000;
+    border-radius: .5rem;
+    background: #fff;
+    color: #212529;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, .35);
+}
+
+.cdexamsave-warning-dialog h2 {
+    margin-top: 0;
+    color: #760000;
+}
+
+.cdexamsave-warning-duration {
+    padding: .65rem .8rem;
+    border-left: .25rem solid #960000;
+    background: #f8eded;
+    font-weight: 700;
+}
+
+.cdexamsave-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+    padding: .85rem 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: .5rem;
+    background: #f8f9fa;
+}
+
+.cdexamsave-toolbar-actions {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.cdexamsave-live-pill,
+.cdexamsave-status,
+.cdexamsave-review {
+    display: inline-block;
+    padding: .25rem .55rem;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.cdexamsave-live-pill {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.cdexamsave-live-pill::before {
+    display: inline-block;
+    width: .5rem;
+    height: .5rem;
+    margin-right: .35rem;
+    border-radius: 50%;
+    background: #198754;
+    content: '';
+}
+
+.cdexamsave-live-paused {
+    background: #e2e3e5;
+    color: #41464b;
+}
+
+.cdexamsave-live-paused::before {
+    background: #6c757d;
+}
+
+.cdexamsave-summary {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 1rem 0 1.5rem;
+}
+
+.cdexamsave-card {
+    min-height: 7rem;
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: .5rem;
+    background: #fff;
+    box-shadow: 0 .15rem .5rem rgba(0, 0, 0, .06);
+}
+
+.cdexamsave-card-attention {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
+.cdexamsave-card-review {
+    border-color: #ffc107;
+    background: #fffaf0;
+}
+
+.cdexamsave-card-value,
+.cdexamsave-card-label {
+    display: block;
+}
+
+.cdexamsave-card-value {
+    margin-bottom: .35rem;
+    color: #212529;
+    font-size: 2.15rem;
+    font-weight: 750;
+    line-height: 1;
+}
+
+.cdexamsave-card-label {
+    color: #495057;
+    font-size: .9rem;
+}
+
+.cdexamsave-status-connected {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.cdexamsave-status-attention {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.cdexamsave-status-disconnected {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.cdexamsave-status-notstarted {
+    background: #e2e3e5;
+    color: #41464b;
+}
+
+.cdexamsave-review-recommended {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.cdexamsave-review-normal {
+    background: #e2e3e5;
+    color: #41464b;
+}
+
+.cdexamsave-filters {
+    display: grid;
+    grid-template-columns: minmax(14rem, 2fr) minmax(14rem, 1fr);
+    gap: .75rem;
+    margin: .75rem 0 1rem;
+}
+
+.cdexamsave-participant-attention,
+.cdexamsave-participant-review,
+.cdexamsave-incident-active {
+    --table-accent-bg: #fff1f2;
+}
+
+@media (max-width: 767.98px) {
+    .cdexamsave-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cdexamsave-toolbar-actions .btn {
+        flex: 1 1 100%;
+    }
+
+    .cdexamsave-filters {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cdexamsave-warning-overlay {
+        scroll-behavior: auto;
+    }
+}
