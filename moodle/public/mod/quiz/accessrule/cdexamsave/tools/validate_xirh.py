@@ -8,7 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 errors = []
 required = ['version.php', 'rule.php', 'db/install.xml', 'db/upgrade.php', 'db/events.php',
-            'history.php', 'guide.php', 'GUIDE_XIRH.md', 'LICENSE.md', 'classes/local/penalty_service.php',
+            'history.php', 'guide.php', 'simulation.php', 'classes/local/simulation.php', 'tests/simulation_test.php',
+            'GUIDE_XIRH.md', 'LICENSE.md', 'classes/local/penalty_service.php',
             'classes/privacy/provider.php', 'lang/fr/quizaccess_cdexamsave.php',
             'lang/en/quizaccess_cdexamsave.php', 'tests/xirh_penalties_test.php', 'tools/monitor_test.cjs']
 for name in required:
@@ -25,7 +26,7 @@ for module in ['monitor', 'live_report']:
     embedded = mapping.get('sourcesContent', [''])[0].replace(f'define("quizaccess_cdexamsave/{module}", [', 'define([')
     if embedded.replace('\r\n', '\n') != source.replace('\r\n', '\n'): errors.append('Stale AMD build: ' + module)
 version = (ROOT / 'version.php').read_text(encoding='utf-8')
-if not re.search(r'\$plugin->version = 2026112100;', version): errors.append('Unexpected schema version')
+if not re.search(r'\$plugin->version = 2026112200;', version): errors.append('Unexpected plugin version')
 if not re.search(r'\$plugin->requires = 2026042000;', version): errors.append('Expected Moodle 5.2 target')
 for path in ROOT.rglob('*'):
     if path.is_file() and path.suffix in ['.php', '.js', '.css', '.xml', '.md', '.py', '.cjs']:

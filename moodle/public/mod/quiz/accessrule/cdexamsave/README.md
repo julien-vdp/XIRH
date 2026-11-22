@@ -4,9 +4,13 @@
 
 Cette édition pour Moodle 5.2 ajoute le plein écran, le barème réglable par test **0 / 2 / 3**, un journal enseignant avec annulation motivée, la synchronisation des notes et l’interface française aux couleurs de XIRH Academy. Aucun logiciel étudiant ni modification du cœur Moodle n’est nécessaire. Ne pas écraser cette édition avec une mise à jour automatique du plugin amont.
 
-Lire [le guide enseignant et administrateur](GUIDE_XIRH.md) pour l’installation, les réglages et les limites. Le BPMN est prévu séparément.
+Le **mode d’essai formateur** reproduit les alertes et les déductions avec les règles de l’examen, sans enregistrer d’incident ni modifier de note. Il est accessible depuis la page du quiz et depuis la prévisualisation, même si le quiz est masqué aux étudiants. Un essai sans plein écran est proposé pour vérifier les autres alertes lorsque le navigateur refuse le plein écran.
+
+Lire [le guide enseignant et administrateur](GUIDE_XIRH.md) pour l’installation, les réglages et les limites. Les questions de dessin BPMN sont fournies séparément par `qtype_xirhbpmn`.
 
 ## Vérifications
+
+Pour recompiler le moniteur : `node tools/build_monitor.cjs`, depuis un dépôt disposant des dépendances de développement Moodle (Terser).
 
 Le [bilan de validation](VALIDATION_XIRH.md) précise les résultats, les avertissements du laboratoire Windows et les scénarios restant à vérifier avant une première épreuve.
 

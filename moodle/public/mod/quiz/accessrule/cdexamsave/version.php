@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'quizaccess_cdexamsave';
-$plugin->version = 2026112100;
+$plugin->version = 2026112200;
 $plugin->requires = 2026042000; // XIRH edition targets Moodle 5.2+.
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = '1.1.0-xirh';
+$plugin->release = '1.2.0-xirh';

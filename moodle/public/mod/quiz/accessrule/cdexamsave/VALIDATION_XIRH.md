@@ -1,4 +1,13 @@
-# Vérifications · 21 novembre 2026
+# Vérifications · 22 novembre 2026
+
+## Mode d’essai formateur · 1.2.0-xirh
+
+- Suite native du module : **19 tests, 66 assertions, code de sortie 0**, avec les 11 dépréciations PHPUnit historiques des tests amont. Le laboratoire Windows utilise une correction locale des permissions de nettoyage de `sodium.key`, absente du paquet publié.
+- La configuration de l’essai est réservée au formateur et ne modifie aucune donnée d’évaluation. La prévisualisation ne crée aucun suivi réel. Les paramètres de l’essai ne désactivent pas le plein écran ni les pénalités d’une véritable tentative étudiante.
+- JavaScript : **17 scénarios réussis sur la source et sur le fichier compilé**, avec DOM et réseau simulés. Les nouveaux scénarios couvrent les déductions fictives, les barèmes personnalisés, les pénalités désactivées, le refus du plein écran et l’absence de lecture/écriture du stockage ou de transmission des incidents pendant l’essai.
+- Le mode formateur propose un essai sans plein écran lorsque le navigateur refuse cette fonction ; cette option ne modifie pas les réglages de l’examen.
+
+## Bilan initial · 21 novembre 2026
 
 Édition `1.1.0-xirh`, statut bêta. Aucun déploiement sur le Moodle de production n'a été effectué.
 

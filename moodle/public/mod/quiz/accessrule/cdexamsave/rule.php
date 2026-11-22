@@ -103,8 +103,21 @@ class quizaccess_cdexamsave extends \mod_quiz\local\access_rule_base {
         global $DB, $USER;
         $attemptid = optional_param('attempt', 0, PARAM_INT);
         $attempt = $DB->get_record('quiz_attempts', ['id' => $attemptid, 'quiz' => $this->quiz->id,
-            'userid' => $USER->id, 'preview' => 0, 'state' => 'inprogress']);
+            'userid' => $USER->id, 'state' => 'inprogress']);
         if (!$attempt) {
+            return;
+        }
+        if (!empty($attempt->preview)) {
+            $cm = get_coursemodule_from_instance('quiz', $this->quiz->id, $this->quiz->course, false, MUST_EXIST);
+            if (has_capability('quizaccess/cdexamsave:viewreport', context_module::instance($cm->id))) {
+                $page->requires->css(new moodle_url('/mod/quiz/accessrule/cdexamsave/styles.css'));
+                $page->requires->js_call_amd('quizaccess_cdexamsave/monitor', 'preview', [
+                    (new moodle_url('/mod/quiz/accessrule/cdexamsave/simulation.php', ['cmid' => $cm->id]))->out(false),
+                    get_string('previewnotice', 'quizaccess_cdexamsave'),
+                    get_string('testmonitor', 'quizaccess_cdexamsave'),
+                ]);
+            }
+            // A preview must never create a policy ledger, monitoring session or grade deduction.
             return;
         }
         $lock = \core\lock\lock_config::get_lock_factory('quizaccess_cdexamsave')->get_lock('attempt:' . $attemptid, 10);
@@ -152,6 +165,9 @@ class quizaccess_cdexamsave extends \mod_quiz\local\access_rule_base {
             ]);
         }
         if (has_capability('quizaccess/cdexamsave:viewreport', context_module::instance($cm->id))) {
+            $messages[] = html_writer::link(new moodle_url('/mod/quiz/accessrule/cdexamsave/simulation.php',
+                ['cmid' => $cm->id]), get_string('testmonitor', 'quizaccess_cdexamsave'),
+                ['class' => 'btn btn-primary btn-sm']);
             foreach (['report.php' => 'openlivereport', 'history.php' => 'historytitle', 'guide.php' => 'guidetitle'] as $path => $key) {
                 $messages[] = html_writer::link(new moodle_url('/mod/quiz/accessrule/cdexamsave/' . $path,
                     ['cmid' => $cm->id]), get_string($key, 'quizaccess_cdexamsave'), ['class' => 'btn btn-secondary btn-sm']);

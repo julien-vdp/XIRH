@@ -13,6 +13,7 @@ class Element {
         this.classList = {toggle() {}, add() {}, remove() {}};
     }
     append(...children) { this.children.push(...children); }
+    prepend(...children) { this.children.unshift(...children); }
     setAttribute(k, v) { this.attributes[k] = v; }
     addEventListener(name, fn) { (this.listeners[name] ||= []).push(fn); }
     showModal() { this.open = true; }
@@ -21,7 +22,8 @@ class Element {
     emit(name, event = {}) { (this.listeners[name] || []).forEach(fn => fn(event)); }
 }
 function create(options = {}) {
-    const events = {}, calls = [], server = new Map(), storage = options.storage || new Map();
+    const events = {}, calls = [], beacons = [], server = new Map(), storage = options.storage || new Map();
+    let storageReads = 0, storageWrites = 0;
     const timers = new Map(); let seq = 0, network = true, loseAcknowledgement = false;
     let focused = true, visible = 'visible', full = false;
     const document = new Element('document'); document.body = new Element('body');
@@ -41,7 +43,8 @@ function create(options = {}) {
         'statusActive','statusOffline','statusPending','policy','fullscreenUnavailable','syncRequired','technicalError',
         'noPenalty','close','statusSending'].map(key => [key, key]));
     Object.assign(strings, {counter: 'Sorties {count}', totalPenalty: '−{points}',
-        deductionNotice: '{count}: −{points}; total {total}'});
+        deductionNotice: '{count}: −{points}; total {total}', mode: 'SIMULATION', simulateLoss: 'Trigger alert',
+        withoutFullscreen: 'Try without fullscreen'});
     const ajax = {call(requests) { return requests.map(({args}) => {
         calls.push(args);
         if (!network) { return Promise.reject(new Error('Offline')); }
@@ -59,17 +62,22 @@ function create(options = {}) {
         return Promise.resolve(response);
     }); }};
     let module;
-    const sandbox = {window, document, navigator: {onLine: true, sendBeacon() { return true; }},
-        localStorage: {getItem: k => storage.get(k), setItem: (k, v) => storage.set(k, v)},
+    const sandbox = {window, document, navigator: {onLine: true, sendBeacon(...args) { beacons.push(args); return true; }},
+        localStorage: {getItem: k => { storageReads++; return storage.get(k); },
+            setItem: (k, v) => { storageWrites++; storage.set(k, v); }},
         HTMLInputElement: Element, Blob, URL, Intl, Date,
         M: {cfg: {wwwroot: 'http://moodle.test', sesskey: 'test'}},
         clearTimeout: id => timers.delete(id), define: (...args) => { module = args.at(-1)(ajax); }};
     vm.runInNewContext(source, sandbox);
-    const monitor = module.init({attemptId: 7, cmId: 9, rates: [0,2,3], gradeMax: 20,
-        requireFullscreen: true, penaltiesEnabled: true, gracePeriodMs: options.grace || 0, heartbeatMs: 10000, strings});
+    const monitor = module.init({attemptId: 7, cmId: 9, rates: options.rates || [0,2,3], gradeMax: 20,
+        simulation: options.simulation === true, withoutFullscreenUrl: 'http://moodle.test/simulation.php?cmid=9&fullscreen=0',
+        requireFullscreen: options.fullscreen !== false, penaltiesEnabled: options.penalties !== false,
+        gracePeriodMs: options.grace || 0, heartbeatMs: 10000, strings});
     const dialogs = document.body.children.filter(el => el.tagName === 'dialog');
-    const button = dialog => dialog.children[0].children.at(-1);
-    return {monitor, calls, server, dialogs, document, storage, timers,
+    const button = dialog => dialog.children[0].children.find(el => el.tagName === 'button');
+    return {monitor, calls, beacons, server, dialogs, document, storage, timers,
+        storageActivity: () => ({reads: storageReads, writes: storageWrites}),
+        async trigger() { document.body.children[0].children.find(el => el.tagName === 'button').emit('click'); await flush(); },
         async start() { button(dialogs[0]).emit('click'); await flush(); },
         async resume() { button(dialogs[1]).emit('click'); await flush(); },
         emit(name, event = {}) { (events[name] || []).forEach(fn => fn(event)); },
@@ -107,5 +115,36 @@ function create(options = {}) {
     assert.equal(t.server.size, 0); tests++;
     t = create(); await t.start(); t.emit('pagehide'); await flush();
     assert.equal(t.server.size, 1); tests++;
+
+    // A rehearsal reuses the monitor but cannot read, send or overwrite a real attempt's queued events.
+    const pendingReal = new Map([['xirh-examfocus-v2-7', JSON.stringify([{id: 'real', payload: {action: 'lost'}}])]]);
+    t = create({simulation: true, storage: pendingReal}); await t.start();
+    t.focus(false); t.visibility('hidden'); t.fullscreen(false); await flush();
+    assert.equal(t.monitor.getState().count, 1); assert.equal(t.monitor.getState().penalty, 0);
+    t.visibility('visible'); t.focus(true); await t.resume();
+    t.focus(false); t.focus(true); await t.resume();
+    t.focus(false); t.focus(true); await t.resume();
+    assert.equal(t.monitor.getState().count, 3); assert.equal(t.monitor.getState().penalty, 5);
+    assert.equal(t.monitor.getState().pending, 0); t.emit('pagehide'); await flush();
+    assert.equal(t.calls.length, 0); assert.equal(t.beacons.length, 0);
+    assert.deepEqual(t.storageActivity(), {reads: 0, writes: 0});
+    assert.equal(JSON.parse(pendingReal.get('xirh-examfocus-v2-7'))[0].id, 'real'); tests++;
+
+    t = create({simulation: true, rates: [1,4,6], fullscreen: false, fullscreenDenied: true});
+    await t.start(); assert(t.monitor.getState().active);
+    for (let index = 0; index < 4; index++) { await t.trigger(); await t.resume(); }
+    assert.equal(t.monitor.getState().count, 4); assert.equal(t.monitor.getState().penalty, 17);
+    assert.equal(t.calls.length, 0); assert.equal(t.dialogs[1].open, false); tests++;
+
+    t = create({simulation: true, penalties: false}); await t.start();
+    for (let index = 0; index < 3; index++) { await t.trigger(); assert(t.dialogs[1].open); await t.resume(); }
+    assert.equal(t.monitor.getState().count, 3); assert.equal(t.monitor.getState().penalty, 0); tests++;
+
+    t = create({simulation: true, fullscreenDenied: true}); await t.start();
+    assert(!t.monitor.getState().active); assert(t.dialogs[0].open); assert.equal(t.calls.length, 0);
+    assert(t.dialogs[0].children[0].children.some(el => el.tagName === 'a' && el.href.includes('fullscreen=0'))); tests++;
+
+    t = create({simulation: true, grace: 3000, fullscreen: false}); await t.start(); await t.trigger();
+    assert.equal(t.monitor.getState().count, 1); assert(t.dialogs[1].open); assert.equal(t.calls.length, 0); tests++;
     console.log('PASS: ' + tests + ' browser monitor scenarios (actual AMD source, simulated DOM/network).');
 })().catch(error => { console.error(error); process.exitCode = 1; });

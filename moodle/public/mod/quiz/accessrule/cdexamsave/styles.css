@@ -252,6 +252,12 @@ body.xa-inner .cdexamsave-card-label { color: #c8dce7; }
     }
 }
 
+.xa-exam-preview { background: #18334a; color: #edf4fa; border: 1px solid #496477; border-left: 4px solid #e7c576; border-radius: 10px; padding: 15px 18px; margin: 0 0 20px; }
+.xa-exam-preview p { color: #edf4fa; margin: 0 0 10px; }
+.xa-exam-simulation { padding-bottom: 120px; }
+.xa-exam-simulation-label { color: #f8dfa9; font-size: 11px; letter-spacing: .06em; }
+.xa-exam-simulation-fallback { display: block; color: #f8dfa9 !important; margin-top: 16px; text-align: center; text-decoration: underline; }
+
 @media (prefers-reduced-motion: reduce) {
     .cdexamsave-warning-overlay {
         scroll-behavior: auto;

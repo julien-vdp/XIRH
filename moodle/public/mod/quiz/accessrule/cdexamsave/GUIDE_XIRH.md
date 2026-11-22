@@ -13,6 +13,16 @@ php admin/cli/purge_caches.php
 
 L'écran **Administration du site → Notifications** permet aussi l'installation. Ne pas remplacer `config.php`. La migration ajoute les tables et champs du plugin ; elle conserve les données d'une installation CD ExamFocus existante. Les anciens réglages restent sans pénalités automatiques jusqu'à activation explicite. Les examens existants ne sont pas activés automatiquement.
 
+## Essayer les alertes avec son compte formateur
+
+Un test masqué disparaît lorsqu’on utilise **Prendre le rôle de → Étudiant**. Revenir à son rôle normal permet de retrouver le brouillon ; il n’est pas nécessaire de le rendre visible aux cohortes pour essayer la surveillance.
+
+Sur la page du test, cliquer sur **Tester la surveillance (formateur)**. Ce lien est aussi proposé dans une bannière en prévisualisation. La page d’essai reprend le barème et la tolérance de l’examen. Démarrer l’essai, changer d’onglet ou de fenêtre, puis revenir pour voir l’alerte. Le bouton **Provoquer une alerte** permet également de vérifier les messages et les pénalités fictives sans quitter la page.
+
+Si le navigateur refuse le plein écran, **Essayer sans plein écran** permet de tester les autres alertes. Ce choix concerne uniquement l’essai. Les réglages de l’examen réel restent inchangés.
+
+L’accès est réservé aux formateurs autorisés à consulter le suivi. Les compteurs sont conservés seulement en mémoire dans la page : aucun incident, retrait de points ou nouvelle tentative étudiante n’est enregistré. **Recommencer l’essai** remet les compteurs à zéro. La prévisualisation ordinaire conserve son fonctionnement sans surveillance ; les tentatives étudiantes gardent leurs contrôles habituels.
+
 ## Préparer un examen
 
 1. Créer une activité **Test** dans le cours Moodle concerné. Ajouter les questions QCM et **Composition** pour les réponses libres. Les réponses de composition sont corrigées manuellement dans Moodle.

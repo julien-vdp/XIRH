@@ -5,12 +5,14 @@ define(['core/ajax'], function(Ajax) {
     /** Browser-only exam supervision. All counters and deductions come from Moodle. */
     function createMonitor(config) {
         const strings = config.strings;
+        const simulation = config.simulation === true;
+        const simulatedEvents = new Map();
         const pageId = window.crypto.randomUUID();
         const queueKey = 'xirh-examfocus-v2-' + config.attemptId;
         const method = 'quizaccess_cdexamsave_record_signal';
         let queue = [];
         try {
-            queue = JSON.parse(localStorage.getItem(queueKey) || '[]');
+            queue = simulation ? [] : JSON.parse(localStorage.getItem(queueKey) || '[]');
             if (!Array.isArray(queue)) { queue = []; }
         } catch (error) { queue = []; }
         let active = false;
@@ -43,6 +45,15 @@ define(['core/ajax'], function(Ajax) {
         status.setAttribute('role', 'status');
         const counters = node('span', 'xa-exam-counters');
         badge.append(status, counters);
+        let simulateButton = null;
+        if (simulation) {
+            badge.prepend(node('strong', 'xa-exam-simulation-label', strings.mode));
+            simulateButton = node('button', 'btn btn-secondary btn-sm', strings.simulateLoss);
+            simulateButton.type = 'button';
+            simulateButton.disabled = true;
+            simulateButton.addEventListener('click', function() { loseFocus('simulation'); commitLoss(); settle(); });
+            badge.append(simulateButton);
+        }
         document.body.append(badge);
 
         function makeDialog(title, description, buttonText) {
@@ -65,23 +76,31 @@ define(['core/ajax'], function(Ajax) {
             dialog.append(card);
             dialog.addEventListener('cancel', event => event.preventDefault());
             document.body.append(dialog);
-            return {dialog, detail, button, paragraph};
+            return {dialog, card, detail, button, paragraph};
         }
         const gate = makeDialog(strings.gateTitle, strings.gateText, strings.start);
         const warning = makeDialog(strings.warningTitle, strings.warningText, strings.resume);
+        if (simulation && config.requireFullscreen && config.withoutFullscreenUrl) {
+            const fallback = node('a', 'xa-exam-simulation-fallback', strings.withoutFullscreen);
+            fallback.href = config.withoutFullscreenUrl;
+            gate.card.append(fallback);
+        }
 
         function persist() {
+            if (simulation) { return; }
             try { localStorage.setItem(queueKey, JSON.stringify(queue)); }
             catch (error) { storageFailed = true; }
         }
         function render() {
+            const online = simulation || navigator.onLine;
             counters.textContent = text('counter', {count}) + ' · ' + text('totalPenalty', {
                 points: penalty === 0 ? '0' : '−' + number(penalty)
             });
-            status.textContent = !navigator.onLine ? strings.statusOffline :
+            status.textContent = !online ? strings.statusOffline :
                 (queue.length ? strings.statusSending : (!active ? strings.statusPending :
                     (storageFailed ? strings.technicalError : strings.statusActive)));
-            badge.classList.toggle('xa-exam-offline', !navigator.onLine || queue.length > 0 || storageFailed);
+            badge.classList.toggle('xa-exam-offline', !online || queue.length > 0 || storageFailed);
+            if (simulateButton) { simulateButton.disabled = !active; }
         }
         function acknowledge(data, payload) {
             count = data.incidentcount;
@@ -115,6 +134,18 @@ define(['core/ajax'], function(Ajax) {
         function signal(action, values) {
             const payload = Object.assign({attemptid: config.attemptId, cmid: config.cmId,
                 pagesessionid: pageId, action, clienttime: Math.floor(Date.now() / 1000)}, values || {});
+            if (simulation) {
+                if (action === 'lost' && !simulatedEvents.has(payload.eventuuid)) {
+                    const ordinal = simulatedEvents.size + 1;
+                    simulatedEvents.set(payload.eventuuid, {ordinal,
+                        penalty: config.penaltiesEnabled ? config.rates[Math.min(ordinal - 1, 2)] : 0});
+                }
+                const event = simulatedEvents.get(payload.eventuuid);
+                acknowledge({incidentcount: simulatedEvents.size,
+                    penalty: Array.from(simulatedEvents.values()).reduce((sum, item) => sum + item.penalty, 0),
+                    eventordinal: event ? event.ordinal : 0, eventpenalty: event ? event.penalty : 0}, payload);
+                return;
+            }
             queue.push({id: window.crypto.randomUUID(), payload});
             persist();
             render();
@@ -177,7 +208,7 @@ define(['core/ajax'], function(Ajax) {
                 gate.dialog.close();
                 render();
                 if (!inside()) { loseFocus('window_blur'); }
-                if (!heartbeat) {
+                if (!heartbeat && !simulation) {
                     heartbeat = window.setInterval(function() {
                         if (!active || navigating) { return; }
                         if (queue.length) { flush().catch(() => {}); }
@@ -263,7 +294,7 @@ define(['core/ajax'], function(Ajax) {
         window.addEventListener('pagehide', function() {
             if (active && !navigating) { loseFocus('pagehide'); commitLoss(); }
             // Beacon is best effort. Messages remain queued until a real acknowledgement.
-            if (queue.length && navigator.sendBeacon) {
+            if (!simulation && queue.length && navigator.sendBeacon) {
                 const url = M.cfg.wwwroot + '/lib/ajax/service.php?sesskey=' + encodeURIComponent(M.cfg.sesskey);
                 queue.forEach(item => navigator.sendBeacon(url, new Blob([JSON.stringify([
                     {index: 0, methodname: method, args: item.payload}
@@ -274,7 +305,22 @@ define(['core/ajax'], function(Ajax) {
         gate.dialog.showModal();
         return {flush, getState: () => ({active, outside: !!loss, count, penalty, pending: queue.length})};
     }
-    return {init: function(config) {
+    return {preview: function(url, message, label) {
+        const parent = document.querySelector('#region-main');
+        if (!parent || parent.querySelector('.xa-exam-preview')) { return; }
+        const notice = document.createElement('div');
+        notice.className = 'xa-exam-preview';
+        const paragraph = document.createElement('p');
+        paragraph.textContent = message;
+        const link = document.createElement('a');
+        link.href = url;
+        link.textContent = label;
+        link.className = 'btn btn-secondary btn-sm';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        notice.append(paragraph, link);
+        parent.prepend(notice);
+    }, init: function(config) {
         config = config || M.quizaccess_cdexamsaveConfig;
         if (document.querySelector('.xa-exam-bar')) { return; }
         return createMonitor(config);
