@@ -37,6 +37,7 @@ $SESSION->xirhmailrequests[$nonce] = ['userid' => $userid, 'email' => $student->
 $PAGE->requires->css('/local/xirhmail/styles.css');
 $PAGE->set_title(get_string('resend', 'local_xirhmail'));
 $PAGE->set_heading(get_string('resend', 'local_xirhmail'));
+$PAGE->set_primary_active_tab('xirhmail');
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_xirhmail/preview', [
     'name' => fullname($student), 'email' => $student->email,

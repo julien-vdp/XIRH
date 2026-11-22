@@ -11,6 +11,7 @@ $url = new moodle_url('/local/xirhmail/index.php', ['cohortid' => $cohortid, 'fi
 admin_externalpage_setup('local_xirhmail', '', null, $url);
 $PAGE->set_title(get_string('pluginname', 'local_xirhmail'));
 $PAGE->set_heading(get_string('pluginname', 'local_xirhmail'));
+$PAGE->set_primary_active_tab('xirhmail');
 $PAGE->requires->css('/local/xirhmail/styles.css');
 if (data_submitted() && optional_param('action', '', PARAM_ALPHA) === 'sync') {
     require_sesskey();
