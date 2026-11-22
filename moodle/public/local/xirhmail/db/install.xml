@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/xirhmail/db" VERSION="2026112200" COMMENT="XIRH invitation delivery tracking" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+  <TABLES>
+    <TABLE NAME="local_xirhmail_bounce" COMMENT="Minimal recipient delivery reports; original messages are never stored">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="eventhash" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="email" TYPE="char" LENGTH="254" NOTNULL="true"/>
+        <FIELD NAME="action" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="diagnostic" TYPE="char" LENGTH="512" NOTNULL="true"/>
+        <FIELD NAME="messageid" TYPE="char" LENGTH="254" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="senttime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES>
+        <INDEX NAME="eventhash_uix" UNIQUE="true" FIELDS="eventhash"/>
+        <INDEX NAME="user_time_ix" UNIQUE="false" FIELDS="userid,timecreated"/>
+        <INDEX NAME="email_ix" UNIQUE="false" FIELDS="email"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="local_xirhmail_invite" COMMENT="Explicit invitations and their SMTP submission status">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="requestkey" TYPE="char" LENGTH="64" NOTNULL="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="email" TYPE="char" LENGTH="254" NOTNULL="true"/>
+        <FIELD NAME="actorid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="state" TYPE="char" LENGTH="16" NOTNULL="true"/>
+        <FIELD NAME="messageid" TYPE="char" LENGTH="254" NOTNULL="true" DEFAULT=""/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS><KEY NAME="primary" TYPE="primary" FIELDS="id"/></KEYS>
+      <INDEXES>
+        <INDEX NAME="requestkey_uix" UNIQUE="true" FIELDS="requestkey"/>
+        <INDEX NAME="user_time_ix" UNIQUE="false" FIELDS="userid,timecreated"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
