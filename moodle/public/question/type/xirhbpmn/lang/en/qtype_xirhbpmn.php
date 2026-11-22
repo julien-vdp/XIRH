@@ -1,0 +1,36 @@
+<?php
+// XIRH BPMN question type. GNU GPL v3 or later.
+$string['pluginname'] = 'BPMN diagram';
+$string['pluginname_help'] = 'Draw a process using events, tasks, gateways and sequence flows. Manually graded.';
+$string['pluginnameadding'] = 'Add a BPMN diagram question';
+$string['pluginnameediting'] = 'Edit a BPMN diagram question';
+$string['pluginnamesummary'] = 'Draw a process directly in the quiz with drag and drop. Manually graded.';
+$string['privacy:metadata'] = 'Diagrams are responses managed by the Moodle question engine, with no separate storage or external transmission.';
+$string['privacy:preference:defaultmark'] = 'Preferred default mark when creating a question.';
+$string['privacy:preference:penalty'] = 'Preferred penalty value when creating a question.';
+$string['authorhelp'] = 'Enter the scenario in the question text and set the maximum mark. Students draw from a blank canvas. Grade their diagrams manually. General feedback can contain your solution; quiz review settings control its visibility.';
+$string['title'] = 'BPMN workshop';
+$string['subtitle'] = 'Build your process';
+$string['help'] = 'Drag a shape onto the page, or click a palette shape then the page. For an arrow: select its source, choose Connect, then the destination. Double-click a shape or arrow to write.';
+$string['loading'] = 'Loading your drawing space…';
+$string['ready'] = 'Drawing ready · saving managed by the quiz';
+$string['pending'] = 'Updating drawing…';
+$string['failure'] = 'Could not load or save the drawing. Stay on this page and contact your supervisor.';
+$string['limit'] = 'Diagrams are limited to 150 shapes and 300 arrows.';
+$string['invaliddiagram'] = 'The diagram is empty, damaged or contains unsupported elements. The existing answer has been preserved.';
+$string['summary'] = 'BPMN diagram: {$a->shapes} shape(s), {$a->flows} arrow(s)';
+$string['diagramdata'] = 'BPMN response data';
+$string['start'] = 'Start';
+$string['end'] = 'End';
+$string['task'] = 'Task';
+$string['gateway'] = 'Decision';
+$string['connect'] = 'Connect';
+$string['undo'] = 'Undo';
+$string['redo'] = 'Redo';
+$string['delete'] = 'Delete';
+$string['fit'] = 'Fit diagram';
+$string['zoomin'] = 'Zoom in';
+$string['zoomout'] = 'Zoom out';
+$string['select'] = 'Select a shape to connect or delete it.';
+$string['label'] = 'Write';
+$string['empty'] = 'No diagram submitted.';

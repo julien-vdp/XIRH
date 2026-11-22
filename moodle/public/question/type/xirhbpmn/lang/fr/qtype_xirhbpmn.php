@@ -1,0 +1,36 @@
+<?php
+// XIRH BPMN question type. GNU GPL v3 or later.
+$string['pluginname'] = 'Diagramme BPMN';
+$string['pluginname_help'] = 'L’étudiant dessine un processus avec des événements, tâches, décisions et flèches. La correction est manuelle.';
+$string['pluginnameadding'] = 'Ajouter une question Diagramme BPMN';
+$string['pluginnameediting'] = 'Modifier une question Diagramme BPMN';
+$string['pluginnamesummary'] = 'Dessiner un processus par glisser-déposer, directement dans le quiz. Correction manuelle.';
+$string['privacy:metadata'] = 'Les diagrammes sont des réponses gérées par le moteur de questions Moodle ; ce plugin ne les stocke pas séparément et ne les transmet à aucun service externe.';
+$string['privacy:preference:defaultmark'] = 'Note par défaut préférée lors de la création d’une question.';
+$string['privacy:preference:penalty'] = 'Valeur de pénalité préférée lors de la création d’une question.';
+$string['authorhelp'] = 'Écrivez la situation à représenter dans le texte de la question et définissez la note maximale. L’étudiant disposera d’une page blanche avec une palette BPMN. Vous attribuerez les points et commentaires en correction manuelle. Le feedback général peut contenir votre corrigé ; sa visibilité suit les réglages de relecture du quiz.';
+$string['title'] = 'Atelier BPMN';
+$string['subtitle'] = 'Construisez votre processus';
+$string['help'] = 'Glissez une forme sur la page, ou cliquez sur une forme de la palette puis sur la page. Pour une flèche : sélectionnez le départ, puis « Relier » et la destination. Double-cliquez sur une forme ou une flèche pour écrire.';
+$string['loading'] = 'Chargement de votre espace de dessin…';
+$string['ready'] = 'Dessin prêt · enregistrement géré par le quiz';
+$string['pending'] = 'Mise à jour du dessin…';
+$string['failure'] = 'Le dessin n’a pas pu être chargé ou enregistré. Restez sur cette page et contactez le surveillant.';
+$string['limit'] = 'Le diagramme est limité à 150 formes et 300 flèches.';
+$string['invaliddiagram'] = 'Le diagramme est vide, endommagé ou contient des éléments non pris en charge. La réponse existante est conservée.';
+$string['summary'] = 'Diagramme BPMN : {$a->shapes} forme(s), {$a->flows} flèche(s)';
+$string['diagramdata'] = 'Données de la réponse BPMN';
+$string['start'] = 'Début';
+$string['end'] = 'Fin';
+$string['task'] = 'Tâche';
+$string['gateway'] = 'Décision';
+$string['connect'] = 'Relier';
+$string['undo'] = 'Annuler';
+$string['redo'] = 'Rétablir';
+$string['delete'] = 'Supprimer';
+$string['fit'] = 'Tout voir';
+$string['zoomin'] = 'Agrandir';
+$string['zoomout'] = 'Réduire';
+$string['select'] = 'Sélectionnez une forme pour la relier ou la supprimer.';
+$string['label'] = 'Écrire';
+$string['empty'] = 'Aucun dessin remis.';
