@@ -1,4 +1,8 @@
 .que.xirhbpmn .answer { margin: 0; }
+.que.xirhbpmn .info { background: #18334a !important; color: #edf4fa !important; border: 1px solid #38546a; }
+.que.xirhbpmn .info h3, .que.xirhbpmn .info .no { color: #edf4fa !important; }
+.que.xirhbpmn .info a, .que.xirhbpmn .info label { color: #f0d17d !important; }
+.que.xirhbpmn .xirhbpmn-editor .xirhbpmn-heading h4 { color: #223e4c !important; }
 .xirhbpmn-editor { --xb-ink: #223e4c; --xb-gold: #ba985d; color: var(--xb-ink); background: #fff; border: 1px solid #d5dee3; border-radius: 16px; overflow: hidden; margin: 20px 0; box-shadow: 0 8px 28px #0b26330b; }
 .xirhbpmn-editor .xirhbpmn-answer { display: none; }
 .xirhbpmn-heading { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; align-items: center; padding: 19px 22px 17px; background: #f6f8f9; border-bottom: 1px solid #e3e9ec; }
